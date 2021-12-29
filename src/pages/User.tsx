@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getUser } from "../api/user/getUser";
+import { ImageBackground, StyleSheet, StatusBar } from "react-native";
+import Animated, { useAnimatedScrollHandler, useSharedValue, useAnimatedStyle, interpolate, Extrapolate } from "react-native-reanimated";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -21,30 +23,55 @@ const User = ({
 }: UserScreenProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [user, setUser] = useState<UserObject>();
+  const scrollY = useSharedValue(0);
 
   useEffect(() => {
     if (!userId) return;
     getUser(userId).then(setUser);
   }, [userId]);
 
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: ({ contentOffset: { y } }) => {
+      scrollY.value = y;
+    }
+  });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    var statusBarHeight = StatusBar.currentHeight!;
+
+    return {
+      height: interpolate(scrollY.value, [0, statusBarHeight * 2], [150, 150 - statusBarHeight * 2], Extrapolate.CLAMP)
+    }
+  })
+
   if (!userId || !storeUser) return <LoginButton />;
   if (!user) return <Loading />;
 
   return (
     <>
-      <AnimBanner bannerImage={user.bannerImage}>
-        <UserSettingsCog />
-      </AnimBanner>
+      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} />
+      {/* <Animated.Image source={{ uri: user.bannerImage }} style={[style.banner, animatedStyle]} /> */}
+      <UserSettingsCog />
 
       <UserActivities 
         userId={userId}
         header={
           <UserHeader user={user} />
         }
+        scrollHandler={scrollHandler}
       />
     </>
   ) 
 };
+
+const style = StyleSheet.create({
+  banner: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    height: 150,
+  }
+})
 
 export default User;
 

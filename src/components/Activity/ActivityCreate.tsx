@@ -25,22 +25,16 @@ const ActivityCreate = () => {
   const toggleModal = () => setIsActive(isActive => !isActive);
   const createActivity = async () => {
     if (!text || text.length <= 5) return;
+    
+    await axios.post("/", {
+      query: SaveTextActivity,
+      variables: {
+        text,
+      },
+    });
 
-    try {
-      await axios.post("/", {
-        query: SaveTextActivity,
-        variables: {
-          text,
-        },
-      });
-
-      toggleModal();
-      setText("");
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        console.log(err.response?.data);
-      }
-    }
+    toggleModal();
+    setText("");
   };
 
   const CloseButton = () => (
