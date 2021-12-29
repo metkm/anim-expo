@@ -106,7 +106,7 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
 
 const style = StyleSheet.create({
   flatlist: {
-    marginTop: 100,
+    marginTop: 80,
   }
 })
 

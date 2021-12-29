@@ -8,8 +8,8 @@ interface AnimBannerProps {
   scrollY: SharedValue<number>;
 }
 
-const EXPANDED_BANNER = 150;
-const NARROWED_BANNER = 100;
+const EXPANDED_BANNER = 140;
+const NARROWED_BANNER = 80;
 const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
   const BANNER_TOTAL = EXPANDED_BANNER + NARROWED_BANNER;
   const isDark = useColorScheme() == "dark";
@@ -94,7 +94,7 @@ const style = StyleSheet.create({
     position: "absolute",
     color: "white",
     fontWeight: "bold",
-    fontSize: 26,
+    fontSize: 22,
     maxWidth: "70%",
   }
 });

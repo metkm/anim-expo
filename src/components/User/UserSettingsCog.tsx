@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Pressable, StyleSheet
+  Pressable, StyleSheet, StatusBar
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SettingsNavigationProps } from "../../pages/pageProps";
@@ -23,8 +23,8 @@ const UserSettingsCog = () => {
 const style = StyleSheet.create({
   cog: {
     position: "absolute",
-    right: 20,
-    top: 50,
+    right: 10,
+    top: StatusBar.currentHeight! + 10,
     zIndex: 10,
     padding: 10,
     backgroundColor: "rgba(0, 0, 0, 0.4)",

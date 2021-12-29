@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getUser } from "../api/user/getUser";
-import { ImageBackground, StyleSheet, StatusBar } from "react-native";
-import Animated, { useAnimatedScrollHandler, useSharedValue, useAnimatedStyle, interpolate, Extrapolate } from "react-native-reanimated";
+import { StyleSheet } from "react-native";
+import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
@@ -30,19 +30,16 @@ const User = ({
     getUser(userId).then(setUser);
   }, [userId]);
 
+  useEffect(() => {
+    if (!storeUser) return;
+    setUser(storeUser);
+  }, [storeUser])
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
       scrollY.value = y;
     }
   });
-
-  const animatedStyle = useAnimatedStyle(() => {
-    var statusBarHeight = StatusBar.currentHeight!;
-
-    return {
-      height: interpolate(scrollY.value, [0, statusBarHeight * 2], [150, 150 - statusBarHeight * 2], Extrapolate.CLAMP)
-    }
-  })
 
   if (!userId || !storeUser) return <LoginButton />;
   if (!user) return <Loading />;
