@@ -4,23 +4,23 @@ import { useColorScheme, StatusBar } from "react-native";
 // import "react-native-gesture-handler";
 
 import { Provider, useSelector, useDispatch } from "react-redux";
-import { store, persistor, RootState } from "./src/store";
+import { store, persistor, RootState } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
-import { asyncLogin } from "./src/store/userSlice";
+import { asyncLogin } from "./store/userSlice";
 
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
-import Media from "./src/pages/Media";
-import User from "./src/pages/User";
-import Settings from "./src/pages/Settings";
-import Library from "./src/pages/Library/Library";
-import Browse from "./src/pages/Browse/Browse";
+import Media from "./pages/Media";
+import User from "./pages/User";
+import Settings from "./pages/Settings";
+import Library from "./pages/Library/Library";
+import Browse from "./pages/Browse/Browse";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { animDark } from "./src/constants/theme";
-import { useColors } from "./src/hooks/useColors";
+import { animDark } from "./constants/theme";
+import { useColors } from "./hooks/useColors";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
