@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useColorScheme, StatusBar } from "react-native";
