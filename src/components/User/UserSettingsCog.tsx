@@ -24,7 +24,7 @@ const style = StyleSheet.create({
   cog: {
     position: "absolute",
     right: 10,
-    top: StatusBar.currentHeight! + 10,
+    top: StatusBar.currentHeight! + 4,
     zIndex: 10,
     padding: 10,
     backgroundColor: "rgba(0, 0, 0, 0.4)",
