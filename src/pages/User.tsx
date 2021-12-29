@@ -49,8 +49,7 @@ const User = ({
 
   return (
     <>
-      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} />
-      {/* <Animated.Image source={{ uri: user.bannerImage }} style={[style.banner, animatedStyle]} /> */}
+      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} title={user.name} />
       <UserSettingsCog />
 
       <UserActivities 

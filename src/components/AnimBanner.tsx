@@ -1,16 +1,18 @@
 import React from "react";
 import Animated, { SharedValue, interpolate, useAnimatedStyle, Extrapolate, useDerivedValue, runOnJS } from "react-native-reanimated";
-import { StyleSheet, StatusBar } from "react-native";
+import { StyleSheet, StatusBar, Text, View } from "react-native";
 
 interface AnimBannerProps {
+  title: string,
   bannerImage: string;
   scrollY: SharedValue<number>;
 }
 
 const EXPANDED_BANNER = 150;
 const NARROWED_BANNER = 100;
-const AnimBanner = ({ bannerImage, scrollY }: AnimBannerProps) => {
-  const from = [0, EXPANDED_BANNER + NARROWED_BANNER];
+const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
+  const BANNER_TOTAL = EXPANDED_BANNER + NARROWED_BANNER;
+  const from = [0, BANNER_TOTAL];
 
   useDerivedValue(() => {
     if (scrollY.value > EXPANDED_BANNER / 2) {
@@ -39,15 +41,31 @@ const AnimBanner = ({ bannerImage, scrollY }: AnimBannerProps) => {
     ),
   }));
 
-  const barColor = useAnimatedStyle(() => ({
-
-  }));
+  const titleAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: interpolate(
+          scrollY.value,
+          [BANNER_TOTAL, BANNER_TOTAL + 50],
+          [NARROWED_BANNER, NARROWED_BANNER / 2],
+          Extrapolate.CLAMP
+        )
+      }
+    ],
+    opacity: interpolate(
+      scrollY.value,
+      [BANNER_TOTAL, BANNER_TOTAL + 50],
+      [0, 1],
+      Extrapolate.CLAMP
+    )
+  }))
 
   return (
     <Animated.View style={[style.container, bannerAnimatedStyle]}>
       <Animated.Image source={{ uri: bannerImage }} style={style.banner} />
       <Animated.View style={[style.darkOverlay, darkOverlayAnimatedStyle]} />
 
+      <Animated.Text style={[style.title, titleAnimatedStyle]} numberOfLines={1}>{title}</Animated.Text>
     </Animated.View>
   );
 };
@@ -58,6 +76,7 @@ const style = StyleSheet.create({
     height: EXPANDED_BANNER + NARROWED_BANNER,
     left: 0,
     right: 0,
+    alignItems: "center",
   },
   banner: {
     width: "100%",
@@ -67,6 +86,13 @@ const style = StyleSheet.create({
     position: "absolute",
     ...StyleSheet.absoluteFill as {},
     backgroundColor: "black"
+  },
+  title: {
+    position: "absolute",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 26,
+    maxWidth: "70%",
   }
 });
 
