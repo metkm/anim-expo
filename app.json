@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "anim-expo",
-    "scheme": "expo",
+    "scheme": "anim",
     "slug": "anim-expo",
     "version": "1.0.0",
     "orientation": "portrait",
