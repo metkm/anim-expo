@@ -1,6 +1,6 @@
 import React from "react";
 import Animated, { SharedValue, interpolate, useAnimatedStyle, Extrapolate, useDerivedValue, runOnJS } from "react-native-reanimated";
-import { StyleSheet, StatusBar, Text, View } from "react-native";
+import { StyleSheet, StatusBar, useColorScheme } from "react-native";
 
 interface AnimBannerProps {
   title: string,
@@ -12,14 +12,17 @@ const EXPANDED_BANNER = 150;
 const NARROWED_BANNER = 100;
 const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
   const BANNER_TOTAL = EXPANDED_BANNER + NARROWED_BANNER;
+  const isDark = useColorScheme() == "dark";
   const from = [0, BANNER_TOTAL];
 
   useDerivedValue(() => {
+    if (isDark) return;
+
     if (scrollY.value > EXPANDED_BANNER / 2) {
       runOnJS(StatusBar.setBarStyle)("light-content");
       return
     }
-
+    
     runOnJS(StatusBar.setBarStyle)("dark-content");
   }, [scrollY])
 

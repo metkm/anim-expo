@@ -63,23 +63,23 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
   const page = useRef(1);
 
   const onEndReach = async () => {
-    // page.current++;
-    // const resp = await getActivities(userId, page.current);
-    // setActivities(activities => [...activities, ...resp.data.data.Page.activities]);
+    page.current++;
+    const resp = await getActivities(userId, page.current);
+    setActivities(activities => [...activities, ...resp.data.data.Page.activities]);
   };
 
   const onRefresh = async () => {
-    // setIsRefreshing(true);
-    // const resp = await getActivities(userId, 1);
-    // setActivities(resp.data.data.Page.activities);
-    // page.current = 2;
-    // setIsRefreshing(false);
+    setIsRefreshing(true);
+    const resp = await getActivities(userId, 1);
+    setActivities(resp.data.data.Page.activities);
+    page.current = 2;
+    setIsRefreshing(false);
   };
 
   useEffect(() => {
     getActivities(userId, page.current).then(resp => {
       setActivities(resp.data.data.Page.activities);
-      // page.current++;
+      page.current++;
     });
   }, []);
 
@@ -91,26 +91,16 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
       ListHeaderComponent={header}
       style={style.flatlist}
       onScroll={scrollHandler}
+      scrollEventThrottle={16}
       ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
       contentContainerStyle={{ paddingHorizontal: 10 }}
-    />
+      showsVerticalScrollIndicator={false}
+      overScrollMode="never"
 
-    // <FlatList
-    //   data={activities}
-    //   renderItem={renderItem}
-    //   keyExtractor={item => item.id.toString()}
-    //   ListHeaderComponent={header}
-    //   ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
-    //   style={{
-    //     flex: 1,
-    //     marginTop: 100,
-    //     paddingTop: 30
-    //   }}
-    //   onEndReached={onEndReach}
-    //   onRefresh={onRefresh}
-    //   refreshing={isRefreshing}
-    //   contentContainerStyle={{ paddingHorizontal: 10 }}
-    // />
+      onEndReached={onEndReach}
+      onRefresh={onRefresh}
+      refreshing={isRefreshing}
+    />
   );
 };
 
