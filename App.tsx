@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useColorScheme, StatusBar } from "react-native";
-// import "react-native-gesture-handler";
 
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { store, persistor, RootState } from "./src/store";
