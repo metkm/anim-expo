@@ -38,7 +38,7 @@ export const useBrowse = <Type extends MediaType>(mediaType: Type) => {
   const [browse, setBrowse] = useState<ParameterMap[Type]>();
 
   useEffect(() => {
-    getBrowse(mediaType).then(setBrowse);
+    getBrowse<ParameterMap[Type]>(mediaType).then(setBrowse);
   }, [])
 
   return {
