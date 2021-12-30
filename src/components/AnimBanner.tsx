@@ -11,20 +11,21 @@ import { StyleSheet, StatusBar, useColorScheme, ViewProps, View } from "react-na
 
 interface AnimBannerProps extends ViewProps {
   title?: string;
+  expandedHeight?: number;
   bannerImage: string;
   scrollY: SharedValue<number>;
 }
 
-const EXPANDED_BANNER = 140;
-const NARROWED_BANNER = 90;
-const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) => {
+const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 140 }: AnimBannerProps) => {
+  const NARROWED_BANNER = 90;
+
   const isDark = useColorScheme() == "dark";
   const from = [0, NARROWED_BANNER];
 
   useDerivedValue(() => {
     if (isDark) return;
 
-    if (scrollY.value > EXPANDED_BANNER / 2) {
+    if (scrollY.value > expandedHeight / 2) {
       runOnJS(StatusBar.setBarStyle)("light-content");
       return;
     }
@@ -33,7 +34,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) 
   }, [scrollY]);
 
   const bannerAnimatedStyle = useAnimatedStyle(() => ({
-    height: interpolate(scrollY.value, from, [EXPANDED_BANNER, NARROWED_BANNER], Extrapolate.CLAMP),
+    height: interpolate(scrollY.value, from, [expandedHeight, NARROWED_BANNER], Extrapolate.CLAMP),
   }));
 
   const darkOverlayAnimatedStyle = useAnimatedStyle(() => ({
@@ -62,7 +63,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) 
         {title}
       </Animated.Text>
 
-      <View style={style.elementsContainer}>{children}</View>
+      <View style={[style.elementsContainer, { height: NARROWED_BANNER }]}>{children}</View>
     </Animated.View>
   );
 };
@@ -70,7 +71,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) 
 const style = StyleSheet.create({
   container: {
     position: "absolute",
-    height: EXPANDED_BANNER + NARROWED_BANNER,
+    // height: expandedHeight + NARROWED_BANNER,
     left: 0,
     right: 0,
     paddingTop: StatusBar.currentHeight,
@@ -79,7 +80,7 @@ const style = StyleSheet.create({
   },
   banner: {
     position: "absolute",
-    ...StyleSheet.absoluteFill as {},
+    ...(StyleSheet.absoluteFill as {}),
   },
   darkOverlay: {
     position: "absolute",
@@ -100,12 +101,11 @@ const style = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    height: NARROWED_BANNER,
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
-  }
+  },
 });
 
 export default AnimBanner;
