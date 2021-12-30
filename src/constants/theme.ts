@@ -13,6 +13,7 @@ export const darkColors = {
 export const lightColors = {
   primary: "#fafafa",
   secondary: "#f4f4f5",
+  third: "#e4e4e7"
 }
 
 export const animDark: Theme = {

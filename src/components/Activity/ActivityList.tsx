@@ -4,22 +4,20 @@ import { StyleSheet, View, Image } from "react-native";
 import { ListActivityObject } from "../../types";
 import { capitalizeFirstLetter } from "../commonUtils";
 import ActivityStats from "./ActivityStats";
-
-import { darkColors } from "../../constants/theme";
-import { useTheme } from "@react-navigation/native";
+import { useColors } from "../../hooks/useColors";
 
 interface ListActivityProps {
   activity: ListActivityObject;
 }
 
 const ListActivity = ({ activity }: ListActivityProps) => {
-  const { colors } = useTheme();
+  const { colors, color } = useColors();
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
       <View style={style.contentTextContainer}>
-        <Text style={style.progress}>
+        <Text style={[style.progress, { color }]}>
           {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
         </Text>
         <Text style={style.title}>{activity.media.title.userPreferred}</Text>
@@ -46,12 +44,10 @@ const style = StyleSheet.create({
     padding: 6,
   },
   title: {
-    fontWeight: "600",
+    fontWeight: "bold",
   },
   progress: {
-    color: darkColors.third,
-    flexShrink: 1,
-    fontWeight: "bold",
+    fontSize: 12,
   },
   bottom: {
     flexDirection: "row",

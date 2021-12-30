@@ -55,9 +55,8 @@ const style = StyleSheet.create({
     textAlign: "center"
   },
   timeText: {
-    color: darkColors.third,
-    fontWeight: "bold",
-    flex: 3,
+    flex: 1,
+    fontSize: 12,
   },
 });
 
