@@ -26,8 +26,8 @@ const TextActivity = ({ activity }: TextActivityProps) => {
 const style = StyleSheet.create({
   container: {
     minHeight: 120,
-    borderRadius: 4,
     padding: 10,
+    marginVertical: 3,
   },
 });
 

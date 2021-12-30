@@ -15,6 +15,7 @@ const ListActivity = ({ activity }: ListActivityProps) => {
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
+      {console.log("render", activity.media.title.userPreferred)}
       <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
       <View style={style.contentTextContainer}>
         <Text style={[style.progress, { color }]}>
@@ -32,12 +33,11 @@ const style = StyleSheet.create({
   container: {
     flexDirection: "row",
     minHeight: 90,
-    borderRadius: 4,
+    marginVertical: 3
   },
   cover: {
     height: "100%",
     width: 70,
-    borderRadius: 4,
   },
   contentTextContainer: {
     flex: 1,

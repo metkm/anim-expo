@@ -1,5 +1,5 @@
 export const activitiesQuery = `query Page($id: Int, $page: Int) {
-  Page(page: $page, perPage: 20) {
+  Page(page: $page, perPage: 15) {
     activities(userId: $id, sort: ID_DESC) {
       ... on ListActivity {
         id
@@ -27,6 +27,7 @@ export const activitiesQuery = `query Page($id: Int, $page: Int) {
         likeCount
         createdAt
         user {
+          id
           name
           avatar {
             medium
@@ -42,6 +43,7 @@ export const activitiesQuery = `query Page($id: Int, $page: Int) {
         message(asHtml: true)
         createdAt
         messenger {
+          id
           name
           avatar {
             medium

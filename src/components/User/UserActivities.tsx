@@ -10,12 +10,10 @@ import {
   StyleSheet,
 } from "react-native";
 import { getActivities } from "../../api/user/getActivities";
-import { activitiesQuery } from "../../graphql/queries/ActivitiesQuery";
 import {
   ActivityUnion,
   ListActivityObject,
   MessageActivityObject,
-  ResponseActivities,
   TextActivityObject,
 } from "../../types";
 
@@ -53,20 +51,20 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
   const onEndReach = async () => {
     page.current++;
     const resp = await getActivities(userId, page.current);
-    setActivities(activities => [...activities, ...resp.data.data.Page.activities]);
+    setActivities(activities => [...activities, ...resp]);
   };
 
   const onRefresh = async () => {
     setIsRefreshing(true);
     const resp = await getActivities(userId, 1);
-    setActivities(resp.data.data.Page.activities);
+    setActivities(resp);
     page.current = 2;
     setIsRefreshing(false);
   };
 
   useEffect(() => {
-    getActivities(userId, page.current).then(resp => {
-      setActivities(resp.data.data.Page.activities);
+    getActivities(userId, page.current).then(activities => {
+      setActivities(activities);
       page.current++;
     });
   }, []);
@@ -75,14 +73,14 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
     <AnimatedFlatlist
       data={activities}
       renderItem={renderItem}
+      initialNumToRender={6}
       keyExtractor={item => item.id.toString()}
       ListHeaderComponent={header}
       style={style.flatlist}
       onScroll={scrollHandler}
       scrollEventThrottle={16}
-      ItemSeparatorComponent={() => <View style={{ height: 6 }} />}
-      contentContainerStyle={{ paddingHorizontal: 10 }}
       showsVerticalScrollIndicator={false}
+      removeClippedSubviews
       overScrollMode="never"
 
       onEndReached={onEndReach}

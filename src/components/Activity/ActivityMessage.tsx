@@ -28,6 +28,7 @@ const style = StyleSheet.create({
   container: {
     padding: 10,
     borderRadius: 4,
+    marginVertical: 3,
   },
 });
 

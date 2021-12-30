@@ -41,7 +41,7 @@ const User = ({
   });
 
   if (!userId || !storeUser) return <LoginButton />;
-  if (!user) return <Loading />;
+  if (!user || user.id != userId) return <Loading />;
 
   return (
     <>

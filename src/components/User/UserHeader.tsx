@@ -31,6 +31,7 @@ const style = StyleSheet.create({
   avatarWrapper: {
     flexDirection: "row",
     alignItems: "flex-end",
+    paddingHorizontal: 10,
   },
   content: {
     marginBottom: 6,

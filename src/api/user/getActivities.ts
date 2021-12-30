@@ -11,5 +11,5 @@ export const getActivities = async (userId: number, page: number) => {
     },
   });
 
-  return resp;
+  return resp.data.data.Page.activities;
 };
