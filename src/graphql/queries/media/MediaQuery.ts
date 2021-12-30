@@ -32,6 +32,7 @@ query Media($id: Int) {
         id
         episodes
         status
+        type
         title {
           userPreferred
         }

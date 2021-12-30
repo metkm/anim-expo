@@ -12,22 +12,28 @@ import { MediaNavigationProps } from "../../pages/pageProps";
 interface MediaCardProps extends ViewProps {
   item: MediaObject;
   progress?: number;
+  showType?: boolean;
 }
 
 const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
   const navigation = useNavigation<MediaNavigationProps>();
 
   const toMedia = () => {
-    navigation.push("Media", { mediaId: item.id })
-  }
+    navigation.push("Media", { mediaId: item.id });
+  };
 
   return (
-    <Pressable onPress={toMedia} style={[style.container, {...rest.style as {}}]}>
+    <Pressable onPress={toMedia} style={[style.container, { ...(rest.style as {}) }]}>
       <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
         <Image style={style.cover} source={{ uri: item.coverImage.extraLarge }} />
 
-        <Text style={style.episodes}>
-          {progress! > 0 && `${progress}/`}{item.episodes || "?"}
+        {item.type && <Text style={[style.topInfo, style.type]}>
+          {capitalizeFirstLetter(item.type)}
+        </Text>}
+
+        <Text style={[style.topInfo, style.episodes]}>
+          {progress! > 0 && `${progress}/`}
+          {item.episodes || "?"}
         </Text>
 
         <View style={style.textContainer}>
@@ -35,8 +41,7 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
           <Text style={style.untilAir} numberOfLines={1}>
             {item.nextAiringEpisode?.timeUntilAiring
               ? `EP ${item.nextAiringEpisode.episode}: ${timeUntil(item.nextAiringEpisode?.timeUntilAiring)}`
-              : capitalizeFirstLetter(item.status)
-            }
+              : capitalizeFirstLetter(item.status)}
           </Text>
         </View>
       </LinearGradient>
@@ -64,15 +69,14 @@ const style = StyleSheet.create({
   },
   title: {
     color: "white",
-    fontFamily: "Overpass_700Bold"
+    fontFamily: "Overpass_700Bold",
   },
   untilAir: {
     fontSize: 12,
     color: "white",
   },
-  episodes: {
+  topInfo: {
     top: 4,
-    right: 4,
     position: "absolute",
     borderRadius: 1000,
     paddingHorizontal: 6,
@@ -80,8 +84,13 @@ const style = StyleSheet.create({
     fontSize: 12,
     fontWeight: "bold",
     color: "white",
-    flexDirection: "row",
-    backgroundColor: "rgba(0,0,0,0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+  },
+  episodes: {
+    right: 4,
+  },
+  type: {
+    left: 4,
   },
 });
 

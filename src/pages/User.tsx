@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { getUser } from "../api/user/getUser";
-import { StyleSheet } from "react-native";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import { useSelector } from "react-redux";
@@ -61,52 +60,4 @@ const User = ({
   ) 
 };
 
-const style = StyleSheet.create({
-  banner: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    height: 150,
-  }
-})
-
 export default User;
-
-
-//   useEffect(() => {
-//     if (!route.params.userId) return;
-//     getUser();
-//   }, [storeUser, route.params.userId]);
-
-//   if (!route.params.userId || !storeUser) return <LoginButton />;
-//   if (!user) return <Loading />;
-
-//   return (
-//     <View style={style.container}>
-//       <AnimBanner bannerImage={user.bannerImage}>
-//         <UserSettingsCog />
-//       </AnimBanner>
-
-//       <UserActivities userId={user.id} header={<UserHeader user={user} />} />
-
-//       {storeUser.id == user.id && <ActivityCreate />}
-//     </View>
-//   )
-// };
-
-// const style = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   cogWrapper: {
-//     position: "absolute",
-//     right: 20,
-//     top: 50,
-//     zIndex: 10,
-//     padding: 10,
-//     backgroundColor: "rgba(0, 0, 0, 0.4)",
-//     borderRadius: 1000,
-//   },
-// });
-
-// export default User;
