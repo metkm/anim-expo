@@ -29,7 +29,7 @@ const style = StyleSheet.create({
     height: 180,
     width: 120,
     borderRadius: 6,
-    marginLeft: 10,
+    marginLeft: 8,
   },
   coverWrapper: {
     flexDirection: "row",

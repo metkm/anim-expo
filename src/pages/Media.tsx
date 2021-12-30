@@ -61,8 +61,8 @@ const Media = ({
 
 const style = StyleSheet.create({
   containerPadding: {
-    padding: 10,
     marginTop: 90,
+    paddingHorizontal: 6,
   },
   relations: {
     flexDirection: "row",
