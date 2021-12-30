@@ -52,9 +52,6 @@ const Media = ({
           <>
             <Text style={style.title}>Relations</Text>
             <MediaRelations mediaList={media.relations.nodes} />
-            <MediaRelations mediaList={media.relations.nodes} />
-            <MediaRelations mediaList={media.relations.nodes} />
-            <MediaRelations mediaList={media.relations.nodes} />
           </>
         )}
       </Animated.ScrollView>
