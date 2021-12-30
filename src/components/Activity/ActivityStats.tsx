@@ -39,6 +39,7 @@ const style = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: "auto",
+    paddingTop: 10,
   },
   stats: {
     flexDirection: "row",
