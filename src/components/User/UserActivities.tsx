@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState, useRef } from "react";
 import Animated from "react-native-reanimated";
 import {
@@ -10,6 +9,7 @@ import {
   NativeScrollEvent,
   StyleSheet,
 } from "react-native";
+import { getActivities } from "../../api/user/getActivities";
 import { activitiesQuery } from "../../graphql/queries/ActivitiesQuery";
 import {
   ActivityUnion,
@@ -42,18 +42,6 @@ const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
     default:
       return <></>;
   }
-};
-
-const getActivities = async (userId: number, page: number) => {
-  const resp = await axios.post<ResponseActivities>("/", {
-    query: activitiesQuery,
-    variables: {
-      id: userId,
-      page: page,
-    },
-  });
-
-  return resp;
 };
 
 const AnimatedFlatlist = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
