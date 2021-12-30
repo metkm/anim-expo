@@ -15,7 +15,6 @@ const ListActivity = ({ activity }: ListActivityProps) => {
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
-      {console.log("render", activity.media.title.userPreferred)}
       <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
       <View style={style.contentTextContainer}>
         <Text style={[style.progress, { color }]}>
