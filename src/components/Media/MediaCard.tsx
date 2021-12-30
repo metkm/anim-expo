@@ -27,7 +27,7 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
         <Image style={style.cover} source={{ uri: item.coverImage.extraLarge }} />
 
         <Text style={style.episodes}>
-          {progress}/{item.episodes || "?"}
+          {progress! > 0 && `${progress}/`}{item.episodes || "?"}
         </Text>
 
         <View style={style.textContainer}>
