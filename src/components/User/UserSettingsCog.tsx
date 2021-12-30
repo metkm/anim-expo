@@ -13,7 +13,7 @@ const UserSettingsCog = () => {
 
   return (
     <Pressable style={style.cog} onPress={onPress}>
-      <Icon name="cog" size={18} color="white" />
+      <Icon name="cog" size={20} color="white" />
     </Pressable>
   );
 };
@@ -21,6 +21,9 @@ const UserSettingsCog = () => {
 const style = StyleSheet.create({
   cog: {
     marginLeft: "auto",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    padding: 6,
+    borderRadius: 100,
   },
 });
 

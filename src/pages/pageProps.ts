@@ -37,6 +37,7 @@ export type StackParamList = {
 
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Settings">;
+export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
 
 export type UserScreenProps = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, "User">,

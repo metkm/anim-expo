@@ -81,8 +81,8 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
-    justifyContent: "center",
-    paddingTop: StatusBar.currentHeight,
+    // justifyContent: "center",
+    paddingTop: StatusBar.currentHeight! + 4,
     paddingHorizontal: 20,
   },
   banner: {
