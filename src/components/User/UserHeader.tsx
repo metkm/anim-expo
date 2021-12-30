@@ -24,8 +24,8 @@ const UserHeader = ({ user }: UserHeaderProps) => {
 
 const style = StyleSheet.create({
   avatar: {
-    height: 85,
-    width: 85,
+    height: 90,
+    width: 90,
     borderRadius: 4,
   },
   avatarWrapper: {
