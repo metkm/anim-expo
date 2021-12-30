@@ -23,12 +23,9 @@ const UserHeader = ({ user }: UserHeaderProps) => {
 };
 
 const style = StyleSheet.create({
-  banner: {
-    height: 200,
-  },
   avatar: {
-    height: 100,
-    width: 100,
+    height: 85,
+    width: 85,
     borderRadius: 4,
   },
   avatarWrapper: {
@@ -36,7 +33,7 @@ const style = StyleSheet.create({
     alignItems: "flex-end",
   },
   content: {
-    marginVertical: 6
+    marginBottom: 6,
   },
   name: {
     fontSize: 24,

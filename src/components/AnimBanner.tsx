@@ -9,11 +9,10 @@ interface AnimBannerProps extends ViewProps {
 }
 
 const EXPANDED_BANNER = 140;
-const NARROWED_BANNER = 80;
+const NARROWED_BANNER = 95;
 const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) => {
-  const BANNER_TOTAL = EXPANDED_BANNER + NARROWED_BANNER;
   const isDark = useColorScheme() == "dark";
-  const from = [0, BANNER_TOTAL];
+  const from = [0, NARROWED_BANNER];
 
   useDerivedValue(() => {
     if (isDark) return;
@@ -49,7 +48,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) 
       {
         translateY: interpolate(
           scrollY.value,
-          [BANNER_TOTAL, BANNER_TOTAL + 50],
+          [NARROWED_BANNER, NARROWED_BANNER + 50],
           [NARROWED_BANNER, 0],
           Extrapolate.CLAMP
         )
@@ -57,7 +56,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) 
     ],
     opacity: interpolate(
       scrollY.value,
-      [BANNER_TOTAL, BANNER_TOTAL + 50],
+      [NARROWED_BANNER, NARROWED_BANNER + 50],
       [0, 1],
       Extrapolate.CLAMP
     )
@@ -81,7 +80,7 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
-    // justifyContent: "center",
+    justifyContent: "center",
     paddingTop: StatusBar.currentHeight! + 4,
     paddingHorizontal: 20,
   },
@@ -100,7 +99,9 @@ const style = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 22,
     maxWidth: "70%",
-    bottom: 6,
+    top: StatusBar.currentHeight,
+    bottom: 0,
+    textAlignVertical: "center",
   }
 });
 
