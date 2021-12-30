@@ -37,9 +37,8 @@ const style = StyleSheet.create({
   },
   name: {
     fontSize: 24,
-    fontWeight: "bold",
     marginHorizontal: 10,
-    marginBottom: 4,
+    fontFamily: "Overpass_700Bold",
   },
 });
 

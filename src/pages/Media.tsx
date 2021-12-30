@@ -27,12 +27,14 @@ const Media = ({ route: { params: { mediaId } } }: StackScreenProps<StackParamLi
       <MediaHeader media={media} />
       <View style={style.containerPadding}>
         <MediaInfo media={media} />
-        <>
-          <Text style={style.title}>Relations</Text>
-          <MediaRelations mediaList={media.relations.nodes} />
-        </>
+
+        {media.relations.nodes.length > 0 && 
+          <>
+            <Text style={style.title}>Relations</Text>
+            <MediaRelations mediaList={media.relations.nodes} />
+          </>
+        }
       </View>
-      
     </ScrollView>
   )
 };
@@ -45,7 +47,7 @@ const style = StyleSheet.create({
     flexDirection: "row"
   },
   title: {
-    fontWeight: "bold",
+    fontFamily: "Overpass_700Bold",
     fontSize: 20,
     marginLeft: 6,
   }

@@ -63,7 +63,7 @@ const style = StyleSheet.create({
     flexBasis: "48%",
   },
   infoTitle: {
-    fontWeight: "bold",
+    fontFamily: "Overpass_700Bold"
   },
   infoValue: {
     fontSize: 18,

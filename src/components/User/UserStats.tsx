@@ -61,12 +61,12 @@ const style = StyleSheet.create({
     flex: 1
   },
   statTitle: {
-    fontWeight: "600",
-    marginVertical: 2
+    marginVertical: 2,
+    fontFamily: "Overpass_700Bold",
   },
   statValue: {
-    fontWeight: "bold",
-    marginVertical: 2
+    marginVertical: 2,
+    fontFamily: "Overpass_700Bold",
   }
 });
 

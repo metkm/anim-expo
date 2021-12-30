@@ -7,7 +7,7 @@ const Button = (props: PressableProps) => {
 
   return (
     <Pressable onPress={props.onPress} style={[style.buttonContainer, { backgroundColor: color }, {...props.style as {}}]}>
-      <Text style={{ color: "white", fontWeight: "500" }}>{props.children}</Text>
+      <Text style={{ color: "white", fontFamily: "Overpass_700Bold" }}>{props.children}</Text>
     </Pressable>
   );
 };

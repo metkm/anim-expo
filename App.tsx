@@ -3,13 +3,15 @@ import 'react-native-gesture-handler';
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useColorScheme, StatusBar } from "react-native";
+import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
+import AppLoading from 'expo-app-loading';
 
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { store, persistor, RootState } from "./src/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { asyncLogin } from "./src/store/userSlice";
 
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
@@ -20,7 +22,7 @@ import Library from "./src/pages/Library/Library";
 import Browse from "./src/pages/Browse/Browse";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { animDark } from "./src/constants/theme";
+import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
@@ -71,11 +73,19 @@ const Home = () => {
 
 const App = () => {
   const isDark = useColorScheme() == "dark";
+  let [fontsLoaded] = useFonts({
+    Overpass_400Regular,
+    Overpass_700Bold
+  })
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer theme={isDark ? animDark : DefaultTheme}>
+        <NavigationContainer theme={isDark ? animDark : animLight}>
           <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />

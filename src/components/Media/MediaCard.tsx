@@ -63,8 +63,8 @@ const style = StyleSheet.create({
     padding: 10,
   },
   title: {
-    fontWeight: "bold",
     color: "white",
+    fontFamily: "Overpass_700Bold"
   },
   untilAir: {
     fontSize: 12,

@@ -89,7 +89,7 @@ const style = StyleSheet.create({
   title: {
     position: "absolute",
     color: "white",
-    fontWeight: "bold",
+    fontFamily: "Overpass_700Bold",
     fontSize: 22,
     maxWidth: "70%",
     bottom: 0,
