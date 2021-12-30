@@ -1,16 +1,16 @@
 import React from "react";
 import Animated, { SharedValue, interpolate, useAnimatedStyle, Extrapolate, useDerivedValue, runOnJS } from "react-native-reanimated";
-import { StyleSheet, StatusBar, useColorScheme } from "react-native";
+import { StyleSheet, StatusBar, useColorScheme, ViewProps, View } from "react-native";
 
-interface AnimBannerProps {
-  title: string,
+interface AnimBannerProps extends ViewProps {
+  title?: string,
   bannerImage: string;
   scrollY: SharedValue<number>;
 }
 
 const EXPANDED_BANNER = 140;
 const NARROWED_BANNER = 80;
-const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
+const AnimBanner = ({ bannerImage, scrollY, title, children }: AnimBannerProps) => {
   const BANNER_TOTAL = EXPANDED_BANNER + NARROWED_BANNER;
   const isDark = useColorScheme() == "dark";
   const from = [0, BANNER_TOTAL];
@@ -50,7 +50,7 @@ const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
         translateY: interpolate(
           scrollY.value,
           [BANNER_TOTAL, BANNER_TOTAL + 50],
-          [NARROWED_BANNER, NARROWED_BANNER / 2],
+          [NARROWED_BANNER, 0],
           Extrapolate.CLAMP
         )
       }
@@ -67,8 +67,9 @@ const AnimBanner = ({ bannerImage, scrollY, title }: AnimBannerProps) => {
     <Animated.View style={[style.container, bannerAnimatedStyle]}>
       <Animated.Image source={{ uri: bannerImage }} style={style.banner} />
       <Animated.View style={[style.darkOverlay, darkOverlayAnimatedStyle]} />
-
       <Animated.Text style={[style.title, titleAnimatedStyle]} numberOfLines={1}>{title}</Animated.Text>
+
+      {children}
     </Animated.View>
   );
 };
@@ -80,10 +81,13 @@ const style = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: "center",
+    justifyContent: "center",
+    paddingTop: StatusBar.currentHeight,
+    paddingHorizontal: 20,
   },
   banner: {
-    width: "100%",
-    height: "100%",
+    ...StyleSheet.absoluteFill as {},
+    position: "absolute",
   },
   darkOverlay: {
     position: "absolute",
@@ -96,6 +100,7 @@ const style = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 22,
     maxWidth: "70%",
+    bottom: 6,
   }
 });
 

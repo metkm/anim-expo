@@ -46,8 +46,9 @@ const User = ({
 
   return (
     <>
-      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} title={user.name} />
-      <UserSettingsCog />
+      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} title={user.name}>
+        <UserSettingsCog />
+      </AnimBanner>
 
       <UserActivities 
         userId={userId}
