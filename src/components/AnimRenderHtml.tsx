@@ -6,6 +6,7 @@ import RenderHtml, {
   CustomBlockRenderer,
   RenderHTMLProps,
 } from "react-native-render-html";
+import { Video } from "expo-av";
 import { useColors } from "../hooks/useColors";
 
 const customHTMLElementModels = {
@@ -15,6 +16,10 @@ const customHTMLElementModels = {
       marginHorizontal: "auto",
       marginVertical: 14,
     },
+    contentModel: HTMLContentModel.block,
+  }),
+  video: HTMLElementModel.fromCustomModel({
+    tagName: "video",
     contentModel: HTMLContentModel.block,
   }),
 };
@@ -36,6 +41,15 @@ const divRenderer: CustomBlockRenderer = ({ tnode }) => {
   );
 };
 
+const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
+  let uri = tnode.children[0].attributes.src;
+  if (!uri) return <></>;
+
+  return (
+    <Video useNativeControls isLooping resizeMode="contain" source={{ uri }} style={{ width: "100%", height: 200 }} />
+  );
+};
+
 const tagStyles = {
   p: {
     marginVertical: 2,
@@ -48,8 +62,10 @@ const AnimRenderHtml = (props: RenderHTMLProps) => {
 
   const renderers = {
     div: divRenderer,
+    video: videoRenderer,
   };
 
+  // console.log(props.source)
   return (
     <RenderHtml
       {...props}
