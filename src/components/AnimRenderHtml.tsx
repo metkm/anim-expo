@@ -1,15 +1,15 @@
 import React from "react";
 import { Pressable, Image, Linking, useWindowDimensions } from "react-native";
-import RenderHtml, {
+import {
   HTMLElementModel,
   HTMLContentModel,
   CustomBlockRenderer,
   RenderHTMLProps,
+  RenderHTMLSource,
 } from "react-native-render-html";
 import { Video } from "expo-av";
-import { useColors } from "../hooks/useColors";
 
-const customHTMLElementModels = {
+export const customHTMLElementModels = {
   center: HTMLElementModel.fromCustomModel({
     tagName: "center",
     mixedUAStyles: {
@@ -22,10 +22,14 @@ const customHTMLElementModels = {
     tagName: "video",
     contentModel: HTMLContentModel.block,
   }),
+  source: HTMLElementModel.fromCustomModel({
+    tagName: "source",
+    contentModel: HTMLContentModel.block,
+  })
 };
 
 const ytRegex = /(?<link>.+?v=(?<id>.+))/;
-const divRenderer: CustomBlockRenderer = ({ tnode }) => {
+export const divRenderer: CustomBlockRenderer = ({ tnode }) => {
   if (!tnode.id) return <></>;
 
   var match = ytRegex.exec(tnode.id);
@@ -41,7 +45,7 @@ const divRenderer: CustomBlockRenderer = ({ tnode }) => {
   );
 };
 
-const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
+export const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
   let uri = tnode.children[0].attributes.src;
   if (!uri) return <></>;
 
@@ -50,31 +54,22 @@ const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
   );
 };
 
-const tagStyles = {
+export const tagStyles = {
   p: {
     marginVertical: 2,
   },
 };
 
+export const renderers = {
+  div: divRenderer,
+  video: videoRenderer,
+};
+
 const AnimRenderHtml = (props: RenderHTMLProps) => {
   const { width } = useWindowDimensions();
-  const { colors } = useColors();
 
-  const renderers = {
-    div: divRenderer,
-    video: videoRenderer,
-  };
-
-  // console.log(props.source)
   return (
-    <RenderHtml
-      {...props}
-      contentWidth={width}
-      customHTMLElementModels={customHTMLElementModels}
-      baseStyle={{ color: colors.text, ...props.baseStyle }}
-      renderers={renderers}
-      tagsStyles={tagStyles}
-    />
+    <RenderHTMLSource {...props} contentWidth={width} />
   );
 };
 

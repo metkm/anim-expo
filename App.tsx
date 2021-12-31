@@ -1,10 +1,10 @@
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useColorScheme, StatusBar } from "react-native";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
-import AppLoading from 'expo-app-loading';
+import AppLoading from "expo-app-loading";
 
 import { Provider, useSelector, useDispatch } from "react-redux";
 import { store, persistor, RootState } from "./src/store";
@@ -75,8 +75,8 @@ const App = () => {
   const isDark = useColorScheme() == "dark";
   let [fontsLoaded] = useFonts({
     Overpass_400Regular,
-    Overpass_700Bold
-  })
+    Overpass_700Bold,
+  });
 
   if (!fontsLoaded) {
     return <AppLoading />;
