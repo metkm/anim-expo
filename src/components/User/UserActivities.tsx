@@ -3,19 +3,14 @@ import Animated from "react-native-reanimated";
 import {
   FlatList,
   ListRenderItem,
-  View,
   FlatListProps,
   NativeSyntheticEvent,
   NativeScrollEvent,
   StyleSheet,
 } from "react-native";
 import { getActivities } from "../../api/user/getActivities";
-import {
-  ActivityUnion,
-  ListActivityObject,
-  MessageActivityObject,
-  TextActivityObject,
-} from "../../types";
+import { AnimRenderBase } from "../AnimRenderHtml";
+import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../types";
 
 import ActivityList from "../Activity/ActivityList";
 import ActivityText from "../Activity/ActivityText";
@@ -24,7 +19,7 @@ import ActivityMessage from "../Activity/ActivityMessage";
 interface UserActivitiesProps {
   userId: number;
   header?: JSX.Element;
-  scrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+  scrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 }
 
 const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
@@ -70,30 +65,31 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
   }, []);
 
   return (
-    <AnimatedFlatlist
-      data={activities}
-      renderItem={renderItem}
-      initialNumToRender={6}
-      keyExtractor={item => item.id.toString()}
-      ListHeaderComponent={header}
-      style={style.flatlist}
-      onScroll={scrollHandler}
-      scrollEventThrottle={16}
-      showsVerticalScrollIndicator={false}
-      removeClippedSubviews
-      overScrollMode="never"
-
-      onEndReached={onEndReach}
-      onRefresh={onRefresh}
-      refreshing={isRefreshing}
-    />
+    <AnimRenderBase>
+      <AnimatedFlatlist
+        data={activities}
+        renderItem={renderItem}
+        initialNumToRender={6}
+        keyExtractor={item => item.id.toString()}
+        ListHeaderComponent={header}
+        style={style.flatlist}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+        removeClippedSubviews
+        overScrollMode="never"
+        onEndReached={onEndReach}
+        onRefresh={onRefresh}
+        refreshing={isRefreshing}
+      />
+    </AnimRenderBase>
   );
 };
 
 const style = StyleSheet.create({
   flatlist: {
     marginTop: 90,
-  }
-})
+  },
+});
 
 export default UserActivities;

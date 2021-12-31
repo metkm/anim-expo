@@ -6,7 +6,7 @@ import { useColors } from "../../hooks/useColors";
 import dayjs from "dayjs";
 
 import Text from "../Base/Text";
-import AnimRenderHtml from "../AnimRenderHtml";
+import AnimRenderHtml, { AnimRenderBase } from "../AnimRenderHtml";
 
 interface MediaInfoProps {
   media: MediaObject;
@@ -41,10 +41,12 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
         )}
       </View>
 
-      <AnimRenderHtml
-        source={{ html: media.description }}
-        baseStyle={{ backgroundColor: colors.card, borderRadius: 6, padding: 10, margin: 2, marginTop: 6 }}
-      />
+      <AnimRenderBase>
+        <AnimRenderHtml
+          source={{ html: media.description }}
+          baseStyle={{ backgroundColor: colors.card, borderRadius: 6, padding: 10, margin: 2, marginTop: 6 }}
+        />
+      </AnimRenderBase>
     </>
   );
 };
@@ -63,7 +65,7 @@ const style = StyleSheet.create({
     flexBasis: "48%",
   },
   infoTitle: {
-    fontFamily: "Overpass_700Bold"
+    fontFamily: "Overpass_700Bold",
   },
   infoValue: {
     fontSize: 18,

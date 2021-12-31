@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getUser } from "../api/user/getUser";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
-import {
-  TRenderEngineProvider,
-  RenderHTMLConfigProvider,
-} from "react-native-render-html";
+import { TRenderEngineProvider, RenderHTMLConfigProvider } from "react-native-render-html";
 import { customHTMLElementModels, renderers, tagStyles } from "../components/AnimRenderHtml";
 
 import { useSelector } from "react-redux";
@@ -39,12 +36,12 @@ const User = ({
   useEffect(() => {
     if (!storeUser) return;
     setUser(storeUser);
-  }, [storeUser])
+  }, [storeUser]);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
       scrollY.value = y;
-    }
+    },
   });
 
   if (!userId || !storeUser) return <LoginButton />;
@@ -56,19 +53,9 @@ const User = ({
         <UserSettingsCog />
       </AnimBanner>
 
-      <TRenderEngineProvider customHTMLElementModels={customHTMLElementModels} tagsStyles={tagStyles} baseStyle={{ color: colors.text }}>
-        <RenderHTMLConfigProvider renderers={renderers}>
-          <UserActivities 
-          userId={userId}
-          header={
-            <UserHeader user={user} />
-          }
-        scrollHandler={scrollHandler}
-      />
-        </RenderHTMLConfigProvider>
-      </TRenderEngineProvider>
+      <UserActivities userId={userId} header={<UserHeader user={user} />} scrollHandler={scrollHandler} />
     </>
-  ) 
+  );
 };
 
 export default User;

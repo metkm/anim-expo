@@ -1,13 +1,15 @@
 import React from "react";
-import { Pressable, Image, Linking, useWindowDimensions } from "react-native";
-import {
+import { Pressable, Image, Linking, useWindowDimensions, ViewProps } from "react-native";
+import RenderHtml, {
   HTMLElementModel,
   HTMLContentModel,
   CustomBlockRenderer,
   RenderHTMLProps,
-  RenderHTMLSource,
+  TRenderEngineProvider,
+  RenderHTMLConfigProvider,
 } from "react-native-render-html";
 import { Video } from "expo-av";
+import { useColors } from "../hooks/useColors";
 
 export const customHTMLElementModels = {
   center: HTMLElementModel.fromCustomModel({
@@ -25,7 +27,7 @@ export const customHTMLElementModels = {
   source: HTMLElementModel.fromCustomModel({
     tagName: "source",
     contentModel: HTMLContentModel.block,
-  })
+  }),
 };
 
 const ytRegex = /(?<link>.+?v=(?<id>.+))/;
@@ -65,11 +67,35 @@ export const renderers = {
   video: videoRenderer,
 };
 
-const AnimRenderHtml = (props: RenderHTMLProps) => {
+export const AnimRenderHtml = (props: RenderHTMLProps) => {
+  const { colors } = useColors();
   const { width } = useWindowDimensions();
 
   return (
-    <RenderHTMLSource {...props} contentWidth={width} />
+    <RenderHtml
+      {...props}
+      contentWidth={width}
+      customHTMLElementModels={customHTMLElementModels}
+      baseStyle={{ color: colors.text, ...props.baseStyle }}
+      renderers={renderers}
+      tagsStyles={tagStyles}
+    />
+  );
+};
+
+export const AnimRenderBase = ({ children }: ViewProps) => {
+  const { colors } = useColors();
+
+  return (
+    <TRenderEngineProvider
+      customHTMLElementModels={customHTMLElementModels}
+      tagsStyles={tagStyles}
+      baseStyle={{ color: colors.text }}
+    >
+      <RenderHTMLConfigProvider renderers={renderers}>
+        {children}
+      </RenderHTMLConfigProvider>
+    </TRenderEngineProvider>
   );
 };
 
