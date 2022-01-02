@@ -34,6 +34,7 @@ query Media($id: Int) {
         role
         name
         node {
+          id
           image {
             large
           }

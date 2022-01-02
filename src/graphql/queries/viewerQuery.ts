@@ -1,4 +1,4 @@
-export const viewerQuery = `{
+export const ViewerQuery = `{
   Viewer {
     id
     name
@@ -24,4 +24,4 @@ export const viewerQuery = `{
   }
 }`;
 
-export default viewerQuery;
+export default ViewerQuery;

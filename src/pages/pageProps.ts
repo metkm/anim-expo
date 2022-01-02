@@ -1,5 +1,5 @@
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { MediaType } from "../types";
 
@@ -33,13 +33,22 @@ export type StackParamList = {
   User: {
     userId: number
   },
+  Character: {
+    characterId: number
+  }
 }
 
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Settings">;
 export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
+export type CharacterNavigationProps = StackNavigationProp<StackParamList, "Character">;
 
 export type UserScreenProps = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, "User">,
   BottomTabScreenProps<BottomTabParamList>
+>;
+
+export type CharacterScreenProps = CompositeScreenProps<
+  StackScreenProps<StackParamList, "Character">,
+  StackScreenProps<StackParamList>
 >;

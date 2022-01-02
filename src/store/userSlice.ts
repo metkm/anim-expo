@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { UserObject, ResponseViewer } from "../types";
-import viewerQuery from "../graphql/queries/viewerQuery";
+import ViewerQuery from "../graphql/queries/ViewerQuery";
 
 export interface UserState {
   user: UserObject | null;
@@ -13,7 +13,7 @@ const initialState: UserState = {
 
 export const asyncLogin = createAsyncThunk("user/login", async () => {
   const resp = await axios.post<ResponseViewer>("/", {
-    query: viewerQuery,
+    query: ViewerQuery,
   });
 
   return resp.data.data.Viewer;
@@ -31,6 +31,9 @@ export const userSlice = createSlice({
     builder.addCase(asyncLogin.fulfilled, (state, { payload }) => {
       state.user = payload;
     });
+    builder.addCase(asyncLogin.rejected, (state, action) => {
+      console.log(action.error);
+    })
   },
 });
 

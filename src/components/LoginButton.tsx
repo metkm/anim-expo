@@ -5,6 +5,7 @@ import * as Linking from "expo-linking";
 import Button from "./Base/Button";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "../store/tokenSlice";
+import { asyncLogin } from "../store/userSlice";
 
 const loginButton = () => {
   const dispatch = useDispatch();
@@ -15,12 +16,13 @@ const loginButton = () => {
   };
 
   useEffect(() => {
-    const getAccessToken = ({ url }: { url: string }) => {
+    const getAccessToken = async ({ url }: { url: string }) => {
 
       let match = /=(?<token>.*?)&/.exec(url);
       if (!match || !match.groups) return;
 
-      dispatch(setAccessToken(match.groups.token));
+      await dispatch(setAccessToken(match.groups.token));
+      await dispatch(asyncLogin());
     };
 
     Linking.addEventListener("url", getAccessToken);

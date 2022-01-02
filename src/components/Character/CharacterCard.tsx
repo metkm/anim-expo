@@ -1,11 +1,12 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import Text from "../Base/Text";
+import { View, Image, StyleSheet, Pressable } from "react-native";
 import { useColors } from "../../hooks/useColors";
 import { CharacterEdgeObject } from "../../types";
-
 import { capitalizeFirstLetter } from "../commonUtils";
 
-import Text from "../Base/Text";
+import { useNavigation } from "@react-navigation/native";
+import { SettingsNavigationProps } from "../../pages/pageProps";
 
 interface CharacterCardProps {
   character: CharacterEdgeObject
@@ -13,15 +14,22 @@ interface CharacterCardProps {
 
 const CharacterCard = ({ character }: CharacterCardProps) => {
   const { colors } = useColors();
+  const navigation = useNavigation<SettingsNavigationProps>();
+
+  const toCharacter = () => {
+    navigation.push("Character", { characterId: character.node.id })
+  }
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
-      <Image source={{ uri: character.node.image.large }} style={style.image} />
-      <View style={style.info}>
-        <Text>{character.node.name.userPreferred}</Text>
-        <Text>{capitalizeFirstLetter(character.role)}</Text>
+    <Pressable onPress={toCharacter}>
+      <View style={[style.container, { backgroundColor: colors.card }]}>
+        <Image source={{ uri: character.node.image.large }} style={style.image} />
+        <View style={style.info}>
+          <Text>{character.node.name.userPreferred}</Text>
+          <Text>{capitalizeFirstLetter(character.role)}</Text>
+        </View>
       </View>
-    </View>
+    </Pressable>
   )
 }
 

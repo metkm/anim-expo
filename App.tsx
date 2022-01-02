@@ -24,6 +24,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
+import Character from "./src/pages/Character";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -90,6 +91,7 @@ const App = () => {
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
             <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="Character" component={Character} options={{ headerTransparent: true, headerTitle: "" }} />
 
             <Stack.Screen
               name="User"

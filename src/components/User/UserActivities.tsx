@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, memo } from "react";
 import Animated from "react-native-reanimated";
 import {
   FlatList,
@@ -66,6 +66,7 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
 
   return (
     <AnimRenderBase>
+      {console.log("useractivities render")}
       <AnimatedFlatlist
         data={activities}
         renderItem={renderItem}
@@ -92,4 +93,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default UserActivities;
+export default memo(UserActivities);

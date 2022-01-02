@@ -1,58 +1,71 @@
-import { ActivityUnion, MediaListCollectionObject, MediaObject, UserObject, UserStatisticTypesObject } from ".";
+import {
+  ActivityUnion,
+  CharacterObject,
+  MediaListCollectionObject,
+  MediaObject,
+  UserObject,
+  UserStatisticTypesObject,
+} from ".";
 
 export interface ResponseUser {
   data: {
-    User: UserObject
-  }
+    User: UserObject;
+  };
+}
+
+export interface ResponseCharacter {
+  data: {
+    Character: CharacterObject;
+  };
 }
 
 export interface ResponseMedia {
   data: {
-    Media: MediaObject
-  }
+    Media: MediaObject;
+  };
 }
 
 export interface ResponseViewer {
   data: {
-    Viewer: UserObject
-  }
+    Viewer: UserObject;
+  };
 }
 
 export interface ResponseActivities {
   data: {
     Page: {
-      activities: ActivityUnion[]
-    }
-  }
+      activities: ActivityUnion[];
+    };
+  };
 }
 
 export interface ResponseUserStats {
   data: {
     User: {
-      statistics: UserStatisticTypesObject
-    }
-  }
+      statistics: UserStatisticTypesObject;
+    };
+  };
 }
 
 export interface ResponseMediaListCollection {
   data: {
-    MediaListCollection: MediaListCollectionObject
-  }
+    MediaListCollection: MediaListCollectionObject;
+  };
 }
 
 export interface ResponseBrowse {
   data: {
     trending: {
-      media: MediaObject[]
-    }
+      media: MediaObject[];
+    };
     season: {
-      media: MediaObject[]
-    },
+      media: MediaObject[];
+    };
     nextSeason: {
-      media: MediaObject[]
-    },
+      media: MediaObject[];
+    };
     popular: {
-      media: MediaObject[]
-    }
-  }
+      media: MediaObject[];
+    };
+  };
 }

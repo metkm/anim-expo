@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Text from "./Base/Text";
 import { Pressable, Image, Linking, useWindowDimensions, ViewProps } from "react-native";
 import RenderHtml, {
   HTMLElementModel,
@@ -7,6 +8,7 @@ import RenderHtml, {
   RenderHTMLProps,
   TRenderEngineProvider,
   RenderHTMLConfigProvider,
+  TText,
 } from "react-native-render-html";
 import { Video } from "expo-av";
 import { useColors } from "../hooks/useColors";
@@ -56,8 +58,44 @@ export const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
   );
 };
 
+export const spanRenderer: CustomBlockRenderer = ({ tnode }) => {
+  const [isSpoilerClosed, setIsSpoilerClosed] = useState(true);
+  const { color } = useColors();
+
+  if (tnode.classes.includes("markdown_spoiler")) {
+    const toggleSpoiler = () => {
+      setIsSpoilerClosed(isClosed => !isClosed);
+    };
+
+    if (!isSpoilerClosed) {
+      return (
+        <>
+          <Text>{"\n"}</Text>
+          <Text onPress={toggleSpoiler} >{(tnode.children[0] as TText).data}</Text>
+          <Text>{"\n"}</Text>
+        </>
+      )
+    }
+
+    return (
+      <>
+        <Text>{"\n"}</Text>
+        <Pressable onPress={toggleSpoiler} style={{ backgroundColor: color, borderRadius: 4, padding: 2 }}>
+          <Text>Spoiler! click to see!</Text>
+        </Pressable>
+        <Text>{"\n"}</Text>
+      </>
+    )
+  }
+
+  return <Text>{(tnode.children[0] as TText).data}</Text>;
+};
+
 export const tagStyles = {
   p: {
+    marginVertical: 2,
+  },
+  span: {
     marginVertical: 2,
   },
 };
@@ -65,6 +103,7 @@ export const tagStyles = {
 export const renderers = {
   div: divRenderer,
   video: videoRenderer,
+  span: spanRenderer,
 };
 
 export const AnimRenderHtml = (props: RenderHTMLProps) => {
@@ -76,7 +115,7 @@ export const AnimRenderHtml = (props: RenderHTMLProps) => {
       {...props}
       contentWidth={width}
       customHTMLElementModels={customHTMLElementModels}
-      baseStyle={{ color: colors.text, ...props.baseStyle }}
+      baseStyle={{ color: colors.text, ...props.baseStyle, overflow: "hidden" }}
       renderers={renderers}
       tagsStyles={tagStyles}
     />
@@ -92,9 +131,7 @@ export const AnimRenderBase = ({ children }: ViewProps) => {
       tagsStyles={tagStyles}
       baseStyle={{ color: colors.text }}
     >
-      <RenderHTMLConfigProvider renderers={renderers}>
-        {children}
-      </RenderHTMLConfigProvider>
+      <RenderHTMLConfigProvider renderers={renderers}>{children}</RenderHTMLConfigProvider>
     </TRenderEngineProvider>
   );
 };
