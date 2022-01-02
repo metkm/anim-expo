@@ -24,9 +24,7 @@ export const seasons = [
 
 const now = new Date();
 
-
 export const seasonYear = now.getFullYear();
-export const nextYear = seasonYear + 1;
 export const month = now.getMonth();
 
 export let nextSeason = "";
@@ -42,3 +40,5 @@ export const season = seasons.find((season, index) => {
     return true;
   };
 })?.season;
+
+export const nextYear = season == "FALL" ? seasonYear + 1: seasonYear;
