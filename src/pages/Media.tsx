@@ -15,6 +15,7 @@ import { StackParamList } from "./pageProps";
 
 import { MediaObject } from "../types";
 import { getMedia } from "../api/media/getMedia";
+import MediaCharacters from "../components/Media/MediaCharacters";
 
 const Media = ({
   route: {
@@ -54,6 +55,11 @@ const Media = ({
             <MediaRelations mediaList={media.relations.nodes} />
           </>
         )}
+
+        <>
+          <Text style={style.title}>Characters</Text>
+          <MediaCharacters characterList={media.characters.edges} />
+        </>
       </Animated.ScrollView>
     </View>
   );

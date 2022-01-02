@@ -1,6 +1,7 @@
 export const MediaQuery = `
 query Media($id: Int) {
   Media(id: $id) {
+    id
     season
     meanScore
     seasonYear
@@ -26,6 +27,21 @@ query Media($id: Int) {
       year
       month
       day
+    }
+    characters {
+      edges {
+        id
+        role
+        name
+        node {
+          image {
+            large
+          }
+          name {
+            userPreferred
+          }
+        }
+      }
     }
     relations {
       nodes {
