@@ -51,8 +51,7 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
 
   const onRefresh = async () => {
     setIsRefreshing(true);
-    const resp = await getActivities(userId, 1);
-    setActivities(resp);
+    getActivities(userId, 1).then(setActivities);
     page.current = 2;
     setIsRefreshing(false);
   };
@@ -82,6 +81,7 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
         onEndReached={onEndReach}
         onRefresh={onRefresh}
         refreshing={isRefreshing}
+        onEndReachedThreshold={0.2}
       />
     </AnimRenderBase>
   );
