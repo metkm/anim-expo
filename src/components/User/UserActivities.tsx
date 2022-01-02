@@ -65,7 +65,6 @@ const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) 
 
   return (
     <AnimRenderBase>
-      {console.log("useractivities render")}
       <AnimatedFlatlist
         data={activities}
         renderItem={renderItem}
