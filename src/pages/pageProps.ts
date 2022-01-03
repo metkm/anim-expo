@@ -20,7 +20,7 @@ export type BottomTabParamList = {
   Discover: undefined,
   Library: NavigatorScreenParams<LibraryParamList>,
   User: {
-    userId?: number
+    userId: number
   }
 }
 

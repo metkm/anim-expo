@@ -25,6 +25,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 import Character from "./src/pages/Character";
+import Login from "./src/pages/Login";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -67,7 +68,7 @@ const Home = () => {
     >
       <Tab.Screen name="Discover" component={Browse} />
       {user && <Tab.Screen name="Library" component={Library} />}
-      <Tab.Screen name="User" component={User} initialParams={{ userId: user?.id }} />
+      {user ? <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} /> : <Login />}
     </Tab.Navigator>
   );
 };
@@ -91,7 +92,11 @@ const App = () => {
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
             <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
             <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen name="Character" component={Character} options={{ headerTransparent: true, headerTitle: "" }} />
+            <Stack.Screen
+              name="Character"
+              component={Character}
+              options={{ headerTransparent: true, headerTitle: "" }}
+            />
 
             <Stack.Screen
               name="User"
