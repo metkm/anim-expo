@@ -1,12 +1,14 @@
-export const wrapPromise = <T>(promise: Promise<T>): () => T => {
+type ApiFn<T> = (...args: any[]) => Promise<T>;
+
+export const wrapPromise = <T>(func: ApiFn<T>, ...params: any[]) => {
   var data: T;
 
-  const suspenser = promise.then(res => {
-    data = res;
-  });
+  const promise = func(...params).then(result => {
+    data = result;
+  })
 
   return () => {
-    if (!data) throw suspenser;
+    if (!data) throw promise;
     return data;
-  };
-};
+  }
+}

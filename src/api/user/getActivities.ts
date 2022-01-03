@@ -1,5 +1,5 @@
 import axios from "axios";
-import { activitiesQuery } from "../../graphql/queries/ActivitiesQuery";
+import activitiesQuery from "../../graphql/queries/ActivitiesQuery";
 import { ResponseActivities } from "../../types/responses";
 
 export const getActivities = async (userId: number, page: number) => {

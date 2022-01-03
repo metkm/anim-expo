@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, memo } from "react";
+import React, { useState, useRef, memo } from "react";
 import Animated from "react-native-reanimated";
 import {
   FlatList,
@@ -20,6 +20,7 @@ interface UserActivitiesProps {
   userId: number;
   header?: JSX.Element;
   scrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  activitiesReader: () => ActivityUnion[]
 }
 
 const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
@@ -38,52 +39,95 @@ const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
 };
 
 const AnimatedFlatlist = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
-const UserActivities = ({ userId, header, scrollHandler }: UserActivitiesProps) => {
-  const [activities, setActivities] = useState<ActivityUnion[]>([]);
-  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: UserActivitiesProps) => {
+  const [activities, setActivities] = useState(() => activitiesReader());
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const page = useRef(1);
-
-  const onEndReach = async () => {
-    page.current++;
-    const resp = await getActivities(userId, page.current);
-    setActivities(activities => [...activities, ...resp]);
-  };
-
-  const onRefresh = async () => {
+  
+  const onRefresh = () => {
     setIsRefreshing(true);
-    getActivities(userId, 1).then(setActivities);
-    page.current = 2;
-    setIsRefreshing(false);
-  };
-
-  useEffect(() => {
-    getActivities(userId, page.current).then(activities => {
+    getActivities(userId, 1).then(activities => {
       setActivities(activities);
-      page.current++;
+      setIsRefreshing(false);
+      page.current = 2;
     });
-  }, []);
+  }
+
+  const onEndReach = () => {
+    page.current++;
+    getActivities(userId, page.current).then(resp => (
+      [...activities, ...resp]
+    ));
+  }
 
   return (
     <AnimRenderBase>
-      <AnimatedFlatlist
+      <AnimatedFlatlist 
         data={activities}
         renderItem={renderItem}
-        initialNumToRender={6}
-        keyExtractor={item => item.id.toString()}
+        keyExtractor={item => `${item.id}`}
+
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.2}
+
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+        
         ListHeaderComponent={header}
         style={style.flatlist}
         onScroll={scrollHandler}
-        scrollEventThrottle={16}
-        showsVerticalScrollIndicator={false}
-        removeClippedSubviews
         overScrollMode="never"
-        onEndReached={onEndReach}
-        onRefresh={onRefresh}
-        refreshing={isRefreshing}
-        onEndReachedThreshold={0.2}
+        showsVerticalScrollIndicator={false}
       />
     </AnimRenderBase>
-  );
+  )
+
+  // const [activities, setActivities] = useState<ActivityUnion[]>([]);
+  // const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  // const page = useRef(1);
+
+  // const onEndReach = async () => {
+  //   page.current++;
+  //   const resp = await getActivities(userId, page.current);
+  //   setActivities(activities => [...activities, ...resp]);
+  // };
+
+  // const onRefresh = async () => {
+  //   setIsRefreshing(true);
+  //   getActivities(userId, 1).then(setActivities);
+  //   page.current = 2;
+  //   setIsRefreshing(false);
+  // };
+
+  // useEffect(() => {
+  //   getActivities(userId, page.current).then(activities => {
+  //     setActivities(activities);
+  //     page.current++;
+  //   });
+  // }, []);
+
+  // return (
+  //   <AnimRenderBase>
+  //     <AnimatedFlatlist
+  //       data={activities}
+  //       renderItem={renderItem}
+  //       initialNumToRender={6}
+  //       keyExtractor={item => item.id.toString()}
+  //       ListHeaderComponent={header}
+  //       style={style.flatlist}
+  //       onScroll={scrollHandler}
+  //       scrollEventThrottle={16}
+  //       showsVerticalScrollIndicator={false}
+  //       removeClippedSubviews
+  //       overScrollMode="never"
+  //       onEndReached={onEndReach}
+  //       onRefresh={onRefresh}
+  //       refreshing={isRefreshing}
+  //       onEndReachedThreshold={0.2}
+  //     />
+  //   </AnimRenderBase>
+  // );
 };
 
 const style = StyleSheet.create({
