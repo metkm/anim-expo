@@ -5,7 +5,7 @@ import { wrapPromise } from "../api/wrapPromise";
 import { getUser } from "../api/user/getUser";
 import { getActivities } from "../api/user/getActivities";
 
-import { UserObject } from "../types";
+import { ActivityUnion, UserObject } from "../types";
 import { UserScreenProps } from "./pageProps";
 
 import Loading from "../components/Loading";
@@ -15,13 +15,13 @@ import UserActivities from "../components/User/UserActivities";
 import UserHeader from "../components/User/UserHeader";
 
 interface UserProps {
-  reader: () => UserObject;
+  userReader: () => UserObject;
+  activitiesReader: () => ActivityUnion[];
 }
 
-const User = ({ reader }: UserProps) => {
-  const user = reader();
-  const [activitiesReader] = useState(() => wrapPromise(getActivities, user.id, 1));
+const User = ({ userReader, activitiesReader }: UserProps) => {
   const scrollY = useSharedValue(0);
+  const user = userReader();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
@@ -51,10 +51,11 @@ const UserSuspense = ({
   },
 }: UserScreenProps) => {
   const [userReader] = useState(() => wrapPromise(getUser, userId));
+  const [activitiesReader] = useState(() => wrapPromise(getActivities, userId, 1));
 
   return (
     <Suspense fallback={<Loading />}>
-      <User reader={userReader} />
+      <User userReader={userReader} activitiesReader={activitiesReader} />
     </Suspense>
   );
 };
