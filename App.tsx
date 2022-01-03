@@ -57,6 +57,7 @@ const Home = () => {
             User: "account",
             Library: "book",
             Discover: "compass",
+            Login: "login"
           };
 
           return <Icon name={icons[route.name]} size={size} color={color} />;
@@ -68,7 +69,11 @@ const Home = () => {
     >
       <Tab.Screen name="Discover" component={Browse} />
       {user && <Tab.Screen name="Library" component={Library} />}
-      {user ? <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} /> : <Login />}
+      {user ? (
+        <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
+      ) : (
+        <Tab.Screen name="Login" component={Login} />
+      )}
     </Tab.Navigator>
   );
 };
