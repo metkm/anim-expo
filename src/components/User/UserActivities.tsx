@@ -82,52 +82,6 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
       />
     </AnimRenderBase>
   )
-
-  // const [activities, setActivities] = useState<ActivityUnion[]>([]);
-  // const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-  // const page = useRef(1);
-
-  // const onEndReach = async () => {
-  //   page.current++;
-  //   const resp = await getActivities(userId, page.current);
-  //   setActivities(activities => [...activities, ...resp]);
-  // };
-
-  // const onRefresh = async () => {
-  //   setIsRefreshing(true);
-  //   getActivities(userId, 1).then(setActivities);
-  //   page.current = 2;
-  //   setIsRefreshing(false);
-  // };
-
-  // useEffect(() => {
-  //   getActivities(userId, page.current).then(activities => {
-  //     setActivities(activities);
-  //     page.current++;
-  //   });
-  // }, []);
-
-  // return (
-  //   <AnimRenderBase>
-  //     <AnimatedFlatlist
-  //       data={activities}
-  //       renderItem={renderItem}
-  //       initialNumToRender={6}
-  //       keyExtractor={item => item.id.toString()}
-  //       ListHeaderComponent={header}
-  //       style={style.flatlist}
-  //       onScroll={scrollHandler}
-  //       scrollEventThrottle={16}
-  //       showsVerticalScrollIndicator={false}
-  //       removeClippedSubviews
-  //       overScrollMode="never"
-  //       onEndReached={onEndReach}
-  //       onRefresh={onRefresh}
-  //       refreshing={isRefreshing}
-  //       onEndReachedThreshold={0.2}
-  //     />
-  //   </AnimRenderBase>
-  // );
 };
 
 const style = StyleSheet.create({
