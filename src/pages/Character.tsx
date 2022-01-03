@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, Suspense } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 
 import AnimRenderHtml from "../components/AnimRenderHtml";
@@ -9,18 +9,15 @@ import { CharacterScreenProps } from "./pageProps";
 import { getCharacter } from "../api/character/getCharacter";
 import { CharacterObject } from "../types";
 import { useColors } from "../hooks/useColors";
+import { wrapPromise } from "../api/wrapPromise";
 
-const Character = ({
-  route: {
-    params: { characterId },
-  },
-}: CharacterScreenProps) => {
-  const [character, setCharacter] = useState<CharacterObject>();
+interface CharacterProps {
+  characterRead: () => CharacterObject;
+}
+
+const Character = ({ characterRead }: CharacterProps) => {
+  const [character] = useState(() => characterRead());
   const { color } = useColors();
-
-  useEffect(() => {
-    getCharacter(characterId).then(setCharacter);
-  }, []);
 
   if (!character) return <Loading />;
   return (
@@ -39,6 +36,20 @@ const Character = ({
     </ScrollView>
   );
 };
+
+const CharacterSuspense = ({
+  route: {
+    params: { characterId },
+  },
+}: CharacterScreenProps) => {
+  const [characterRead] = useState(() => wrapPromise(getCharacter, characterId))
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <Character characterRead={characterRead} />
+    </Suspense>
+  )
+}
 
 const style = StyleSheet.create({
   container: {
@@ -74,4 +85,4 @@ const style = StyleSheet.create({
   }
 });
 
-export default Character;
+export default CharacterSuspense;
