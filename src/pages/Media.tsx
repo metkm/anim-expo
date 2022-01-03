@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, Suspense } from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
@@ -16,18 +16,15 @@ import { StackParamList } from "./pageProps";
 import { MediaObject } from "../types";
 import { getMedia } from "../api/media/getMedia";
 import MediaCharacters from "../components/Media/MediaCharacters";
+import { wrapPromise } from "../api/wrapPromise";
 
-const Media = ({
-  route: {
-    params: { mediaId },
-  },
-}: StackScreenProps<StackParamList, "Media">) => {
-  const [media, setMedia] = useState<MediaObject>();
+interface MediaProps {
+  mediaReader: () => MediaObject
+}
+
+const Media = ({ mediaReader }: MediaProps) => {
+  const [media] = useState<MediaObject>(() => mediaReader());
   const scrollY = useSharedValue(0);
-
-  useEffect(() => {
-    getMedia(mediaId).then(setMedia);
-  }, []);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
@@ -65,6 +62,16 @@ const Media = ({
   );
 };
 
+const MediaSuspense = ({ route: { params: { mediaId } } }: StackScreenProps<StackParamList, "Media">) => {
+  const [mediaReader] = useState(() => wrapPromise(getMedia, mediaId));
+
+  return (
+    <Suspense fallback={<Loading />} >
+      <Media mediaReader={mediaReader} />
+    </Suspense>
+  )
+}
+
 const style = StyleSheet.create({
   containerPadding: {
     marginTop: 90,
@@ -80,4 +87,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default Media;
+export default MediaSuspense;
