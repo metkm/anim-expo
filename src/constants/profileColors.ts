@@ -13,8 +13,7 @@ export const profileColors: ProfileColors = {
   "gray": "#677B94"
 }
 
-export const getUserColor = (color: string | undefined) => {
-  if (!color) return;
+export const getUserColor = (color: string): string => {
   let isDefaultColor = profileColors[color];
   return isDefaultColor || color;
 }

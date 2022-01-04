@@ -3,7 +3,7 @@ import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { MediaType } from "../types";
 
-export type LibraryParamList = {
+export type LibraryPageParamList = {
   Anime: {
     userId: number,
     type: MediaType,
@@ -16,9 +16,18 @@ export type LibraryParamList = {
   }
 }
 
+export type LibraryParamList = {
+  Anime: {
+    userId?: number
+  },
+  Manga: {
+    userId?: number
+  }
+}
+
 export type BottomTabParamList = {
   Discover: undefined,
-  Library: NavigatorScreenParams<LibraryParamList>,
+  Library: NavigatorScreenParams<LibraryPageParamList>,
   User: {
     userId: number
   }

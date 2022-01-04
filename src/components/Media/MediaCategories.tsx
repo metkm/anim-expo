@@ -1,60 +1,113 @@
-import { Pressable, StyleSheet, FlatList, ListRenderItem, ViewStyle } from "react-native";
-import React, { memo } from "react";
 import Text from "../Base/Text";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+  SharedValue,
+  useAnimatedReaction,
+  interpolateColor,
+  WithTimingConfig,
+  Easing,
+} from "react-native-reanimated";
+import { ScrollView, StyleSheet, Pressable } from "react-native";
 import { useColors } from "../../hooks/useColors";
+import { memo } from "react";
 
-interface MediaCategoryProps {
-  category: string;
+interface MediaCategoriesProps {
   categories: string[];
-  categoryCallback: (category: string) => void;
+  callback: (category: string) => void;
 }
 
-const MediaCategory = ({ categories, categoryCallback, category }: MediaCategoryProps) => {
-  const { color, colors } = useColors();
+interface MediaCategory {
+  category: string;
+  index: number;
+  positions: SharedValue<string[]>;
+  callback: (category: string) => void;
+}
 
-  const renderItem: ListRenderItem<string> = ({ item }) => {
-    const borderStyle: ViewStyle = {
-      borderColor: category == item ? color : colors.card,
+const timingConfig: WithTimingConfig = {
+  duration: 500,
+  easing: Easing.out(Easing.sin),
+};
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+const MediaCategory = ({ category, index, positions, callback }: MediaCategory) => {
+  const { colors, color } = useColors();
+  const currIndex = useSharedValue(index);
+  const isActive = useSharedValue(currIndex.value == 0 ? 1 : 0);
+  const left = useSharedValue(index * 120 + index * 4);
+
+  useAnimatedReaction(
+    () => positions.value.indexOf(category),
+    (index, oldIndex) => {
+      if (index == oldIndex) return;
+      if (index == 0) {
+        isActive.value = withTiming(1, timingConfig);
+      } else {
+        isActive.value = withTiming(0, timingConfig);
+      }
+      currIndex.value = index;
+      left.value = withTiming(currIndex.value * 120 + currIndex.value * 4, timingConfig);
+    },
+    [positions]
+  );
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: 40,
+      width: 120,
+      left: left.value,
+      borderColor: interpolateColor(isActive.value, [1, 0], [color, colors.card]),
+      zIndex: currIndex.value == 0 ? 1 : 0,
     };
+  });
 
-    return (
-      <Pressable onPress={() => categoryCallback(item)} style={[style.borderContainer, borderStyle]}>
-        <Text adjustsFontSizeToFit style={style.title}>
-          {item}
-        </Text>
-      </Pressable>
-    );
-  };
+  const pressHandler = () => {
+    var tmpArray = positions.value;
+    tmpArray.splice(currIndex.value, 1);
+    tmpArray.splice(0, 0, category);
+    positions.value = tmpArray;
+
+    callback(category);
+  }
 
   return (
-    <FlatList
-      data={categories}
-      renderItem={renderItem}
-      keyExtractor={item => item}
-      style={style.container}
-      contentContainerStyle={{ alignItems: "center" }}
-      horizontal
-      showsHorizontalScrollIndicator={false}
-    />
+    <AnimatedPressable style={[style.category, animatedStyle]} onPress={pressHandler}>
+      <Text>{category}</Text>
+    </AnimatedPressable>
+  );
+};
+
+const MediaCategories = ({ categories, callback }: MediaCategoriesProps) => {
+  const positions = useSharedValue(categories);
+  var innerWidth = categories.length * 120 + categories.length * 4;
+
+  return (
+    <ScrollView horizontal style={style.container} contentContainerStyle={{ width: innerWidth, height: 52 }}>
+      {categories.map((category, index) => (
+        <MediaCategory category={category} index={index} positions={positions} key={category} callback={callback} />
+      ))}
+    </ScrollView>
   );
 };
 
 const style = StyleSheet.create({
   container: {
-    minHeight: 52,
+    marginTop: 10,
+    height: 52,
     maxHeight: 52,
-    marginTop: 4,
+    position: "relative",
   },
-  borderContainer: {
+  category: {
     borderRadius: 1000,
     borderWidth: 2,
     paddingVertical: 6,
     paddingHorizontal: 20,
     marginHorizontal: 4,
-  },
-  title: {
-    fontWeight: "bold",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "absolute",
   },
 });
 
-export default memo(MediaCategory);
+export default memo(MediaCategories);
