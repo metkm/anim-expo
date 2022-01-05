@@ -1,10 +1,15 @@
 import React, { memo } from "react";
-import Text from "../Base/Text";
-import { StyleSheet, View, Image } from "react-native";
-import { ListActivityObject } from "../../types";
+import { StyleSheet, View, Image, Pressable } from "react-native";
 import { capitalizeFirstLetter } from "../commonUtils";
-import ActivityStats from "./ActivityStats";
+
+import { MediaNavigationProps } from "../../pages/pageProps";
+import { ListActivityObject } from "../../types";
+
+import { useNavigation } from "@react-navigation/native";
 import { useColors } from "../../hooks/useColors";
+
+import Text from "../Base/Text";
+import ActivityStats from "./ActivityStats";
 
 interface ListActivityProps {
   activity: ListActivityObject;
@@ -12,9 +17,16 @@ interface ListActivityProps {
 
 const ListActivity = ({ activity }: ListActivityProps) => {
   const { colors, color } = useColors();
+  const navigation = useNavigation<MediaNavigationProps>();
+
+  const toMedia = () => {
+    navigation.push("Media", {
+      mediaId: activity.media.id
+    })
+  }
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
+    <Pressable style={[style.container, { backgroundColor: colors.card }]} onPress={toMedia}>
       <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
       <View style={style.contentTextContainer}>
         <Text style={[style.progress, { color }]}>
@@ -24,7 +36,7 @@ const ListActivity = ({ activity }: ListActivityProps) => {
         
         <ActivityStats activity={activity} />
       </View>
-    </View>
+    </Pressable>
   );
 };
 

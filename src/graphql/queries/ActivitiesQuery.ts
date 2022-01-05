@@ -10,6 +10,7 @@ export const activitiesQuery = `query Page($id: Int, $page: Int) {
         replyCount
         likeCount
         media {
+          id
           title {
             userPreferred
           }
