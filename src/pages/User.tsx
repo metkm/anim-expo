@@ -8,11 +8,15 @@ import { getActivities } from "../api/user/getActivities";
 import { ActivityUnion, UserObject } from "../types";
 import { UserScreenProps } from "./pageProps";
 
-import Loading from "../components/Loading";
-import AnimBanner from "../components/AnimBanner";
 import UserSettingsCog from "../components/User/UserSettingsCog";
+import ActivityCreate from "../components/Activity/ActivityCreate";
 import UserActivities from "../components/User/UserActivities";
+import AnimBanner from "../components/AnimBanner";
 import UserHeader from "../components/User/UserHeader";
+import Loading from "../components/Loading";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 interface UserProps {
   userReader: () => UserObject;
@@ -20,6 +24,7 @@ interface UserProps {
 }
 
 const User = ({ userReader, activitiesReader }: UserProps) => {
+  const storeUser = useSelector((state: RootState) => state.user.user);
   const scrollY = useSharedValue(0);
   const user = userReader();
 
@@ -41,6 +46,8 @@ const User = ({ userReader, activitiesReader }: UserProps) => {
         scrollHandler={scrollHandler}
         activitiesReader={activitiesReader}
       />
+
+      {storeUser?.id == user.id && <ActivityCreate />}
     </>
   );
 };
