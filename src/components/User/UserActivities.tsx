@@ -54,11 +54,10 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
     });
   }
 
-  const onEndReach = () => {
+  const onEndReach = async () => {
     page.current++;
-    getActivities(userId, page.current).then(resp => (
-      [...activities, ...resp]
-    ));
+    const resp = await getActivities(userId, page.current);
+    setActivities(activities => [...activities, ...resp]);
   }
 
   return (
