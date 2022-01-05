@@ -26,7 +26,7 @@ interface MediaCategory {
 }
 
 const timingConfig: WithTimingConfig = {
-  duration: 500,
+  duration: 300,
   easing: Easing.out(Easing.sin),
 };
 
