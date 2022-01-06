@@ -25,7 +25,7 @@ const ActivityCreate = () => {
   const toggleModal = () => setIsActive(isActive => !isActive);
   const createActivity = async () => {
     if (!text || text.length <= 5) return;
-    
+
     await axios.post("/", {
       query: SaveTextActivity,
       variables: {
@@ -45,6 +45,7 @@ const ActivityCreate = () => {
 
   const inputExtraStyle: StyleProp<TextStyle> = {
     borderColor: colors.border,
+    color: colors.text
   };
 
   return (
