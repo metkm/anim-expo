@@ -1,12 +1,11 @@
 import React, { Suspense, useMemo, useState, useCallback, useEffect } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
 import { MediaListCollectionObject, MediaListObject } from "../../types";
+import { timingConfig } from "../../constants/reanimated";
 import Animated, {
-  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
-  WithTimingConfig,
   runOnJS,
 } from "react-native-reanimated";
 
@@ -27,11 +26,6 @@ interface LibraryPage {
 interface RenderItemProps {
   item: MediaListObject;
 }
-
-const timingConfig: WithTimingConfig = {
-  duration: 300,
-  easing: Easing.out(Easing.sin),
-};
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 const renderItem = ({ item }: RenderItemProps) => <MediaCard item={item.media} progress={item.progress} />;

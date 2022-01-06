@@ -6,11 +6,10 @@ import Animated, {
   SharedValue,
   useAnimatedReaction,
   interpolateColor,
-  WithTimingConfig,
-  Easing,
 } from "react-native-reanimated";
 import { ScrollView, StyleSheet, Pressable } from "react-native";
 import { useColors } from "../../hooks/useColors";
+import { timingConfig } from "../../constants/reanimated";
 import { memo } from "react";
 
 interface MediaCategoriesProps {
@@ -24,11 +23,6 @@ interface MediaCategory {
   positions: SharedValue<string[]>;
   callback: (category: string) => void;
 }
-
-const timingConfig: WithTimingConfig = {
-  duration: 300,
-  easing: Easing.out(Easing.sin),
-};
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 const MediaCategory = ({ category, index, positions, callback }: MediaCategory) => {

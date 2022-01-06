@@ -1,119 +1,82 @@
-import React, { useState } from "react";
-import {
-  View,
-  Modal,
-  Pressable,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  StyleProp,
-  TextStyle,
-  StatusBar,
-} from "react-native";
-import axios from "axios";
+import { useRef } from "react";
+import { TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
-import Button from "../Base/Button";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { SaveTextActivity } from "../../graphql/mutations/SaveTextActivity";
+import { timingConfig } from "../../constants/reanimated";
 import { useColors } from "../../hooks/useColors";
 
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+
 const ActivityCreate = () => {
-  const [text, setText] = useState("");
-  const [isActive, setIsActive] = useState(false);
-  const { color, colors } = useColors();
+  const { colors, color } = useColors();
+  const isOpen = useSharedValue(0);
+  const activityText = useRef("");
 
-  const toggleModal = () => setIsActive(isActive => !isActive);
-  const createActivity = async () => {
-    if (!text || text.length <= 5) return;
-
-    await axios.post("/", {
-      query: SaveTextActivity,
-      variables: {
-        text,
-      },
-    });
-
-    toggleModal();
-    setText("");
+  const textChangeHandler = (text: string) => {
+    activityText.current = text;
   };
 
-  const CloseButton = () => (
-    <Pressable onPress={toggleModal} style={style.closeButton}>
-      <Icon name="close" size={20} color="white" />
-    </Pressable>
-  );
+  const openHandler = () => {
+    isOpen.value = withTiming(isOpen.value == 0 ? 1 : 0);
+  }
 
-  const inputExtraStyle: StyleProp<TextStyle> = {
-    borderColor: colors.border,
-    color: colors.text,
-  };
+  const activityContainerStyle = useAnimatedStyle(() => {
+    return {
+      bottom: interpolate(
+        isOpen.value,
+        [0, 1],
+        [-140, 0]
+      )
+    };
+  });
 
   return (
-    <View>
-      <TouchableOpacity style={[style.icon, { backgroundColor: color }]} onPress={toggleModal}>
+    <Animated.View style={[style.container, activityContainerStyle]}>
+      <AnimatedTouchableOpacity style={[style.icon, { backgroundColor: color }]} onPress={openHandler}>
         <Icon name="circle-edit-outline" size={26} color="white" />
-      </TouchableOpacity>
+      </AnimatedTouchableOpacity>
 
-      <Modal visible={isActive} transparent={true} animationType="fade">
-        <StatusBar backgroundColor="rgba(0, 0, 0, 0.8)" />
-        <View style={style.centeredView}>
-          <View style={[style.content, { backgroundColor: colors.card }]}>
-            <CloseButton />
-
-            <TextInput
-              onChangeText={setText}
-              value={text}
-              placeholder="Write a status.."
-              placeholderTextColor={colors.text}
-              style={[style.input, inputExtraStyle]}
-              multiline
-              textAlignVertical="top"
-            />
-
-            <Button onPress={createActivity}>Send</Button>
-          </View>
-        </View>
-      </Modal>
-    </View>
+      <Animated.View style={[style.activityContainer, { backgroundColor: colors.background }]}>
+        <TextInput
+          onChangeText={textChangeHandler}
+          placeholder="Write a status..."
+          placeholderTextColor="#A1A1A1"
+          style={{ color: colors.text }}
+          multiline
+        />
+      </Animated.View>
+    </Animated.View>
   );
 };
 
 const style = StyleSheet.create({
-  icon: {
+  container: {
+    alignItems: "flex-end",
     position: "absolute",
-    bottom: 20,
-    right: 20,
-    padding: 10,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "transparent",
+  },
+  icon: {
     borderRadius: 1000,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.8)",
-  },
-  content: {
-    width: 320,
-    height: 320,
-    borderRadius: 4,
     padding: 10,
+    bottom: 10,
+    right: 10,
   },
-  closeButton: {
-    backgroundColor: "#FF605C",
+  activityContainer: {
+    width: "100%",
     padding: 10,
-    width: "auto",
-    height: "auto",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 4,
+    height: 140,
   },
-  input: {
-    padding: 4,
-    marginVertical: 10,
-    borderWidth: 2,
-    borderRadius: 4,
-    flex: 1,
-  },
+  input: {},
 });
 
 export default ActivityCreate;

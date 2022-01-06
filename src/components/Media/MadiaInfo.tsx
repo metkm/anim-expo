@@ -58,7 +58,7 @@ const style = StyleSheet.create({
     flexWrap: "wrap",
   },
   infoContainer: {
-    padding: 5,
+    padding: 6,
     borderRadius: 6,
     margin: 2,
     flex: 1,
