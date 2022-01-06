@@ -45,7 +45,7 @@ const ActivityCreate = () => {
 
   const inputExtraStyle: StyleProp<TextStyle> = {
     borderColor: colors.border,
-    color: colors.text
+    color: colors.text,
   };
 
   return (
@@ -64,6 +64,7 @@ const ActivityCreate = () => {
               onChangeText={setText}
               value={text}
               placeholder="Write a status.."
+              placeholderTextColor={colors.text}
               style={[style.input, inputExtraStyle]}
               multiline
               textAlignVertical="top"
