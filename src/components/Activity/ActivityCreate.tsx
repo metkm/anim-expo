@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useRef } from "react";
 import { TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import Animated, {
@@ -10,7 +11,9 @@ import Animated, {
 import { timingConfig } from "../../constants/reanimated";
 import { useColors } from "../../hooks/useColors";
 
+import Button from "../Base/Button";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
 
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -19,12 +22,25 @@ const ActivityCreate = () => {
   const isOpen = useSharedValue(0);
   const activityText = useRef("");
 
+  const activityCreate = async () => {
+    if (!activityText.current || activityText.current.length <= 5) return;
+
+    await axios.post("/", {
+      query: SaveTextActivity,
+      variables: {
+        text: activityText.current,
+      },
+    });
+
+    isOpen.value = withTiming(0, timingConfig);
+  }
+
   const textChangeHandler = (text: string) => {
     activityText.current = text;
   };
 
   const openHandler = () => {
-    isOpen.value = withTiming(isOpen.value == 0 ? 1 : 0);
+    isOpen.value = withTiming(isOpen.value == 0 ? 1 : 0, timingConfig);
   }
 
   const activityContainerStyle = useAnimatedStyle(() => {
@@ -32,7 +48,7 @@ const ActivityCreate = () => {
       bottom: interpolate(
         isOpen.value,
         [0, 1],
-        [-140, 0]
+        [-200, 0]
       )
     };
   });
@@ -48,9 +64,12 @@ const ActivityCreate = () => {
           onChangeText={textChangeHandler}
           placeholder="Write a status..."
           placeholderTextColor="#A1A1A1"
-          style={{ color: colors.text }}
+          style={{ color: colors.text, flex: 1 }}
+          textAlignVertical="top"
           multiline
         />
+
+        <Button onPress={activityCreate}>Create Activity</Button>
       </Animated.View>
     </Animated.View>
   );
@@ -74,7 +93,7 @@ const style = StyleSheet.create({
   activityContainer: {
     width: "100%",
     padding: 10,
-    height: 140,
+    height: 200,
   },
   input: {},
 });
