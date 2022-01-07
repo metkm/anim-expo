@@ -48,7 +48,7 @@ const ActivityCreate = () => {
       bottom: interpolate(
         isOpen.value,
         [0, 1],
-        [-300, 0]
+        [-270, 0]
       )
     };
   });
@@ -83,7 +83,7 @@ const style = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: "transparent",
-    height: 350
+    height: 320
   },
   icon: {
     borderRadius: 1000,
