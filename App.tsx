@@ -4,7 +4,7 @@ import "react-native-reanimated";
 import React, { useEffect } from "react";
 import axios from "axios";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { useColorScheme, StatusBar, KeyboardAvoidingView, Keyboard, useWindowDimensions, Platform } from "react-native";
+import { useColorScheme, StatusBar, Keyboard, Dimensions } from "react-native";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -34,7 +34,6 @@ axios.defaults.baseURL = "https://graphql.anilist.co";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
-const AnimatedKeyboardAvoidingView = Animated.createAnimatedComponent(KeyboardAvoidingView);
 
 interface Icons {
   [index: string]: string;
@@ -83,8 +82,7 @@ const Home = () => {
 };
 
 const App = () => {
-  const { height } = useWindowDimensions();
-  const screenHeight = useSharedValue(height);
+  const screenHeight = useSharedValue(Dimensions.get("screen").height);
 
   const isDark = useColorScheme() == "dark";
   let [fontsLoaded] = useFonts({
