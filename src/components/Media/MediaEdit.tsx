@@ -21,7 +21,6 @@ const MediaEdit = ({ mediaId, isVisible, setIsVisible }: MediaEditProps) => {
   const { colors } = useColors();
   
   const getMediaEntry = () => {
-    console.log("getting", mediaId);
     getMediaListEntry(mediaId).then(setMediaListEntry);
   }
 
