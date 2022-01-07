@@ -2,7 +2,7 @@ import React, { useState, Suspense } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 
 import AnimRenderHtml from "../components/AnimRenderHtml";
-import Loading from "../components/Loading";
+import Loading from "../components/AnimLoading";
 import Text from "../components/Base/Text";
 
 import { CharacterScreenProps } from "./pageProps";

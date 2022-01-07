@@ -13,7 +13,7 @@ import ActivityCreate from "../components/Activity/ActivityCreate";
 import UserActivities from "../components/User/UserActivities";
 import AnimBanner from "../components/AnimBanner";
 import UserHeader from "../components/User/UserHeader";
-import Loading from "../components/Loading";
+import Loading from "../components/AnimLoading";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";

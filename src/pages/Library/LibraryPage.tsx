@@ -17,7 +17,7 @@ import { getEntries } from "../../api/library/getEntries";
 
 import MediaCategories from "../../components/Media/MediaCategories";
 import MediaCard from "../../components/Media/MediaCard";
-import Loading from "../../components/Loading";
+import Loading from "../../components/AnimLoading";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;

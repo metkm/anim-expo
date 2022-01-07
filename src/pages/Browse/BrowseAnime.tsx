@@ -3,7 +3,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useBrowse } from "../../hooks/useBrowse";
 
 import BrowseRow from "../../components/Browse/BrowseRow";
-import Loading from "../../components/Loading";
+import Loading from "../../components/AnimLoading";
 
 const BrowseAnime = () => {
   const { browse } = useBrowse("ANIME");

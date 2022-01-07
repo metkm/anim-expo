@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import Text from "../components/Base/Text";
-import Loading from "../components/Loading";
+import Loading from "../components/AnimLoading";
 import MediaInfo from "../components/Media/MadiaInfo";
 import AnimBanner from "../components/AnimBanner";
 import MediaHeader from "../components/Media/MediaHeader";
