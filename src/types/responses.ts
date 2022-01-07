@@ -2,6 +2,7 @@ import {
   ActivityUnion,
   CharacterObject,
   MediaListCollectionObject,
+  MediaListObject,
   MediaObject,
   UserObject,
   UserStatisticTypesObject,
@@ -68,4 +69,12 @@ export interface ResponseBrowse {
       media: MediaObject[];
     };
   };
+}
+
+export interface ResponseMediaListEntry {
+  data: {
+    Media: {
+      mediaListEntry: MediaListObject
+    }
+  }
 }

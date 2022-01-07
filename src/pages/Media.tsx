@@ -9,13 +9,13 @@ import MediaInfo from "../components/Media/MadiaInfo";
 import AnimBanner from "../components/AnimBanner";
 import MediaHeader from "../components/Media/MediaHeader";
 import MediaRelations from "../components/Media/MediaRelations";
+import MediaCharacters from "../components/Media/MediaCharacters";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackParamList } from "./pageProps";
 
 import { MediaObject } from "../types";
 import { getMedia } from "../api/media/getMedia";
-import MediaCharacters from "../components/Media/MediaCharacters";
 import { wrapPromise } from "../api/wrapPromise";
 
 interface MediaProps {

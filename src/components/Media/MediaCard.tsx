@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { StyleSheet, View, Image, Text, ViewProps, Pressable } from "react-native";
 import { MediaObject } from "../../types";
 import { timeUntil } from "./MediaUtils";
@@ -8,6 +8,7 @@ import { capitalizeFirstLetter } from "../commonUtils";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { MediaNavigationProps } from "../../pages/pageProps";
+import MediaEdit from "./MediaEdit";
 
 interface MediaCardProps extends ViewProps {
   item: MediaObject;
@@ -17,13 +18,18 @@ interface MediaCardProps extends ViewProps {
 
 const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
   const navigation = useNavigation<MediaNavigationProps>();
+  const [isVisible, setIsVisible] = useState(false);
 
   const toMedia = () => {
     navigation.push("Media", { mediaId: item.id });
   };
 
+  const longPressHandler = () => {
+    setIsVisible(visible => !visible);
+  }
+
   return (
-    <Pressable onPress={toMedia} style={[style.container, { ...(rest.style as {}) }]}>
+    <Pressable onPress={toMedia} onLongPress={longPressHandler} style={[style.container, { ...(rest.style as {}) }]}>
       <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
         <Image style={style.cover} source={{ uri: item.coverImage.extraLarge }} />
 
@@ -45,6 +51,8 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
           </Text>
         </View>
       </LinearGradient>
+
+      <MediaEdit isVisible={isVisible} setIsVisible={setIsVisible} mediaId={item.id} />
     </Pressable>
   );
 };
