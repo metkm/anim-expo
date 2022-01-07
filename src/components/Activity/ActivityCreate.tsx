@@ -48,7 +48,7 @@ const ActivityCreate = () => {
       bottom: interpolate(
         isOpen.value,
         [0, 1],
-        [-200, 0]
+        [-380, 0]
       )
     };
   });
@@ -93,7 +93,8 @@ const style = StyleSheet.create({
   activityContainer: {
     width: "100%",
     padding: 10,
-    height: 200,
+    height: 386,
+    elevation: 10,
   },
   input: {},
 });

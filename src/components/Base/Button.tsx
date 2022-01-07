@@ -7,7 +7,7 @@ const Button = (props: PressableProps) => {
 
   return (
     <Pressable onPress={props.onPress} style={[style.buttonContainer, { backgroundColor: color }, {...props.style as {}}]}>
-      <Text style={{ color: "white", fontFamily: "Overpass_700Bold" }}>{props.children}</Text>
+      <Text style={style.text}>{props.children}</Text>
     </Pressable>
   );
 };
@@ -19,6 +19,10 @@ const style = StyleSheet.create({
     padding: 10,
     borderRadius: 4,
   },
+  text: {
+    color: "white",
+    fontFamily: "Overpass_700Bold"
+  }
 });
 
 export default Button;

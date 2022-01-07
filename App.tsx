@@ -3,7 +3,8 @@ import "react-native-reanimated";
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useColorScheme, StatusBar } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import { useColorScheme, StatusBar, KeyboardAvoidingView, Keyboard, useWindowDimensions, Platform } from "react-native";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -21,6 +22,7 @@ import User from "./src/pages/User";
 import Settings from "./src/pages/Settings";
 import Library from "./src/pages/Library/Library";
 import Browse from "./src/pages/Browse/Browse";
+import { timingConfig } from "./src/constants/reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { animDark, animLight } from "./src/constants/theme";
@@ -32,6 +34,7 @@ axios.defaults.baseURL = "https://graphql.anilist.co";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+const AnimatedKeyboardAvoidingView = Animated.createAnimatedComponent(KeyboardAvoidingView);
 
 interface Icons {
   [index: string]: string;
@@ -80,11 +83,36 @@ const Home = () => {
 };
 
 const App = () => {
+  const { height } = useWindowDimensions();
+  const screenHeight = useSharedValue(height);
+
   const isDark = useColorScheme() == "dark";
   let [fontsLoaded] = useFonts({
     Overpass_400Regular,
     Overpass_700Bold,
   });
+
+  const animatedViewStyle = useAnimatedStyle(() => {
+    return {
+      height: screenHeight.value,
+      backgroundColor: "black"
+    }
+  })
+
+  useEffect(() => {
+    const didShowListener = Keyboard.addListener("keyboardDidShow", event => {
+      screenHeight.value = withTiming(event.endCoordinates.screenY, timingConfig);
+    });
+
+    const didHideListener = Keyboard.addListener("keyboardDidHide", event => {
+      screenHeight.value = withTiming(event.endCoordinates.screenY, timingConfig);
+    })
+
+    return () => {
+      didShowListener.remove();
+      didHideListener.remove();
+    }
+  }, [])
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -93,26 +121,27 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <NavigationContainer theme={isDark ? animDark : animLight}>
-          <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
-            <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen
-              name="Character"
-              component={Character}
-              options={{ headerTransparent: true, headerTitle: "" }}
-            />
+        <Animated.View style={animatedViewStyle}>
+          <NavigationContainer theme={isDark ? animDark : animLight}>
+            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }} >
+              <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+              <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
+              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen
+                name="Character"
+                component={Character}
+                options={{ headerTransparent: true, headerTitle: "" }}
+              />
 
-            <Stack.Screen
-              name="User"
-              component={User}
-              options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+              <Stack.Screen
+                name="User"
+                component={User}
+                options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Animated.View>
       </PersistGate>
-
       <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
     </Provider>
   );
