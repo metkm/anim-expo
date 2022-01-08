@@ -12,12 +12,12 @@ import Animated, {
 import { LibraryPageParamList } from "../pageProps";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { wrapPromise } from "../../api/wrapPromise";
 import { getEntries } from "../../api/library/getEntries";
 
 import MediaCategories from "../../components/Media/MediaCategories";
 import MediaCard from "../../components/Media/MediaCard";
 import Loading from "../../components/AnimLoading";
+import { usePromise } from "../../hooks/usePromise";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
@@ -76,7 +76,7 @@ const LibraryPageSuspense = ({
     params: { userId, type },
   },
 }: BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">) => {
-  const [libraryReader] = useState(() => wrapPromise(getEntries, userId, type));
+  const [libraryReader] = usePromise(getEntries, userId, type);
 
   return (
     <Suspense fallback={<Loading />}>

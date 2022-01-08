@@ -9,14 +9,14 @@ import { CharacterScreenProps } from "./pageProps";
 import { getCharacter } from "../api/character/getCharacter";
 import { CharacterObject } from "../types";
 import { useColors } from "../hooks/useColors";
-import { wrapPromise } from "../api/wrapPromise";
+import { usePromise } from "../hooks/usePromise";
 
 interface CharacterProps {
-  characterRead: () => CharacterObject;
+  characterReader: () => CharacterObject;
 }
 
-const Character = ({ characterRead }: CharacterProps) => {
-  const [character] = useState(() => characterRead());
+const Character = ({ characterReader }: CharacterProps) => {
+  const [character] = useState(() => characterReader());
   const { color } = useColors();
 
   return (
@@ -41,11 +41,11 @@ const CharacterSuspense = ({
     params: { characterId },
   },
 }: CharacterScreenProps) => {
-  const [characterRead] = useState(() => wrapPromise(getCharacter, characterId))
+  const [characterReader] = usePromise(getCharacter, characterId);
 
   return (
     <Suspense fallback={<Loading />}>
-      <Character characterRead={characterRead} />
+      <Character characterReader={characterReader} />
     </Suspense>
   )
 }

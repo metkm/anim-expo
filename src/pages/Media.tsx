@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { Suspense, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
@@ -16,14 +16,14 @@ import { StackParamList } from "./pageProps";
 
 import { MediaObject } from "../types";
 import { getMedia } from "../api/media/getMedia";
-import { wrapPromise } from "../api/wrapPromise";
+import { usePromise } from "../hooks/usePromise";
 
 interface MediaProps {
   mediaReader: () => MediaObject
 }
 
 const Media = ({ mediaReader }: MediaProps) => {
-  const [media] = useState<MediaObject>(() => mediaReader());
+  const [media] = useState(() => mediaReader());
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -32,7 +32,6 @@ const Media = ({ mediaReader }: MediaProps) => {
     },
   });
 
-  if (!media) return <Loading />;
   return (
     <View>
       <AnimBanner
@@ -63,7 +62,7 @@ const Media = ({ mediaReader }: MediaProps) => {
 };
 
 const MediaSuspense = ({ route: { params: { mediaId } } }: StackScreenProps<StackParamList, "Media">) => {
-  const [mediaReader] = useState(() => wrapPromise(getMedia, mediaId));
+  const [mediaReader] = usePromise(getMedia, mediaId);
 
   return (
     <Suspense fallback={<Loading />} >

@@ -1,7 +1,6 @@
 import { Suspense, useState } from "react";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
-import { wrapPromise } from "../api/wrapPromise";
 import { getUser } from "../api/user/getUser";
 import { getActivities } from "../api/user/getActivities";
 
@@ -17,6 +16,7 @@ import Loading from "../components/AnimLoading";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { usePromise } from "../hooks/usePromise";
 
 interface UserProps {
   userReader: () => UserObject;
@@ -24,9 +24,9 @@ interface UserProps {
 }
 
 const User = ({ userReader, activitiesReader }: UserProps) => {
+  const [user] = useState(() => userReader());
   const storeUser = useSelector((state: RootState) => state.user.user);
   const scrollY = useSharedValue(0);
-  const user = userReader();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
@@ -57,8 +57,8 @@ const UserSuspense = ({
     params: { userId },
   },
 }: UserScreenProps) => {
-  const [userReader] = useState(() => wrapPromise(getUser, userId));
-  const [activitiesReader] = useState(() => wrapPromise(getActivities, userId, 1));
+  const [userReader] = usePromise(getUser, userId);
+  const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
