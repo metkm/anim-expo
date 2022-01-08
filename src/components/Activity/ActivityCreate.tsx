@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRef } from "react";
-import { TouchableOpacity, StyleSheet, TextInput } from "react-native";
+import { TouchableOpacity, StyleSheet, TextInput, useWindowDimensions } from "react-native";
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -18,9 +18,11 @@ import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
 
 const ActivityCreate = () => {
+  const { height } = useWindowDimensions();
   const { colors, color } = useColors();
   const isOpen = useSharedValue(0);
   const activityText = useRef("");
+  console.log(-(height / 2));
 
   const activityCreate = async () => {
     if (!activityText.current || activityText.current.length <= 5) return;
@@ -48,7 +50,7 @@ const ActivityCreate = () => {
       bottom: interpolate(
         isOpen.value,
         [0, 1],
-        [-270, 0]
+        [-(height / 2) + 70, 0]
       )
     };
   });
@@ -83,7 +85,7 @@ const style = StyleSheet.create({
     right: 0,
     bottom: 0,
     backgroundColor: "transparent",
-    height: 320
+    height: "50%"
   },
   icon: {
     borderRadius: 1000,
@@ -96,6 +98,8 @@ const style = StyleSheet.create({
     padding: 10,
     elevation: 10,
     flex: 1,
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
   },
 });
 
