@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { ActivityUnion } from "../../types";
 import { timeSince } from "../commonUtils";
-import { darkColors } from "../../constants/theme";
 
 // components
 import Text from "../Base/Text";

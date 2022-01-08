@@ -1,6 +1,6 @@
 import axios from "axios";
 import UserQuery from "../../graphql/queries/UserQuery";
-import { ResponseUser, UserObject } from "../../types";
+import { ResponseUser } from "../../types";
 
 export const getUser = async (userId: number) => {
   const resp = await axios.post<ResponseUser>("/", {

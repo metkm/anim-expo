@@ -20,7 +20,7 @@ interface UserActivitiesProps {
   userId: number;
   header?: JSX.Element;
   scrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
-  activitiesReader: () => ActivityUnion[]
+  activitiesReader: () => ActivityUnion[];
 }
 
 const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
@@ -44,7 +44,7 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
   const page = useRef(1);
-  
+
   const onRefresh = () => {
     setIsRefreshing(true);
     getActivities(userId, 1).then(activities => {
@@ -52,27 +52,24 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
       setIsRefreshing(false);
       page.current = 2;
     });
-  }
+  };
 
   const onEndReach = async () => {
     page.current++;
     const resp = await getActivities(userId, page.current);
     setActivities(activities => [...activities, ...resp]);
-  }
+  };
 
   return (
     <AnimRenderBase>
-      <AnimatedFlatlist 
+      <AnimatedFlatlist
         data={activities}
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
-
         onEndReached={onEndReach}
         onEndReachedThreshold={0.2}
-
         refreshing={isRefreshing}
         onRefresh={onRefresh}
-        
         ListHeaderComponent={header}
         style={style.flatlist}
         onScroll={scrollHandler}
@@ -80,7 +77,7 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
         showsVerticalScrollIndicator={false}
       />
     </AnimRenderBase>
-  )
+  );
 };
 
 const style = StyleSheet.create({

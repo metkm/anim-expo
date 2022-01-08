@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { MediaObject, MediaType } from "../types";
+import { useEffect, useState } from "react";
 import { getBrowse } from "../api/browse/getBrowse";
+import { MediaObject, MediaType } from "../types";
 
 interface BrowseAnime {
   trending: {
