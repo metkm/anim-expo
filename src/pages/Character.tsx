@@ -19,7 +19,6 @@ const Character = ({ characterRead }: CharacterProps) => {
   const [character] = useState(() => characterRead());
   const { color } = useColors();
 
-  if (!character) return <Loading />;
   return (
     <ScrollView style={style.container}>
       <View style={[style.cover, { backgroundColor: color }]}>
