@@ -27,16 +27,14 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
 
   const longPressHandler = () => {
     setIsVisible(visible => !visible);
-  }
+  };
 
   return (
     <Pressable onPress={toMedia} onLongPress={longPressHandler} style={[style.container, { ...(rest.style as {}) }]}>
       <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
         <Image style={style.cover} source={{ uri: media.coverImage.extraLarge }} />
 
-        {media.type && <Text style={[style.topInfo, style.type]}>
-          {capitalizeFirstLetter(media.type)}
-        </Text>}
+        {media.type && <Text style={[style.topInfo, style.type]}>{capitalizeFirstLetter(media.type)}</Text>}
 
         <Text style={[style.topInfo, style.episodes]}>
           {progress! > 0 && `${progress}/`}
