@@ -8,6 +8,7 @@ import Button from "../Base/Button";
 
 import { getMediaListEntry } from "../../api/media/getMediaListEntry";
 import { MediaListObject } from "../../types";
+import Loading from "../AnimLoading";
 
 interface MediaEditProps {
   mediaId: number;
@@ -19,10 +20,10 @@ const MediaEdit = ({ mediaId, isVisible, setIsVisible }: MediaEditProps) => {
   const [mediaListEntry, setMediaListEntry] = useState<MediaListObject>();
   const [status, setStatus] = useState(mediaListEntry ? mediaListEntry.status : "Status");
   const { colors } = useColors();
-  
+
   const getMediaEntry = () => {
     getMediaListEntry(mediaId).then(setMediaListEntry);
-  }
+  };
 
   const elementStyle: ViewStyle | TextStyle = {
     backgroundColor: colors.card,
@@ -32,40 +33,43 @@ const MediaEdit = ({ mediaId, isVisible, setIsVisible }: MediaEditProps) => {
   return (
     <Modal visible={isVisible} onShow={getMediaEntry} transparent>
       <View style={style.center}>
-        {
-          mediaListEntry &&
-          <View style={[style.container, { backgroundColor: colors.background }]}>
-            <View style={style.row}>
-              <Text style={style.label}>Status</Text>
-              <Picker
-                mode="dropdown"
-                style={[style.picker, elementStyle]}
-                selectedValue={status}
-                onValueChange={status => setStatus(status)}
-              >
-                <Picker.Item label="Reading" value="Reading" />
-                <Picker.Item label="Plan To Read" value="Plan To Read" />
-                <Picker.Item label="Completed" value="Completed" />
-                <Picker.Item label="Rereading" value="Rereading" />
-                <Picker.Item label="Paused" value="Paused" />
-                <Picker.Item label="Dropped" value="Dropped" />
-              </Picker>
-            </View>
+        <View style={[style.container, { backgroundColor: colors.background }]}>
+          {mediaListEntry ? (
+            <>
+              <View style={style.row}>
+                <Text style={style.label}>Status</Text>
+                <Picker
+                  mode="dropdown"
+                  style={[style.picker, elementStyle]}
+                  selectedValue={status}
+                  onValueChange={status => setStatus(status)}
+                >
+                  <Picker.Item label="Reading" value="Reading" />
+                  <Picker.Item label="Plan To Read" value="Plan To Read" />
+                  <Picker.Item label="Completed" value="Completed" />
+                  <Picker.Item label="Rereading" value="Rereading" />
+                  <Picker.Item label="Paused" value="Paused" />
+                  <Picker.Item label="Dropped" value="Dropped" />
+                </Picker>
+              </View>
 
-            <View style={style.row}>
-              <Text style={style.label}>Score</Text>
-              <TextInput
-                defaultValue={`${mediaListEntry.score}`}
-                keyboardType="numeric"
-                style={[style.input, elementStyle]}
-                placeholder="Score"
-                placeholderTextColor="#A1A1A1"
-              />
-            </View>
+              <View style={style.row}>
+                <Text style={style.label}>Score</Text>
+                <TextInput
+                  defaultValue={`${mediaListEntry.score}`}
+                  keyboardType="numeric"
+                  style={[style.input, elementStyle]}
+                  placeholder="Score"
+                  placeholderTextColor="#A1A1A1"
+                />
+              </View>
 
-            <Button onPress={() => setIsVisible(visible => !visible)}>Close</Button>
-          </View>
-        }
+              <Button onPress={() => setIsVisible(visible => !visible)}>Close</Button>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </View>
       </View>
     </Modal>
   );
@@ -81,6 +85,7 @@ const style = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     width: "90%",
+    minHeight: 100
   },
   row: {
     flexDirection: "row",
