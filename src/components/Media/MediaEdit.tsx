@@ -1,74 +1,81 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { Modal, StyleSheet, TextInput, TextStyle, View, ViewStyle } from "react-native";
+import { StyleSheet, Modal, View, TextInput, ViewStyle, TextStyle } from "react-native";
+import { Dispatch, SetStateAction, useState, useRef } from "react";
 import { Picker } from "@react-native-picker/picker";
-import { useColors } from "../../hooks/useColors";
 
 import Text from "../Base/Text";
 import Button from "../Base/Button";
 
-import { getMediaListEntry } from "../../api/media/getMediaListEntry";
-import { MediaListObject } from "../../types";
-import Loading from "../AnimLoading";
+import { MediaObject } from "../../types";
+import { useColors } from "../../hooks/useColors";
+import { mutateMediaListEntry } from "../../api/media/mutateMediaListEntry";
 
 interface MediaEditProps {
-  mediaId: number;
+  media: MediaObject;
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
+  setMedia: Dispatch<SetStateAction<MediaObject>>;
 }
 
-const MediaEdit = ({ mediaId, isVisible, setIsVisible }: MediaEditProps) => {
-  const [mediaListEntry, setMediaListEntry] = useState<MediaListObject>();
-  const [status, setStatus] = useState(mediaListEntry ? mediaListEntry.status : "Status");
-  const { colors } = useColors();
+const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps) => {
+  const [status, setStatus] = useState(media.mediaListEntry?.status ? media.mediaListEntry.status : "Status");
+  const score = useRef(media.mediaListEntry?.score || 0);
+  const { colors, color } = useColors();
 
-  const getMediaEntry = () => {
-    getMediaListEntry(mediaId).then(setMediaListEntry);
-  };
-
-  const elementStyle: ViewStyle | TextStyle = {
-    backgroundColor: colors.card,
+  const extraStyle: ViewStyle | TextStyle = {
     color: colors.text,
+    backgroundColor: colors.card,
   };
+
+  const toggleVisible = () => {
+    setIsVisible(visible => !visible);
+  };
+
+  const saveMediaListEntry = async () => {
+    await mutateMediaListEntry({
+      mediaId: media.id,
+      score: score.current,
+      status,
+    })
+  }
 
   return (
-    <Modal visible={isVisible} onShow={getMediaEntry} transparent>
+    <Modal visible={isVisible} animationType="slide" transparent>
       <View style={style.center}>
         <View style={[style.container, { backgroundColor: colors.background }]}>
-          {mediaListEntry ? (
-            <>
-              <View style={style.row}>
-                <Text style={style.label}>Status</Text>
-                <Picker
-                  mode="dropdown"
-                  style={[style.picker, elementStyle]}
-                  selectedValue={status}
-                  onValueChange={status => setStatus(status)}
-                >
-                  <Picker.Item label="Reading" value="Reading" />
-                  <Picker.Item label="Plan To Read" value="Plan To Read" />
-                  <Picker.Item label="Completed" value="Completed" />
-                  <Picker.Item label="Rereading" value="Rereading" />
-                  <Picker.Item label="Paused" value="Paused" />
-                  <Picker.Item label="Dropped" value="Dropped" />
-                </Picker>
-              </View>
+          <View style={style.row}>
+            <Text style={style.label}>Status</Text>
+            <Picker
+              style={[style.picker, extraStyle]}
+              dropdownIconColor={color}
+              mode="dropdown"
+              selectedValue={status}
+              onValueChange={setStatus}
+              itemStyle={{ backgroundColor: colors.background }}
+            >
+              <Picker.Item label="Current" value="CURRENT" />
+              <Picker.Item label="Planning" value="PLANNING" />
+              <Picker.Item label="Completed" value="COMPLETED" />
+              <Picker.Item label="Repeating" value="REPEATING" />
+              <Picker.Item label="Paused" value="PAUSED" />
+              <Picker.Item label="Dropped" value="DROPPED" />
+            </Picker>
+          </View>
+          <View style={style.row}>
+            <Text style={style.label}>Score</Text>
+            <TextInput
+              onChangeText={val => score.current = parseInt(val)}
+              defaultValue={`${score.current}`}
+              keyboardType="numeric"
+              style={[style.input, extraStyle]}
+              placeholder="Score"
+              placeholderTextColor="#A1A1A1"
+            />
+          </View>
 
-              <View style={style.row}>
-                <Text style={style.label}>Score</Text>
-                <TextInput
-                  defaultValue={`${mediaListEntry.score}`}
-                  keyboardType="numeric"
-                  style={[style.input, elementStyle]}
-                  placeholder="Score"
-                  placeholderTextColor="#A1A1A1"
-                />
-              </View>
-
-              <Button onPress={() => setIsVisible(visible => !visible)}>Close</Button>
-            </>
-          ) : (
-            <Loading />
-          )}
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <Button onPress={toggleVisible}>Close</Button>
+            <Button onPress={saveMediaListEntry}>Save</Button>
+          </View>
         </View>
       </View>
     </Modal>
@@ -85,7 +92,9 @@ const style = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     width: "90%",
-    minHeight: 100
+  },
+  label: {
+    flex: 1,
   },
   row: {
     flexDirection: "row",
@@ -105,9 +114,6 @@ const style = StyleSheet.create({
     paddingHorizontal: 10,
     marginLeft: 10,
     borderRadius: 6,
-  },
-  label: {
-    flex: 1,
   },
 });
 

@@ -78,3 +78,9 @@ export interface ResponseMediaListEntry {
     }
   }
 }
+
+export interface ResponseMediaListEntryMutation {
+  data: {
+    SaveMediaListEntry: MediaListObject
+  }
+}

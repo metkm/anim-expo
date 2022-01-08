@@ -36,5 +36,10 @@ export const BrowseMangaQuery = `
       timeUntilAiring
       episode
     }
+    mediaListEntry {
+      id
+      score
+      status
+    }
   }
 `

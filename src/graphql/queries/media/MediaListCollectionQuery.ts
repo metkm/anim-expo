@@ -17,6 +17,11 @@ export const MediaListCollectionQuery = `query MediaListCollection($userId: Int,
             timeUntilAiring
             episode
           }
+          mediaListEntry {
+            id
+            status
+            score
+          }
         }
       }
       name

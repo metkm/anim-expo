@@ -29,6 +29,7 @@ interface RenderItemProps {
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 const renderItem = ({ item }: RenderItemProps) => <MediaCard item={item.media} progress={item.progress} />;
+
 const LibraryPage = ({ libraryReader }: LibraryPage) => {
   const [listCollection] = useState(() => libraryReader());
   const [entries, setEntries] = useState(listCollection.lists[0].entries);

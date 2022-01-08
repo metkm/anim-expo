@@ -18,10 +18,11 @@ interface MediaCardProps extends ViewProps {
 
 const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
   const navigation = useNavigation<MediaNavigationProps>();
+  const [media, setMedia] = useState(item);
   const [isVisible, setIsVisible] = useState(false);
 
   const toMedia = () => {
-    navigation.push("Media", { mediaId: item.id });
+    navigation.push("Media", { mediaId: media.id });
   };
 
   const longPressHandler = () => {
@@ -31,28 +32,28 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
   return (
     <Pressable onPress={toMedia} onLongPress={longPressHandler} style={[style.container, { ...(rest.style as {}) }]}>
       <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
-        <Image style={style.cover} source={{ uri: item.coverImage.extraLarge }} />
+        <Image style={style.cover} source={{ uri: media.coverImage.extraLarge }} />
 
-        {item.type && <Text style={[style.topInfo, style.type]}>
-          {capitalizeFirstLetter(item.type)}
+        {media.type && <Text style={[style.topInfo, style.type]}>
+          {capitalizeFirstLetter(media.type)}
         </Text>}
 
         <Text style={[style.topInfo, style.episodes]}>
           {progress! > 0 && `${progress}/`}
-          {item.episodes || "?"}
+          {media.episodes || "?"}
         </Text>
 
         <View style={style.textContainer}>
-          <Text style={style.title}>{item.title.userPreferred}</Text>
+          <Text style={style.title}>{media.title.userPreferred}</Text>
           <Text style={style.untilAir} numberOfLines={1}>
-            {item.nextAiringEpisode?.timeUntilAiring
-              ? `EP ${item.nextAiringEpisode.episode}: ${timeUntil(item.nextAiringEpisode?.timeUntilAiring)}`
-              : capitalizeFirstLetter(item.status)}
+            {media.nextAiringEpisode?.timeUntilAiring
+              ? `EP ${media.nextAiringEpisode.episode}: ${timeUntil(media.nextAiringEpisode?.timeUntilAiring)}`
+              : capitalizeFirstLetter(media.status)}
           </Text>
         </View>
       </LinearGradient>
 
-      <MediaEdit isVisible={isVisible} setIsVisible={setIsVisible} mediaId={item.id} />
+      <MediaEdit media={item} setMedia={setMedia} isVisible={isVisible} setIsVisible={setIsVisible} />
     </Pressable>
   );
 };
