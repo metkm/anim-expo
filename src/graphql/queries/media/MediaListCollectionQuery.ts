@@ -21,6 +21,7 @@ export const MediaListCollectionQuery = `query MediaListCollection($userId: Int,
             id
             status
             score
+            progress
           }
         }
       }

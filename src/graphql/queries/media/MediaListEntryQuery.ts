@@ -3,6 +3,7 @@ export const MediaListEntryQuery = `query Media($id: Int) {
     mediaListEntry {
       status
       score
+      progress
     }
   }
 }`;

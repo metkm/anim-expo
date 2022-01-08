@@ -1,12 +1,14 @@
 export const SaveMediaListEntry = `mutation(
   $mediaId: Int,
   $score: Float,
-  $status: MediaListStatus
+  $status: MediaListStatus,
+  $progress: Int
 ) {
   SaveMediaListEntry(
     mediaId: $mediaId,
     score: $score,
-    status: $status
+    status: $status,
+    progress: $progress
   ) {
     id
     media {

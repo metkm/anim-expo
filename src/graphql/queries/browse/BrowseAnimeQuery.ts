@@ -40,6 +40,7 @@ export const BrowseAnimeQuery = `
       id
       score
       status
+      progress
     }
   }
 `

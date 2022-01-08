@@ -40,6 +40,7 @@ export const BrowseMangaQuery = `
       id
       score
       status
+      progress
     }
   }
 `

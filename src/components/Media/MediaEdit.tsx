@@ -19,6 +19,7 @@ interface MediaEditProps {
 const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps) => {
   const [status, setStatus] = useState(media.mediaListEntry?.status ? media.mediaListEntry.status : "Status");
   const score = useRef(media.mediaListEntry?.score || 0);
+  const progress = useRef(media.mediaListEntry?.progress || 0);
   const { colors, color } = useColors();
 
   const extraStyle: ViewStyle | TextStyle = {
@@ -31,11 +32,15 @@ const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps)
   };
 
   const saveMediaListEntry = async () => {
-    await mutateMediaListEntry({
+    const newMedia = await mutateMediaListEntry({
       mediaId: media.id,
       score: score.current,
+      progress: progress.current,
       status,
-    })
+    });
+
+    setMedia(newMedia);
+    toggleVisible();
   }
 
   return (
@@ -65,6 +70,17 @@ const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps)
             <TextInput
               onChangeText={val => score.current = parseInt(val)}
               defaultValue={`${score.current}`}
+              keyboardType="numeric"
+              style={[style.input, extraStyle]}
+              placeholder="Score"
+              placeholderTextColor="#A1A1A1"
+            />
+          </View>
+          <View style={style.row}>
+            <Text style={style.label}>Progress</Text>
+            <TextInput
+              onChangeText={val => progress.current = parseInt(val)}
+              defaultValue={`${progress.current}`}
               keyboardType="numeric"
               style={[style.input, extraStyle]}
               placeholder="Score"
