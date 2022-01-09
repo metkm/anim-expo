@@ -14,12 +14,13 @@ interface MediaCardProps extends ViewProps {
   item: MediaObject;
   progress?: number;
   showType?: boolean;
+  editCallback?: (media: MediaObject, oldMedia: MediaObject) => void;
 }
 
-const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
+const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) => {
   const navigation = useNavigation<MediaNavigationProps>();
-  const [media, setMedia] = useState(item);
   const [isVisible, setIsVisible] = useState(false);
+  const [media] = useState(item);
 
   const toMedia = () => {
     navigation.push("Media", { mediaId: media.id });
@@ -51,7 +52,7 @@ const MediaCard = ({ item, progress, ...rest }: MediaCardProps) => {
         </View>
       </LinearGradient>
 
-      <MediaEdit media={item} setMedia={setMedia} isVisible={isVisible} setIsVisible={setIsVisible} />
+      <MediaEdit editCallback={editCallback} media={item} isVisible={isVisible} setIsVisible={setIsVisible} />
     </Pressable>
   );
 };

@@ -33,7 +33,6 @@ export const SaveMediaListEntry = `mutation(
       }
     }
   }
-  }
 }`;
 
 export default SaveMediaListEntry;

@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useState, useCallback, useEffect } from "react";
+import React, { Suspense, useState, useEffect } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
 import { MediaListCollectionObject, MediaListObject } from "../../types";
 import { timingConfig } from "../../constants/reanimated";
@@ -21,54 +21,50 @@ import { usePromise } from "../../hooks/usePromise";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
-}
-
-interface RenderItemProps {
-  item: MediaListObject;
+  refresh: () => void;
 }
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
-const renderItem = ({ item }: RenderItemProps) => <MediaCard item={item.media} progress={item.progress} />;
 
-const LibraryPage = ({ libraryReader }: LibraryPage) => {
-  const [listCollection] = useState(() => libraryReader());
+const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
+  const listCollection = libraryReader();
   const [entries, setEntries] = useState(listCollection.lists[0].entries);
-  const categories = useMemo(() => listCollection.lists.map(list => list.name), [listCollection]);
+  const categories = listCollection.lists.map(list => list.name);
   const opacity = useSharedValue(1);
 
-  useEffect(() => {
-    opacity.value = withTiming(1, timingConfig);
-  }, [entries])
-
-  const categoryCallback = useCallback((category: string) => {
-    const list = listCollection.lists.find(list => list.name == category);
+  const categoryCallback = (newCategory: string) => {
+    const list = listCollection.lists.find(list => list.name == newCategory);
     if (!list) return;
 
     opacity.value = withTiming(0, timingConfig, () => {
       runOnJS(setEntries)(list.entries);
     })
-  }, []);
+  }
 
+  useEffect(() => {
+    opacity.value = withTiming(1, timingConfig);
+  }, [entries])
+  
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,
     };
   });
-
+  
   return (
     <View style={style.container}>
       <MediaCategories categories={categories} callback={categoryCallback} />
       <AnimatedFlatList
         data={entries}
-        renderItem={renderItem}
+        renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
         keyExtractor={item => item.media.id.toString()}
         numColumns={2}
-        showsVerticalScrollIndicator={false}
         initialNumToRender={6}
+        showsVerticalScrollIndicator={false}
         style={[animatedStyle, { paddingHorizontal: 6 }]}
       />
     </View>
-  );
+  )
 };
 
 const LibraryPageSuspense = ({
@@ -76,11 +72,15 @@ const LibraryPageSuspense = ({
     params: { userId, type },
   },
 }: BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">) => {
-  const [libraryReader] = usePromise(getEntries, userId, type);
+  const [libraryReader, libraryUpdater] = usePromise(getEntries, userId, type);
+
+  const refresh = () => {
+    libraryUpdater(userId, type);
+  }
 
   return (
     <Suspense fallback={<Loading />}>
-      <LibraryPage libraryReader={libraryReader} />
+      <LibraryPage libraryReader={libraryReader} refresh={refresh} />
     </Suspense>
   );
 };

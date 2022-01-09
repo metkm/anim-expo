@@ -13,10 +13,10 @@ interface MediaEditProps {
   media: MediaObject;
   isVisible: boolean;
   setIsVisible: Dispatch<SetStateAction<boolean>>;
-  setMedia: Dispatch<SetStateAction<MediaObject>>;
+  editCallback?: (media: MediaObject, oldMedia: MediaObject) => void;
 }
 
-const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps) => {
+const MediaEdit = ({ media, isVisible, setIsVisible, editCallback }: MediaEditProps) => {
   const [status, setStatus] = useState(media.mediaListEntry?.status ? media.mediaListEntry.status : "Status");
   const score = useRef(media.mediaListEntry?.score || 0);
   const progress = useRef(media.mediaListEntry?.progress || 0);
@@ -39,7 +39,9 @@ const MediaEdit = ({ media, setMedia, isVisible, setIsVisible }: MediaEditProps)
       status,
     });
 
-    setMedia(newMedia);
+    if (editCallback) {
+      editCallback(newMedia, media);
+    }
     toggleVisible();
   }
 

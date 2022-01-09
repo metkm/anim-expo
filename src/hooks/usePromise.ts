@@ -19,7 +19,7 @@ export const usePromise = <T>(func: Func<T>, ...params: any[]): [() => T, (...pa
   const [reader, setReader] = useState(() => wrapPromise(func, ...params));
 
   const updater = useCallback(
-    (...newParams: []) => {
+    (...newParams: any[]) => {
       setReader(() => wrapPromise(func, ...newParams));
     },
     [func]
