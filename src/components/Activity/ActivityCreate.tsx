@@ -50,7 +50,7 @@ const ActivityCreate = () => {
       bottom: interpolate(
         isOpen.value,
         [0, 1],
-        [-(height / 2) + 70, 0]
+        [-(height / 2) + 54, 0]
       )
     };
   });
