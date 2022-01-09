@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from "react";
+import React, { Suspense, useState, useEffect, useRef } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
 import { MediaListCollectionObject, MediaListObject } from "../../types";
 import { timingConfig } from "../../constants/reanimated";
@@ -30,12 +30,14 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
   const listCollection = libraryReader();
   const [entries, setEntries] = useState(listCollection.lists[0].entries);
   const categories = listCollection.lists.map(list => list.name);
+  const category = useRef(categories[0]);
   const opacity = useSharedValue(1);
 
   const categoryCallback = (newCategory: string) => {
     const list = listCollection.lists.find(list => list.name == newCategory);
     if (!list) return;
 
+    category.current = newCategory;
     opacity.value = withTiming(0, timingConfig, () => {
       runOnJS(setEntries)(list.entries);
     })
@@ -44,6 +46,11 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
   useEffect(() => {
     opacity.value = withTiming(1, timingConfig);
   }, [entries])
+
+  useEffect(() => {
+    let categoryIndex = listCollection.lists.findIndex(list => list.name == category.current);
+    setEntries(listCollection.lists[categoryIndex || 0].entries);
+  }, [listCollection])
   
   const animatedStyle = useAnimatedStyle(() => {
     return {
