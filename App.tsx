@@ -60,7 +60,7 @@ const Home = () => {
             User: "account",
             Library: "book",
             Discover: "compass",
-            Login: "login"
+            Login: "login",
           };
 
           return <Icon name={icons[route.name]} size={size} color={color} />;
@@ -92,25 +92,25 @@ const App = () => {
 
   const animatedViewStyle = useAnimatedStyle(() => {
     return {
-      height: screenHeight.value,
-      backgroundColor: "black"
-    }
-  })
+      height: withTiming(screenHeight.value, timingConfig),
+      backgroundColor: "black",
+    };
+  });
 
   useEffect(() => {
     const didShowListener = Keyboard.addListener("keyboardDidShow", event => {
-      screenHeight.value = withTiming(event.endCoordinates.screenY, timingConfig);
+      screenHeight.value = event.endCoordinates.screenY;
     });
 
     const didHideListener = Keyboard.addListener("keyboardDidHide", event => {
-      screenHeight.value = withTiming(event.endCoordinates.screenY, timingConfig);
-    })
+      screenHeight.value = event.endCoordinates.screenY;
+    });
 
     return () => {
       didShowListener.remove();
       didHideListener.remove();
-    }
-  }, [])
+    };
+  }, []);
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -121,7 +121,7 @@ const App = () => {
       <PersistGate persistor={persistor}>
         <Animated.View style={animatedViewStyle}>
           <NavigationContainer theme={isDark ? animDark : animLight}>
-            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }} >
+            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
               <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
               <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
               <Stack.Screen name="Settings" component={Settings} />
