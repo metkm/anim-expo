@@ -25,7 +25,14 @@ export const SaveMediaListEntry = `mutation(
         timeUntilAiring
         episode
       }
+      mediaListEntry {
+        id
+        status
+        score
+        progress
+      }
     }
+  }
   }
 }`;
 
