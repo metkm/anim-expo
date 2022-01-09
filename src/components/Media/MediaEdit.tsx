@@ -91,7 +91,7 @@ const MediaEdit = ({ media, isVisible, setIsVisible, editCallback }: MediaEditPr
           </View>
 
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-            <Button onPress={toggleVisible}>Close</Button>
+            <Button onPress={toggleVisible} style={{ backgroundColor: colors.notification }}>Close</Button>
             <Button onPress={saveMediaListEntry}>Save</Button>
           </View>
         </View>
@@ -117,17 +117,17 @@ const style = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 6,
+    marginBottom: 6,
   },
   input: {
-    flex: 4,
+    flex: 1,
     borderRadius: 6,
     marginLeft: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
   },
   picker: {
-    flex: 4,
+    flex: 1,
     paddingVertical: 5,
     paddingHorizontal: 10,
     marginLeft: 10,

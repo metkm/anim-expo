@@ -22,7 +22,6 @@ const ActivityCreate = () => {
   const { colors, color } = useColors();
   const isOpen = useSharedValue(0);
   const activityText = useRef("");
-  console.log(-(height / 2));
 
   const activityCreate = async () => {
     if (!activityText.current || activityText.current.length <= 5) return;
