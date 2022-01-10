@@ -2,12 +2,7 @@ import React, { Suspense, useState, useEffect, useRef } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
 import { MediaListCollectionObject, MediaListObject } from "../../types";
 import { timingConfig } from "../../constants/reanimated";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-  runOnJS,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, withDecay, withDelay } from "react-native-reanimated";
 
 import { LibraryPageParamList } from "../pageProps";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
@@ -40,39 +35,43 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
     category.current = newCategory;
     opacity.value = withTiming(0, timingConfig, () => {
       runOnJS(setEntries)(list.entries);
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    opacity.value = withTiming(1, timingConfig);
-  }, [entries])
+    opacity.value = withDelay(100, withTiming(1, timingConfig));
+  }, [entries]);
 
   useEffect(() => {
     let categoryIndex = listCollection.lists.findIndex(list => list.name == category.current);
     setEntries(listCollection.lists[categoryIndex || 0].entries);
-  }, [listCollection])
-  
+  }, [listCollection]);
+
   const animatedStyle = useAnimatedStyle(() => {
     return {
+      paddingHorizontal: 6,
       opacity: opacity.value,
     };
   });
-  
+
   return (
     <View style={style.container}>
       <MediaCategories categories={categories.current} callback={categoryCallback} />
       <AnimatedFlatList
         data={entries}
-        // renderItem={({ item }) => <Text>{item.media.title.userPreferred}</Text>}
         renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
         keyExtractor={item => item.media.id.toString()}
+        getItemLayout={(_, index) => ({
+          index,
+          length: 250,
+          offset: index * 250,
+        })}
         numColumns={2}
-        initialNumToRender={6}
         showsVerticalScrollIndicator={false}
-        style={[animatedStyle, { paddingHorizontal: 6 }]}
+        style={animatedStyle}
       />
     </View>
-  )
+  );
 };
 
 const LibraryPageSuspense = ({
@@ -84,7 +83,7 @@ const LibraryPageSuspense = ({
 
   const refresh = () => {
     libraryUpdater(userId, type);
-  }
+  };
 
   return (
     <Suspense fallback={<Loading />}>
