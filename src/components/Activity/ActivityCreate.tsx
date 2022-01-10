@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRef } from "react";
-import { StyleSheet, TextInput, View, useWindowDimensions } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
@@ -14,14 +14,16 @@ import { useColors } from "../../hooks/useColors";
 
 import Button from "../Base/Button";
 import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 const ActivityCreate = () => {
   const bottomHeight = useBottomTabBarHeight();
   const { colors, color } = useColors();
-  const { height } = useWindowDimensions();
-  const top = useSharedValue(height - bottomHeight + 10);
+  const { height } = useSafeAreaFrame();
+  const top = useSharedValue(height - bottomHeight - 26);
   const text = useRef("");
 
+  console.log(bottomHeight);
   const createActivity = async () => {
     if (text.current.length < 5) return;
 
@@ -46,7 +48,7 @@ const ActivityCreate = () => {
     },
     onEnd: () => {
       if (top.value > height / 3 + 300) {
-        top.value = height - bottomHeight + 10;
+        top.value = height - bottomHeight - 26;
       } else {
         top.value = height / 3;
       }

@@ -4,7 +4,7 @@ import "react-native-reanimated";
 import React, { useEffect } from "react";
 import axios from "axios";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { useColorScheme, StatusBar, Keyboard, Dimensions } from "react-native";
+import { useColorScheme, StatusBar, Keyboard, Dimensions, useWindowDimensions } from "react-native";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -29,6 +29,7 @@ import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 import Character from "./src/pages/Character";
 import Login from "./src/pages/Login";
+import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -82,7 +83,7 @@ const Home = () => {
 };
 
 const App = () => {
-  const screenHeight = useSharedValue(Dimensions.get("screen").height);
+  const screenHeight = useSharedValue(initialWindowMetrics!.frame.height);
 
   const isDark = useColorScheme() == "dark";
   let [fontsLoaded] = useFonts({
@@ -117,31 +118,33 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <Animated.View style={animatedViewStyle}>
-          <NavigationContainer theme={isDark ? animDark : animLight}>
-            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
-              <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-              <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
-              <Stack.Screen name="Settings" component={Settings} />
-              <Stack.Screen
-                name="Character"
-                component={Character}
-                options={{ headerTransparent: true, headerTitle: "" }}
-              />
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Animated.View style={animatedViewStyle}>
+            <NavigationContainer theme={isDark ? animDark : animLight}>
+              <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
+                <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+                <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
+                <Stack.Screen name="Settings" component={Settings} />
+                <Stack.Screen
+                  name="Character"
+                  component={Character}
+                  options={{ headerTransparent: true, headerTitle: "" }}
+                />
 
-              <Stack.Screen
-                name="User"
-                component={User}
-                options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </Animated.View>
-      </PersistGate>
-      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
-    </Provider>
+                <Stack.Screen
+                  name="User"
+                  component={User}
+                  options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </Animated.View>
+        </PersistGate>
+        <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 
