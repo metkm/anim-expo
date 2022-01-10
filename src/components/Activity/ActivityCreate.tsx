@@ -23,7 +23,6 @@ const ActivityCreate = () => {
   const top = useSharedValue(height - bottomHeight - 26);
   const text = useRef("");
 
-  console.log(bottomHeight);
   const createActivity = async () => {
     if (text.current.length < 5) return;
 
