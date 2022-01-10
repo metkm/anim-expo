@@ -18,10 +18,10 @@ const loginButton = () => {
   useEffect(() => {
     const getAccessToken = async ({ url }: { url: string }) => {
 
-      let match = /=(?<token>.*?)&/.exec(url);
-      if (!match || !match.groups) return;
+      let match = /=(.*?)&/.exec(url);
+      if (!match) return;
 
-      await dispatch(setAccessToken(match.groups.token));
+      await dispatch(setAccessToken(match[1]));
       await dispatch(asyncLogin());
     };
 
