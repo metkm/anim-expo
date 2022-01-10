@@ -56,7 +56,6 @@ const ActivityCreate = () => {
   return (
     <PanGestureHandler onGestureEvent={gestureHandler}>
       <Animated.View style={[style.container, animatedStyle]}>
-      {console.log("render")}
         <View style={[style.line, { backgroundColor: color }]} />
 
         <TextInput
