@@ -27,10 +27,10 @@ interface LibraryPage {
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 
 const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
-  const listCollection = libraryReader();
+  const [listCollection] = useState(() => libraryReader());
   const [entries, setEntries] = useState(listCollection.lists[0].entries);
-  const categories = listCollection.lists.map(list => list.name);
-  const category = useRef(categories[0]);
+  const categories = useRef(listCollection.lists.map(list => list.name));
+  const category = useRef(categories.current[0]);
   const opacity = useSharedValue(1);
 
   const categoryCallback = (newCategory: string) => {
@@ -60,9 +60,10 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
   
   return (
     <View style={style.container}>
-      <MediaCategories categories={categories} callback={categoryCallback} />
+      <MediaCategories categories={categories.current} callback={categoryCallback} />
       <AnimatedFlatList
         data={entries}
+        // renderItem={({ item }) => <Text>{item.media.title.userPreferred}</Text>}
         renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
         keyExtractor={item => item.media.id.toString()}
         numColumns={2}
