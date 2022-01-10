@@ -88,6 +88,7 @@ const MediaCategories = ({ categories, callback }: MediaCategoriesProps) => {
 const style = StyleSheet.create({
   container: {
     height: 52,
+    maxHeight: 52,
     position: "relative",
   },
   category: {
