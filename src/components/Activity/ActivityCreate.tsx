@@ -1,105 +1,104 @@
 import axios from "axios";
 import { useRef } from "react";
-import { TouchableOpacity, StyleSheet, TextInput, useWindowDimensions } from "react-native";
+import { StyleSheet, TextInput, View, useWindowDimensions } from "react-native";
 import Animated, {
-  interpolate,
+  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
-  withTiming,
+  withSpring,
 } from "react-native-reanimated";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
-import { timingConfig } from "../../constants/reanimated";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useColors } from "../../hooks/useColors";
 
 import Button from "../Base/Button";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
 
-const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
-
 const ActivityCreate = () => {
-  const { height } = useWindowDimensions();
+  const bottomHeight = useBottomTabBarHeight();
   const { colors, color } = useColors();
-  const isOpen = useSharedValue(0);
-  const activityText = useRef("");
+  const { height } = useWindowDimensions();
+  const top = useSharedValue(height - bottomHeight + 10);
+  const text = useRef("");
 
-  const activityCreate = async () => {
-    if (!activityText.current || activityText.current.length <= 5) return;
+  const createActivity = async () => {
+    if (text.current.length < 5) return;
 
     await axios.post("/", {
       query: SaveTextActivity,
       variables: {
-        text: activityText.current,
-      },
-    });
+        text: text.current
+      }
+    })
 
-    isOpen.value = withTiming(0, timingConfig);
+    top.value = height - bottomHeight + 10;
   }
 
-  const textChangeHandler = (text: string) => {
-    activityText.current = text;
-  };
+  const animatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: colors.background,
+    top: withSpring(top.value),
+  }));
 
-  const openHandler = () => {
-    isOpen.value = withTiming(isOpen.value == 0 ? 1 : 0, timingConfig);
-  }
-
-  const activityContainerStyle = useAnimatedStyle(() => {
-    return {
-      bottom: interpolate(
-        isOpen.value,
-        [0, 1],
-        [-(height / 2) + 54, 0]
-      )
-    };
+  const gestureHandler = useAnimatedGestureHandler({
+    onActive: ({ absoluteY }) => {
+      top.value = absoluteY;
+    },
+    onEnd: () => {
+      if (top.value > height / 3 + 300) {
+        top.value = height - bottomHeight + 10;
+      } else {
+        top.value = height / 3;
+      }
+    },
   });
 
   return (
-    <Animated.View style={[style.container, activityContainerStyle]}>
-      <AnimatedTouchableOpacity style={[style.icon, { backgroundColor: color }]} onPress={openHandler}>
-        <Icon name="circle-edit-outline" size={26} color="white" />
-      </AnimatedTouchableOpacity>
+    <PanGestureHandler onGestureEvent={gestureHandler}>
+      <Animated.View style={[style.container, animatedStyle]}>
+      {console.log("render")}
+        <View style={[style.line, { backgroundColor: color }]} />
 
-      <Animated.View style={[style.activityContainer, { backgroundColor: colors.background }]}>
         <TextInput
-          onChangeText={textChangeHandler}
-          placeholder="Write a status..."
+          style={[style.input, { backgroundColor: colors.card, color: colors.text }]}
+          onChangeText={newText => text.current = newText}
+          placeholder="Write a status.."
           placeholderTextColor="#A1A1A1"
-          style={{ color: colors.text, flex: 1 }}
           textAlignVertical="top"
           multiline
         />
 
-        <Button onPress={activityCreate}>Create Activity</Button>
+        <Button style={{ width: "100%" }} onPress={createActivity}>Post!</Button>
       </Animated.View>
-    </Animated.View>
+    </PanGestureHandler>
   );
 };
 
 const style = StyleSheet.create({
   container: {
-    alignItems: "flex-end",
     position: "absolute",
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "transparent",
-    height: "50%"
-  },
-  icon: {
-    borderRadius: 1000,
-    padding: 10,
-    bottom: 10,
-    right: 10,
-  },
-  activityContainer: {
-    width: "100%",
     padding: 10,
     elevation: 10,
-    flex: 1,
-    borderTopStartRadius: 20,
-    borderTopEndRadius: 20,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    alignItems: "center",
+    overflow: "hidden"
   },
+  input: {
+    flex: 1,
+    padding: 10,
+    marginVertical: 10,
+    borderRadius: 10,
+    width: "100%",
+  },
+  line: {
+    width: "50%",
+    height: 6,
+    borderRadius: 1000,
+  }
 });
 
 export default ActivityCreate;
