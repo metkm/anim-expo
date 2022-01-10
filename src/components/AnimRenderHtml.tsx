@@ -32,17 +32,17 @@ export const customHTMLElementModels = {
   }),
 };
 
-const ytRegex = /(?<link>.+?v=(?<id>.+))/;
+const ytRegex = /.+?v=(.+)/;
 export const divRenderer: CustomBlockRenderer = ({ tnode }) => {
   if (!tnode.id) return <></>;
 
   var match = ytRegex.exec(tnode.id);
-  if (!match) return <></>;
+  if (!match) return <></>
 
   return (
-    <Pressable onPress={() => Linking.openURL(match!.groups!.link)}>
+    <Pressable onPress={() => Linking.openURL(match![0])}>
       <Image
-        source={{ uri: `https://img.youtube.com/vi/${match.groups?.id}/0.jpg` }}
+        source={{ uri: `https://img.youtube.com/vi/${match[1]}/0.jpg` }}
         style={{ height: 100, width: "100%", borderRadius: 4 }}
       />
     </Pressable>
