@@ -8,13 +8,14 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useColors } from "../../hooks/useColors";
+import { springConfig } from "../../constants/reanimated";
 
 import Button from "../Base/Button";
 import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 const ActivityCreate = () => {
   const bottomHeight = useBottomTabBarHeight();
@@ -38,7 +39,7 @@ const ActivityCreate = () => {
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
-    top: withSpring(top.value),
+    top: withSpring(top.value, springConfig),
   }));
 
   const gestureHandler = useAnimatedGestureHandler({

@@ -1,10 +1,12 @@
 import React, { memo } from "react";
 import { View, StyleSheet } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { useColors } from "../../hooks/useColors";
 
 import AnimRenderHtml from "../AnimRenderHtml";
 import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
+import ActivityBase from "./ActivityBase";
+
 import { TextActivityObject } from "../../types";
 
 interface TextActivityProps {
@@ -12,14 +14,16 @@ interface TextActivityProps {
 }
 
 const TextActivity = ({ activity }: TextActivityProps) => {
-  const { colors } = useTheme();
+  const { colors } = useColors();
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
-      <ActivityUser activity={activity} />
-      <AnimRenderHtml source={{ html: activity.text }} />
-      <ActivityStats activity={activity} />
-    </View>
+    <ActivityBase>
+      <View style={[style.container, { backgroundColor: colors.card }]}>
+        <ActivityUser activity={activity} />
+        <AnimRenderHtml source={{ html: activity.text }} />
+        <ActivityStats activity={activity} />
+      </View>
+    </ActivityBase>
   );
 };
 
