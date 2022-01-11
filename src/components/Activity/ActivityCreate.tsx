@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Animated, {
   runOnJS,
@@ -103,4 +103,4 @@ const style = StyleSheet.create({
   }
 });
 
-export default ActivityCreate;
+export default memo(ActivityCreate);
