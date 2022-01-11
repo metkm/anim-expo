@@ -5,7 +5,6 @@ import { useColors } from "../../hooks/useColors";
 import AnimRenderHtml from "../AnimRenderHtml";
 import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
-import ActivityBase from "./ActivityBase";
 
 import { TextActivityObject } from "../../types";
 
@@ -17,13 +16,11 @@ const TextActivity = ({ activity }: TextActivityProps) => {
   const { colors } = useColors();
 
   return (
-    <ActivityBase>
-      <View style={[style.container, { backgroundColor: colors.card }]}>
-        <ActivityUser activity={activity} />
-        <AnimRenderHtml source={{ html: activity.text }} />
-        <ActivityStats activity={activity} />
-      </View>
-    </ActivityBase>
+    <View style={[style.container, { backgroundColor: colors.card }]}>
+      <ActivityUser activity={activity} />
+      <AnimRenderHtml source={{ html: activity.text }} />
+      <ActivityStats activity={activity} />
+    </View>
   );
 };
 

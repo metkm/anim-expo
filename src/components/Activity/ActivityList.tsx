@@ -10,7 +10,6 @@ import { useColors } from "../../hooks/useColors";
 
 import Text from "../Base/Text";
 import ActivityStats from "./ActivityStats";
-import ActivityBase from "./ActivityBase";
 
 interface ListActivityProps {
   activity: ListActivityObject;
@@ -27,19 +26,17 @@ const ListActivity = ({ activity }: ListActivityProps) => {
   }
 
   return (
-    <ActivityBase>
-      <Pressable style={[style.container, { backgroundColor: colors.card }]} onPress={toMedia}>
-        <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
-        <View style={style.contentTextContainer}>
-          <Text style={[style.progress, { color }]}>
-            {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
-          </Text>
-          <Text style={style.title}>{activity.media.title.userPreferred}</Text>
-          
-          <ActivityStats activity={activity} />
-        </View>
-      </Pressable>
-    </ActivityBase>
+    <Pressable style={[style.container, { backgroundColor: colors.card }]} onPress={toMedia}>
+      <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
+      <View style={style.contentTextContainer}>
+        <Text style={[style.progress, { color }]}>
+          {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
+        </Text>
+        <Text style={style.title}>{activity.media.title.userPreferred}</Text>
+        
+        <ActivityStats activity={activity} />
+      </View>
+    </Pressable>
   );
 };
 

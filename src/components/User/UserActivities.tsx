@@ -15,6 +15,8 @@ import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityO
 import ActivityList from "../Activity/ActivityList";
 import ActivityText from "../Activity/ActivityText";
 import ActivityMessage from "../Activity/ActivityMessage";
+import ActivityBase from "../Activity/ActivityBase";
+import { delActivity } from "../../api/activity/delActivity";
 
 interface UserActivitiesProps {
   userId: number;
@@ -23,7 +25,7 @@ interface UserActivitiesProps {
   activitiesReader: () => ActivityUnion[];
 }
 
-const renderItem: ListRenderItem<ActivityUnion> = ({ item }) => {
+const renderElement: ListRenderItem<ActivityUnion> = ({ item }) => {
   switch (item.type) {
     case "ANIME_LIST":
       return <ActivityList activity={item as ListActivityObject} />;
@@ -59,6 +61,24 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
     const resp = await getActivities(userId, page.current);
     setActivities(activities => [...activities, ...resp]);
   };
+
+  const renderItem: ListRenderItem<ActivityUnion> = (info) => {
+    const delHandler = async () => {
+      await delActivity(info.item.id);
+
+      var tempArr = [...activities];
+      var mediaIndex = tempArr.findIndex(activity => activity.id == info.item.id);
+      tempArr.splice(mediaIndex, 1);
+
+      setActivities(tempArr);
+    }
+
+    return (
+      <ActivityBase delCallback={delHandler}>
+        {renderElement(info)!}
+      </ActivityBase>
+    )
+  }
 
   return (
     <AnimRenderBase>

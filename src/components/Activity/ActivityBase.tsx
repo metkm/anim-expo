@@ -15,29 +15,25 @@ import { springConfig } from "../../constants/reanimated";
 
 interface ActivityBaseProps extends ViewProps {
   children: JSX.Element;
+  delCallback: () => void;
 }
 
 type AnimatedGHContext = {
   startLeft: number;
 };
 
-const ActivityBase = ({ children }: ActivityBaseProps) => {
+const ActivityBase = ({ children, delCallback }: ActivityBaseProps) => {
   const { width } = useSafeAreaFrame();
   const left = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    left: withSpring(left.value, springConfig)
+    left: withSpring(left.value, springConfig),
   }));
 
   const animatedIconStyle = useAnimatedStyle(() => ({
     width: width / 3,
-    right: withSpring(interpolate(
-      left.value,
-      [0, -(width / 3)],
-      [-(width / 3), 0],
-      Extrapolate.CLAMP
-    ), springConfig)
-  }))
+    right: withSpring(interpolate(left.value, [0, -(width / 3)], [-(width / 3), 0], Extrapolate.CLAMP), springConfig),
+  }));
 
   const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, AnimatedGHContext>({
     onStart: ({ translationX }, context) => {
@@ -62,7 +58,13 @@ const ActivityBase = ({ children }: ActivityBaseProps) => {
       </PanGestureHandler>
 
       <Animated.View style={[style.icons, animatedIconStyle]}>
-        <Icon name="delete" size={60} color="white" style={[style.icon, { backgroundColor: "#e11d48" }]} />
+        <Icon
+          onPress={delCallback}
+          name="delete"
+          size={60}
+          color="white"
+          style={[style.icon, { backgroundColor: "#e11d48" }]}
+        />
       </Animated.View>
     </View>
   );
@@ -74,14 +76,15 @@ const style = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    padding: 4,
+    paddingVertical: 3,
+    paddingHorizontal: 6,
   },
   icon: {
     flex: 1,
     textAlign: "center",
     textAlignVertical: "center",
     borderRadius: 4,
-  }
-})
+  },
+});
 
 export default ActivityBase;
