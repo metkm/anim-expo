@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, Pressable } from "react-native";
 import { capitalizeFirstLetter } from "../commonUtils";
 
 import { MediaNavigationProps } from "../../pages/pageProps";
-import { ListActivityObject } from "../../types";
+import { ListActivityObject } from "../../api/objectTypes";
 
 import { useNavigation } from "@react-navigation/native";
 import { useColors } from "../../hooks/useColors";

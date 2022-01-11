@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { capitalizeFirstLetter } from "../commonUtils";
-import { MediaObject } from "../../types";
+import { MediaObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 import dayjs from "dayjs";
 

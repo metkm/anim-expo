@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Animated, {
@@ -15,7 +14,7 @@ import { useColors } from "../../hooks/useColors";
 import { springConfig } from "../../constants/reanimated";
 
 import Button from "../Base/Button";
-import SaveTextActivity from "../../graphql/mutations/SaveTextActivity";
+import { saveTextActivity } from "../../api/activity/saveTextActivity";
 
 const ActivityCreate = () => {
   const bottomHeight = useBottomTabBarHeight();
@@ -26,14 +25,7 @@ const ActivityCreate = () => {
 
   const createActivity = async () => {
     if (text.current.length < 5) return;
-
-    await axios.post("/", {
-      query: SaveTextActivity,
-      variables: {
-        text: text.current
-      }
-    })
-
+    await saveTextActivity(text.current);
     top.value = height - bottomHeight + 10;
   }
 

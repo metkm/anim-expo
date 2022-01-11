@@ -6,7 +6,7 @@ import AnimRenderHtml from "../AnimRenderHtml";
 import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
 
-import { TextActivityObject } from "../../types";
+import { TextActivityObject } from "../../api/objectTypes";
 
 interface TextActivityProps {
   activity: TextActivityObject;

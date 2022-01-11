@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { getActivities } from "../../api/user/getActivities";
 import { AnimRenderBase } from "../AnimRenderHtml";
-import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../types";
+import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../api/objectTypes";
 
 import ActivityList from "../Activity/ActivityList";
 import ActivityText from "../Activity/ActivityText";
@@ -78,6 +78,7 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
         {renderElement(info)!}
       </ActivityBase>
     )
+    
   }
 
   return (

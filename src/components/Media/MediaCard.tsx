@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import { StyleSheet, View, Image, Text, ViewProps, Pressable } from "react-native";
-import { MediaObject } from "../../types";
+import { MediaObject } from "../../api/objectTypes";
 import { timeUntil } from "./MediaUtils";
 import { capitalizeFirstLetter } from "../commonUtils";
 

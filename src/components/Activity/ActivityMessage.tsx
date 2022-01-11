@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { View, StyleSheet } from "react-native";
 
 import { useColors } from "../../hooks/useColors";
-import { MessageActivityObject } from "../../types";
+import { MessageActivityObject } from "../../api/objectTypes";
 
 import ActivityUser from "./ActivityUser";
 import AnimRenderHtml from "../AnimRenderHtml";

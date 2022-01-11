@@ -1,12 +1,12 @@
 import axios from "axios";
 
-export const query = `mutation($id: Int) {
+export const delActivityQuery = `mutation($id: Int) {
   DeleteActivity(id: $id) {
     deleted
   }
 }`
 
-interface Response {
+interface DelActivityResponse {
   data: {
     DeleteActivity: {
       deleted: boolean
@@ -15,8 +15,8 @@ interface Response {
 }
 
 export const delActivity = async (id: number) => {
-  const resp = await axios.post<Response>("/", {
-    query,
+  const resp = await axios.post<DelActivityResponse>("/", {
+    query: delActivityQuery,
     variables: {
       id
     }

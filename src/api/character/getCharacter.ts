@@ -1,10 +1,28 @@
 import axios from "axios";
-import CharacterQuery from "../../graphql/queries/CharacterQuery";
-import { ResponseCharacter } from "../../types";
+import { CharacterObject } from "../objectTypes";
+
+export const characterQuery = `query Character($id: Int) {
+  Character(id: $id) {
+    name {
+      userPreferred
+      alternative
+    }
+    image {
+      large
+    }
+    description(asHtml: true)
+  }
+}`;
+
+export interface CharacterResponse {
+  data: {
+    Character: CharacterObject;
+  };
+}
 
 export const getCharacter = async (id: number) => {
-  const resp = await axios.post<ResponseCharacter>("/", {
-    query: CharacterQuery,
+  const resp = await axios.post<CharacterResponse>("/", {
+    query: characterQuery,
     variables: {
       id
     }

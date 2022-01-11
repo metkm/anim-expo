@@ -1,8 +1,8 @@
 import React, { Suspense, useState, useEffect, useRef } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
-import { MediaListCollectionObject, MediaListObject } from "../../types";
+import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
 import { timingConfig } from "../../constants/reanimated";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, withDecay, withDelay } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, withDelay } from "react-native-reanimated";
 
 import { LibraryPageParamList } from "../pageProps";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";

@@ -1,7 +1,38 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { UserObject, ResponseViewer } from "../types";
-import ViewerQuery from "../graphql/queries/ViewerQuery";
+import { UserObject } from "../api/objectTypes";
+
+export const viewerQuery = `{
+  Viewer {
+    id
+    name
+    bannerImage
+    options {
+      profileColor
+    }
+    avatar {
+      large
+    }
+    statistics {
+      anime {
+        count
+        minutesWatched
+        meanScore
+      }
+      manga {
+        count
+        chaptersRead
+        meanScore
+      }
+    }
+  }
+}`;
+
+export interface ViewerResponse {
+  data: {
+    Viewer: UserObject;
+  };
+}
 
 export interface UserState {
   user: UserObject | null;
@@ -12,8 +43,8 @@ const initialState: UserState = {
 };
 
 export const asyncLogin = createAsyncThunk("user/login", async () => {
-  const resp = await axios.post<ResponseViewer>("/", {
-    query: ViewerQuery,
+  const resp = await axios.post<ViewerResponse>("/", {
+    query: viewerQuery,
   });
 
   return resp.data.data.Viewer;

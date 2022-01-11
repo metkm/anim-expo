@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
-import { CharacterEdgeObject } from "../../types";
+import { CharacterEdgeObject } from "../../api/objectTypes";
 import CharacterCard from "../Character/CharacterCard";
 
 interface MediaCharactersProps {

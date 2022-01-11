@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
-import { MediaObject } from "../../types";
+import { MediaObject } from "../../api/objectTypes";
 import MediaCard from "./MediaCard";
 
 interface MediaRelationsProps {

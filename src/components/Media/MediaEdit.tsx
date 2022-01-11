@@ -5,7 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import Text from "../Base/Text";
 import Button from "../Base/Button";
 
-import { MediaObject } from "../../types";
+import { MediaObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 import { mutateMediaListEntry } from "../../api/media/mutateMediaListEntry";
 

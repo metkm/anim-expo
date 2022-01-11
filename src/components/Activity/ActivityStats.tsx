@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { ActivityUnion } from "../../types";
+import { ActivityUnion } from "../../api/objectTypes";
 import { timeSince } from "../commonUtils";
 
 // components

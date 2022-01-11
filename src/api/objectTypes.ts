@@ -1,4 +1,4 @@
-export * from "./responses";
+export * from "../types/responses";
 
 export interface AvatarObject {
   large: string,

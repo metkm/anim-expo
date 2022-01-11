@@ -4,7 +4,7 @@ import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimate
 import { getUser } from "../api/user/getUser";
 import { getActivities } from "../api/user/getActivities";
 
-import { ActivityUnion, UserObject } from "../types";
+import { ActivityUnion, UserObject } from "../api/objectTypes";
 import { UserScreenProps } from "./pageProps";
 
 import UserSettingsCog from "../components/User/UserSettingsCog";
@@ -56,6 +56,7 @@ const UserSuspense = ({
   route: {
     params: { userId },
   },
+  
 }: UserScreenProps) => {
   const [userReader] = usePromise(getUser, userId);
   const [activitiesReader] = usePromise(getActivities, userId, 1);

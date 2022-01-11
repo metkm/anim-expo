@@ -14,7 +14,7 @@ import MediaCharacters from "../components/Media/MediaCharacters";
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackParamList } from "./pageProps";
 
-import { MediaObject } from "../types";
+import { MediaObject } from "../api/objectTypes";
 import { getMedia } from "../api/media/getMedia";
 import { usePromise } from "../hooks/usePromise";
 

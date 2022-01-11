@@ -1,7 +1,7 @@
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { MediaType } from "../types";
+import { MediaType } from "../api/objectTypes";
 
 export type LibraryPageParamList = {
   Anime: {

@@ -2,7 +2,7 @@ import React from "react";
 import Text from "../Base/Text";
 import { View, Image, StyleSheet, Pressable } from "react-native";
 import { useColors } from "../../hooks/useColors";
-import { CharacterEdgeObject } from "../../types";
+import { CharacterEdgeObject } from "../../api/objectTypes";
 import { capitalizeFirstLetter } from "../commonUtils";
 
 import { useNavigation } from "@react-navigation/native";

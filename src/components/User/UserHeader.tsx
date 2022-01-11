@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
-import { UserObject } from "../../types";
+import { UserObject } from "../../api/objectTypes";
 
 // components
 import Text from "../Base/Text";
@@ -10,7 +10,9 @@ interface UserHeaderProps {
   user: UserObject
 }
 
-const UserHeader = ({ user }: UserHeaderProps) => {
+const 
+
+UserHeader = ({ user }: UserHeaderProps) => {
   return (
     <View style={style.content}>
       <View style={style.avatarWrapper}>

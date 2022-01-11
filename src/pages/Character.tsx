@@ -7,7 +7,7 @@ import Text from "../components/Base/Text";
 
 import { CharacterScreenProps } from "./pageProps";
 import { getCharacter } from "../api/character/getCharacter";
-import { CharacterObject } from "../types";
+import { CharacterObject } from "../api/objectTypes";
 import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
 

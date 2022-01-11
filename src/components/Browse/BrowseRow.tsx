@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
-import { MediaObject } from "../../types";
+import { MediaObject } from "../../api/objectTypes";
 
 import Text from "../Base/Text";
 import MediaCard from "../Media/MediaCard";

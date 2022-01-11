@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Image, View, Pressable } from "react-native";
 
-import { MessageActivityObject, TextActivityObject, UserObject } from "../../types";
+import { MessageActivityObject, TextActivityObject, UserObject } from "../../api/objectTypes";
 import { useNavigation } from "@react-navigation/native";
 import { timeSince } from "../commonUtils";
 
