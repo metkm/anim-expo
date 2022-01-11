@@ -1,9 +1,22 @@
 import axios from "axios";
 import { TextActivityObject } from "../objectTypes";
 
-export const saveTextActivityQuery = `mutation SaveTextActivity($text: String) {
+export const saveTextActivityQuery = `
+mutation SaveTextActivity($text: String) {
   SaveTextActivity(text: $text) {
     id
+    type
+    text(asHtml: true)
+    replyCount
+    likeCount
+    createdAt
+    user {
+      id
+      name
+      avatar {
+        medium
+      }
+    }
   }
 }`
 
@@ -14,10 +27,12 @@ interface SaveTextActivityResponse {
 }
 
 export const saveTextActivity = async (text: string) => {
-  await axios.post<SaveTextActivityResponse>("/", {
+  const resp = await axios.post<SaveTextActivityResponse>("/", {
     query: saveTextActivityQuery,
     variables: {
       text
     }
-  })
+  });
+
+  return resp.data.data.SaveTextActivity;
 }

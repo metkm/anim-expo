@@ -1,31 +1,27 @@
 import { Suspense, useState } from "react";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
-import { getUser } from "../api/user/getUser";
-import { getActivities } from "../api/user/getActivities";
-
-import { ActivityUnion, UserObject } from "../api/objectTypes";
+import { usePromise } from "../hooks/usePromise";
 import { UserScreenProps } from "./pageProps";
 
+import { getUser } from "../api/user/getUser";
+import { getActivities } from "../api/user/getActivities";
+import { UserObject } from "../api/objectTypes";
+
 import UserSettingsCog from "../components/User/UserSettingsCog";
-import ActivityCreate from "../components/Activity/ActivityCreate";
 import UserActivities from "../components/User/UserActivities";
 import AnimBanner from "../components/AnimBanner";
 import UserHeader from "../components/User/UserHeader";
 import Loading from "../components/AnimLoading";
 
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
-import { usePromise } from "../hooks/usePromise";
-
 interface UserProps {
   userReader: () => UserObject;
-  activitiesReader: () => ActivityUnion[];
+  userId: number;
 }
 
-const User = ({ userReader, activitiesReader }: UserProps) => {
+const User = ({ userReader, userId }: UserProps) => {
+  const [activitiesReader] = usePromise(getActivities, userId, 1);
   const [user] = useState(() => userReader());
-  const storeUser = useSelector((state: RootState) => state.user.user);
   const scrollY = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler({
@@ -46,8 +42,6 @@ const User = ({ userReader, activitiesReader }: UserProps) => {
         scrollHandler={scrollHandler}
         activitiesReader={activitiesReader}
       />
-
-      {storeUser?.id == user.id && <ActivityCreate />}
     </>
   );
 };
@@ -59,11 +53,10 @@ const UserSuspense = ({
   
 }: UserScreenProps) => {
   const [userReader] = usePromise(getUser, userId);
-  const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
-      <User userReader={userReader} activitiesReader={activitiesReader} />
+      <User userReader={userReader} userId={userId} />
     </Suspense>
   );
 };

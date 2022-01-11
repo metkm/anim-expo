@@ -15,8 +15,13 @@ import { springConfig } from "../../constants/reanimated";
 
 import Button from "../Base/Button";
 import { saveTextActivity } from "../../api/activity/saveTextActivity";
+import { TextActivityObject } from "../../api/objectTypes";
 
-const ActivityCreate = () => {
+interface ActivityCreateProps {
+  activityCallback: (activity: TextActivityObject) => void;
+}
+
+const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
   const bottomHeight = useBottomTabBarHeight();
   const { colors, color } = useColors();
   const { height } = useSafeAreaFrame();
@@ -25,8 +30,9 @@ const ActivityCreate = () => {
 
   const createActivity = async () => {
     if (text.current.length < 5) return;
-    await saveTextActivity(text.current);
-    top.value = height - bottomHeight + 10;
+    const activity = await saveTextActivity(text.current);
+    top.value = height - bottomHeight - 26;
+    activityCallback(activity);
   }
 
   const animatedStyle = useAnimatedStyle(() => ({

@@ -9,10 +9,13 @@ const intervals = [
 
 export const timeSince = (date: Date) => {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-  const interval = intervals.find((i) => i.seconds < seconds)!;
+  const interval = intervals.find(interval => seconds >= interval.seconds);
+  if (!interval) return "just now";
+
   const count = Math.floor(seconds / interval.seconds);
-  return `${count} ${interval.label}${count !== 1 ? "s" : ""} ago`;
-};
+  return `${count} ${interval.label}${count === 1 ? '' : 's'} ago`;
+}
+
 
 export const capitalizeFirstLetter = (content: string) => {
   var str = content.charAt(0).toUpperCase() + content.slice(1).toLowerCase();

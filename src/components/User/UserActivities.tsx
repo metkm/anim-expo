@@ -8,15 +8,20 @@ import {
   NativeScrollEvent,
   StyleSheet,
 } from "react-native";
-import { getActivities } from "../../api/user/getActivities";
 import { AnimRenderBase } from "../AnimRenderHtml";
-import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../api/objectTypes";
 
+import ActivityMessage from "../Activity/ActivityMessage";
+import ActivityCreate from "../Activity/ActivityCreate";
 import ActivityList from "../Activity/ActivityList";
 import ActivityText from "../Activity/ActivityText";
-import ActivityMessage from "../Activity/ActivityMessage";
 import ActivityBase from "../Activity/ActivityBase";
+
+import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../api/objectTypes";
+import { getActivities } from "../../api/user/getActivities";
 import { delActivity } from "../../api/activity/delActivity";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface UserActivitiesProps {
   userId: number;
@@ -43,9 +48,14 @@ const renderElement: ListRenderItem<ActivityUnion> = ({ item }) => {
 const AnimatedFlatlist = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
 const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: UserActivitiesProps) => {
+  const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
   const page = useRef(1);
+
+  const addActivity = (activity: ActivityUnion) => {
+    setActivities(activities => [activity, ...activities]);
+  }
 
   const onRefresh = () => {
     setIsRefreshing(true);
@@ -78,7 +88,6 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
         {renderElement(info)!}
       </ActivityBase>
     )
-    
   }
 
   return (
@@ -97,6 +106,8 @@ const UserActivities = ({ userId, header, scrollHandler, activitiesReader }: Use
         overScrollMode="never"
         showsVerticalScrollIndicator={false}
       />
+
+      {storeUser?.id == userId && <ActivityCreate activityCallback={addActivity} />}
     </AnimRenderBase>
   );
 };
