@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -31,8 +32,10 @@ const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
   const createActivity = async () => {
     if (text.current.length < 5) return;
     const activity = await saveTextActivity(text.current);
-    top.value = height - bottomHeight - 26;
-    activityCallback(activity);
+
+    top.value = withSpring(height - bottomHeight - 26, springConfig, () => {
+      runOnJS(activityCallback)(activity);
+    });
   }
 
   const animatedStyle = useAnimatedStyle(() => ({
