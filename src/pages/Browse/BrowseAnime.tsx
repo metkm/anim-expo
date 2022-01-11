@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { useBrowse } from "../../hooks/useBrowse";
 
 import BrowseRow from "../../components/Browse/BrowseRow";

@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList } from "react-native-gesture-handler";
+import { FlatList } from "react-native";
 import { MediaObject } from "../../types";
 import MediaCard from "./MediaCard";
 
