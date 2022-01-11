@@ -6,6 +6,6 @@ export const timingConfig: WithTimingConfig = {
 }
 
 export const springConfig: WithSpringConfig = {
-  damping: 14,
+  damping: 16,
   stiffness: 150
 }
