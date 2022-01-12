@@ -19,7 +19,7 @@ query Page($id: Int, $page: Int) {
             userPreferred
           }
           coverImage {
-            large
+            medium
           }
         }
       }
