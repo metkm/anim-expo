@@ -1,4 +1,5 @@
-import { ImageBackgroundBase, StyleSheet, View, ViewProps } from "react-native";
+import { memo, useCallback } from "react";
+import { StyleSheet, View, ViewProps } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
@@ -14,15 +15,16 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { springConfig } from "../../constants/reanimated";
 
 interface ActivityBaseProps extends ViewProps {
+  index: number;
   children: JSX.Element;
-  delCallback: () => void;
+  delCallback: (index: number) => void;
 }
 
 type AnimatedGHContext = {
   startLeft: number;
 };
 
-const ActivityBase = ({ children, delCallback }: ActivityBaseProps) => {
+const ActivityBase = ({ children, delCallback, index }: ActivityBaseProps) => {
   const { width } = useSafeAreaFrame();
   const left = useSharedValue(0);
 
@@ -51,6 +53,10 @@ const ActivityBase = ({ children, delCallback }: ActivityBaseProps) => {
     },
   });
 
+  const iconPressHandler = useCallback(() => {
+    delCallback(index);
+  }, [])
+
   return (
     <View>
       <PanGestureHandler onGestureEvent={gestureHandler} activeOffsetX={[-20, 20]}>
@@ -59,11 +65,11 @@ const ActivityBase = ({ children, delCallback }: ActivityBaseProps) => {
 
       <Animated.View style={[style.icons, animatedIconStyle]}>
         <Icon
-          onPress={delCallback}
+          onPress={iconPressHandler}
           name="delete"
           size={60}
           color="white"
-          style={[style.icon, { backgroundColor: "#e11d48" }]}
+          style={style.icon}
         />
       </Animated.View>
     </View>
@@ -84,7 +90,8 @@ const style = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
     borderRadius: 4,
+    backgroundColor: "#e11d48"
   },
 });
 
-export default ActivityBase;
+export default memo(ActivityBase);

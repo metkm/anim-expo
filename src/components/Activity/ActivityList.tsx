@@ -27,13 +27,12 @@ const ListActivity = ({ activity }: ListActivityProps) => {
 
   return (
     <Pressable style={[style.container, { backgroundColor: colors.card }]} onPress={toMedia}>
-      <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
+      <Image style={style.cover} source={{ uri: activity.media.coverImage.medium }} />
       <View style={style.contentTextContainer}>
         <Text style={[style.progress, { color }]}>
           {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
         </Text>
         <Text style={style.title}>{activity.media.title.userPreferred}</Text>
-        
         <ActivityStats activity={activity} />
       </View>
     </Pressable>
