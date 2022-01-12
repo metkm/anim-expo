@@ -28,7 +28,6 @@ const style = StyleSheet.create({
   container: {
     minHeight: 120,
     padding: 10,
-    marginVertical: 3,
   },
 });
 

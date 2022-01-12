@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { memo, useState } from "react";
 import Text from "./Base/Text";
 import { Pressable, Image, Linking, useWindowDimensions, ViewProps } from "react-native";
 import RenderHtml, {
@@ -122,7 +122,7 @@ export const AnimRenderHtml = (props: RenderHTMLProps) => {
   );
 };
 
-export const AnimRenderBase = ({ children }: ViewProps) => {
+export const AnimRenderBase = memo(({ children }: ViewProps) => {
   const { colors } = useColors();
 
   return (
@@ -134,6 +134,6 @@ export const AnimRenderBase = ({ children }: ViewProps) => {
       <RenderHTMLConfigProvider renderers={renderers}>{children}</RenderHTMLConfigProvider>
     </TRenderEngineProvider>
   );
-};
+});
 
 export default AnimRenderHtml;

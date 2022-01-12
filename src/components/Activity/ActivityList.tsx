@@ -43,7 +43,6 @@ const style = StyleSheet.create({
   container: {
     flexDirection: "row",
     minHeight: 90,
-    marginVertical: 3
   },
   cover: {
     height: "100%",
