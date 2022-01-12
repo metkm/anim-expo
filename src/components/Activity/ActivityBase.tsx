@@ -29,7 +29,7 @@ const ActivityBase = ({ children, delCallback, index, id }: ActivityBaseProps) =
   }
 
   return (
-    <Swipeable containerStyle={{ marginVertical: 3 }} renderRightActions={renderRightActions}>
+    <Swipeable useNativeAnimations containerStyle={{ marginVertical: 3 }} renderRightActions={renderRightActions}>
       {children}
     </Swipeable>
   );
