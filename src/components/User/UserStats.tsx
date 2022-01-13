@@ -54,7 +54,6 @@ const style = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 8,
-    borderRadius: 4,
     padding: 6
   },
   statsWrapper: {
