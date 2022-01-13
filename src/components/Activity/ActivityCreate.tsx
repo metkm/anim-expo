@@ -1,5 +1,5 @@
 import { memo, useRef } from "react";
-import { StyleSheet, TextInput, useWindowDimensions, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedGestureHandler,
@@ -8,8 +8,9 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
+
 import { useColors } from "../../hooks/useColors";
 import { springConfig } from "../../constants/reanimated";
 
@@ -24,7 +25,7 @@ interface ActivityCreateProps {
 const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
   const bottomHeight = useBottomTabBarHeight();
   const { colors, color } = useColors();
-  const { height } = useWindowDimensions();
+  const { height } = useSafeAreaFrame();
   const top = useSharedValue(height - bottomHeight - 26);
   const text = useRef("");
 
