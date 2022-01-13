@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Text from "../Base/Text";
 import Animated, {
   useAnimatedStyle,
@@ -8,9 +9,9 @@ import Animated, {
   interpolateColor,
 } from "react-native-reanimated";
 import { ScrollView, StyleSheet, Pressable } from "react-native";
+
 import { useColors } from "../../hooks/useColors";
 import { timingConfig } from "../../constants/reanimated";
-import { memo } from "react";
 
 interface MediaCategoriesProps {
   categories: string[];
@@ -63,7 +64,7 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
     positions.value = tmpArray;
 
     callback(category);
-  }
+  };
 
   return (
     <AnimatedPressable style={[style.category, animatedStyle]} onPress={pressHandler}>
@@ -77,7 +78,12 @@ const MediaCategories = ({ categories, callback }: MediaCategoriesProps) => {
   var innerWidth = categories.length * 120 + categories.length * 4;
 
   return (
-    <ScrollView horizontal style={style.container} contentContainerStyle={{ width: innerWidth, height: 52 }}>
+    <ScrollView
+      horizontal
+      style={style.container}
+      contentContainerStyle={{ width: innerWidth, height: 52 }}
+      showsHorizontalScrollIndicator={false}
+    >
       {categories.map((category, index) => (
         <MediaCategory category={category} index={index} positions={positions} key={category} callback={callback} />
       ))}

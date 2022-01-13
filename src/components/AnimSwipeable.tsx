@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { StyleSheet, ViewProps, View } from "react-native";
+import { StyleSheet, ViewProps, View, useWindowDimensions } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 
 import Animated, {
@@ -8,8 +8,6 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
-
 import { springConfig } from "../constants/reanimated";
 
 interface AnimSwipeableProps extends ViewProps {
@@ -22,7 +20,7 @@ type AnimContext = {
 };
 
 const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
-  const { width } = useSafeAreaFrame();
+  const { width } = useWindowDimensions();
   const x = useSharedValue(0);
 
   const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, AnimContext>({

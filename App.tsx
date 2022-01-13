@@ -3,8 +3,7 @@ import "react-native-reanimated";
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { useColorScheme, StatusBar, Keyboard, Dimensions, useWindowDimensions } from "react-native";
+import { useColorScheme, StatusBar } from "react-native";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -22,14 +21,12 @@ import User from "./src/pages/User";
 import Settings from "./src/pages/Settings";
 import Library from "./src/pages/Library/Library";
 import Browse from "./src/pages/Browse/Browse";
-import { timingConfig } from "./src/constants/reanimated";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 import Character from "./src/pages/Character";
 import Login from "./src/pages/Login";
-import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -83,68 +80,40 @@ const Home = () => {
 };
 
 const App = () => {
-  const screenHeight = useSharedValue(initialWindowMetrics!.frame.height);
-
   const isDark = useColorScheme() == "dark";
   let [fontsLoaded] = useFonts({
     Overpass_400Regular,
     Overpass_700Bold,
   });
 
-  const animatedViewStyle = useAnimatedStyle(() => {
-    return {
-      height: withTiming(screenHeight.value, timingConfig),
-      backgroundColor: "black",
-    };
-  });
-
-  useEffect(() => {
-    const didShowListener = Keyboard.addListener("keyboardDidShow", event => {
-      screenHeight.value = event.endCoordinates.screenY;
-    });
-
-    const didHideListener = Keyboard.addListener("keyboardDidHide", event => {
-      screenHeight.value = event.endCoordinates.screenY;
-    });
-
-    return () => {
-      didShowListener.remove();
-      didHideListener.remove();
-    };
-  }, []);
-
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
   return (
-    <SafeAreaProvider>
-      <Provider store={store}>
-        <PersistGate persistor={persistor}>
-          <Animated.View style={animatedViewStyle}>
-            <NavigationContainer theme={isDark ? animDark : animLight}>
-              <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
-                <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-                <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
-                <Stack.Screen name="Settings" component={Settings} />
-                <Stack.Screen
-                  name="Character"
-                  component={Character}
-                  options={{ headerTransparent: true, headerTitle: "" }}
-                />
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer theme={isDark ? animDark : animLight}>
+          <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
+            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen
+              name="Character"
+              component={Character}
+              options={{ headerTransparent: true, headerTitle: "" }}
+            />
 
-                <Stack.Screen
-                  name="User"
-                  component={User}
-                  options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </Animated.View>
-        </PersistGate>
-        <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
-      </Provider>
-    </SafeAreaProvider>
+            <Stack.Screen
+              name="User"
+              component={User}
+              options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
+    </Provider>
   );
 };
 
