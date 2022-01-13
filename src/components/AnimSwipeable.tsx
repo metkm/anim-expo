@@ -1,17 +1,13 @@
-import { memo, useRef } from "react";
-import { StyleSheet, ViewProps, View, Animated, ViewStyle } from "react-native";
-import {
-  HandlerStateChangeEvent,
-  PanGestureHandler,
-  PanGestureHandlerEventPayload,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
-// import {
-//   useAnimatedGestureHandler,
-//   useAnimatedStyle,
-//   useSharedValue,
-//   withSpring,
-// } from "react-native-reanimated";
+import { memo } from "react";
+import { StyleSheet, ViewProps, View } from "react-native";
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 import { springConfig } from "../constants/reanimated";
@@ -21,65 +17,46 @@ interface AnimSwipeableProps extends ViewProps {
   options: () => JSX.Element;
 }
 
+type AnimContext = {
+  startX: number;
+};
+
 const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
   const { width } = useSafeAreaFrame();
-  const x = useRef(new Animated.Value(0)).current;
+  const x = useSharedValue(0);
 
-  const gestureHandler = Animated.event(
-    [
-      {
-        nativeEvent: {
-          translationX: x,
-        },
-      },
-    ],
-    { useNativeDriver: true }
-  );
-
-  const gestureHandlerChange = ({
-    nativeEvent: { translationX },
-  }: HandlerStateChangeEvent<PanGestureHandlerEventPayload>) => {
-    if (Math.abs(translationX) > width / 3) {
-      Animated.spring(x, {
-        toValue: -(width / 3),
-        useNativeDriver: true,
-      }).start();
-    } else {
-      Animated.spring(x, {
-        toValue: 0,
-        useNativeDriver: true,
-      }).start();
+  const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, AnimContext>({
+    onStart: ({ translationX }, context) => {
+      context.startX = translationX;
+    },
+    onActive: ({ translationX }, { startX }) => {
+      x.value = translationX + startX;
+    },
+    onEnd: () => {
+      if (Math.abs(x.value) > width / 3) {
+        x.value = -(width / 3);
+      } else {
+        x.value = 0;
+      }
     }
-  };
+  }, []);
 
-  const animatedStyle: Animated.WithAnimatedObject<ViewStyle> = {
-    flex: 1,
-    transform: [
-      {
-        translateX: x,
-      },
-    ],
-  };
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: withSpring(x.value, springConfig) }],
+  }), []);
 
   return (
-    <View style={style.container}>
-      <PanGestureHandler
-        onHandlerStateChange={gestureHandlerChange}
-        onGestureEvent={gestureHandler}
-        activeOffsetX={[-10, 10]}
-      >
+    <View>
+      <PanGestureHandler onGestureEvent={gestureHandler} activeOffsetX={[-10, 10]}>
         <Animated.View style={[animatedStyle, { ...(rest.style as {}) }]}>{children}</Animated.View>
       </PanGestureHandler>
 
-      <Animated.View style={[style.options, { width: width / 3 - 10 }]}>{options()}</Animated.View>
+      <Animated.View style={[style.options, { width: width / 3 -10 }]}>{options()}</Animated.View>
     </View>
   );
 };
 
 const style = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-  },
   options: {
     position: "absolute",
     top: 3,
