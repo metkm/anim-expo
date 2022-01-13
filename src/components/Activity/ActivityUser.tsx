@@ -15,23 +15,24 @@ interface ActivityUserProps {
 const ActivityUser = ({ activity }: ActivityUserProps) => {
   const navigation = useNavigation<UserNavigationProps>();
 
-  let user: UserObject;
+  var user!: UserObject;
   if ("user" in activity) {
     user = activity.user;
   } else if ("messenger" in activity) {
     user = activity.messenger
   }
-
+  
   const toUser = () => {
     navigation.push("User", {
       userId: user.id
     })
   }
-
+  
+  if (!user) return <></>;
   return (
     <View style={style.user}>
       <Pressable onPress={toUser}>
-        <Image style={style.avatar} source={{ uri: user!.avatar.medium }} />
+        <Image style={style.avatar} source={{ uri: user?.avatar?.medium || "" }} />
       </Pressable>
       <Text style={style.name}>{user!.name}</Text>
       <Text style={style.timeText}>{timeSince(new Date(activity.createdAt * 1000))}</Text>

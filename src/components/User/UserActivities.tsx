@@ -17,7 +17,9 @@ import ActivityMessage from "../Activity/ActivityMessage";
 import ActivityCreate from "../Activity/ActivityCreate";
 import ActivityList from "../Activity/ActivityList";
 import ActivityText from "../Activity/ActivityText";
-import ActivityBase from "../Activity/ActivityBase";
+import AnimSwipeable from "../AnimSwipeable";
+
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -57,12 +59,12 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
   };
 
   const delActivityHandler = async (index: number, id: number) => {
-    await delActivity(id)
+    await delActivity(id);
 
     var tempActivities = [...activities];
     tempActivities.splice(index, 1);
     setActivities(tempActivities);
-  }
+  };
 
   const refreshHandler = useCallback(async () => {
     setIsRefreshing(true);
@@ -78,13 +80,25 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
     setActivities(activities => [...activities, ...resp]);
   };
 
-  const renderItem: ListRenderItem<ActivityUnion> = (info) => {
+  const renderItem: ListRenderItem<ActivityUnion> = info => {
+    const options = () => {
+      return (
+        <Icon
+          onPress={() => delActivityHandler(info.index, info.item.id)}
+          name="delete"
+          color="white"
+          size={60}
+          style={style.icon}
+        />
+      );
+    };
+
     return (
-      <ActivityBase index={info.index} id={info.item.id} delCallback={delActivityHandler}>
+      <AnimSwipeable options={options} style={{ marginVertical: 3 }}>
         {renderElement(info)!}
-      </ActivityBase>
-    )
-  }
+      </AnimSwipeable>
+    );
+  };
 
   return (
     <>
@@ -110,6 +124,13 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
 const style = StyleSheet.create({
   flatlist: {
     marginTop: 90,
+  },
+  icon: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#f43f5e",
   },
 });
 
