@@ -42,7 +42,7 @@ export type LikeableUnion =
   | MessageActivityObject
   | ActivityReplyObject
   | ThreadObject
-  | ThreadCategoryObject;
+  | ThreadCommentObject;
 
 export interface NotificationOptionObject {
   type: NotificationType;
