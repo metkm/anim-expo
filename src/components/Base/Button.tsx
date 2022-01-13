@@ -2,26 +2,42 @@ import React from "react";
 import { Pressable, Text, PressableProps, StyleSheet } from "react-native";
 import { useColors } from "../../hooks/useColors";
 
-const Button = (props: PressableProps) => {
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+interface ButtonProps extends PressableProps {
+  icon?: string
+}
+
+const Button = ({ onPress, style, children, icon }: ButtonProps) => {
   const { color } = useColors();
 
   return (
-    <Pressable onPress={props.onPress} style={[style.buttonContainer, { backgroundColor: color }, {...props.style as {}}]}>
-      <Text style={style.text}>{props.children}</Text>
+    <Pressable
+      onPress={onPress}
+      style={[styles.buttonContainer, { backgroundColor: color }, { ...style as {}}]}
+    >
+      { icon && <Icon style={styles.icon} name={icon} color="white" /> }
+      <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   buttonContainer: {
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
     borderRadius: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 6,
+    marginHorizontal: 2,
   },
   text: {
     color: "white",
-    fontFamily: "Overpass_700Bold"
+    fontFamily: "Overpass_700Bold",
+  },
+  icon: {
+    marginHorizontal: 4,
   }
 });
 

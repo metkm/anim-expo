@@ -12,6 +12,7 @@ query Page($id: Int, $page: Int) {
         progress
         createdAt
         replyCount
+        isLiked
         likeCount
         media {
           id
@@ -29,6 +30,7 @@ query Page($id: Int, $page: Int) {
         type
         text(asHtml: true)
         replyCount
+        isLiked
         likeCount
         createdAt
         user {
@@ -44,6 +46,7 @@ query Page($id: Int, $page: Int) {
         id
         type
         replyCount
+        isLiked
         likeCount
         message(asHtml: true)
         createdAt
