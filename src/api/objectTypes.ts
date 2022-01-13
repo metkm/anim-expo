@@ -36,19 +36,42 @@ export type ActivityType = "TEXT" | "ANIME_LIST" | "MANGA_LIST" | "MESSAGE" | "M
 
 export type UserStaffNameLanguage = "ROMAJI_WESTERN" | "ROMAJI" | "NATIVE";
 
-export type LikeableUnion = ListActivityObject | TextActivityObject | MessageActivityObject | ActivityReplyObject;
+export type LikeableUnion =
+  | ListActivityObject
+  | TextActivityObject
+  | MessageActivityObject
+  | ActivityReplyObject
+  | ThreadObject
+  | ThreadCategoryObject;
 
 export interface NotificationOptionObject {
   type: NotificationType;
   enabled: boolean;
 }
 
-export interface ThreadCategory {
+export interface ThreadCategoryObject {
   id: number;
   name: string;
 }
 
-export interface Thread {
+export interface ThreadCommentObject {
+  id: number;
+  userId: number;
+  threadId: number;
+  comment: string;
+  likeCount: number;
+  isLiked: boolean;
+  siteUrl: string;
+  createdAt: number;
+  updatedAt: number;
+  thread: ThreadObject;
+  user: UserObject;
+  likes: UserObject[];
+  childComments: {};
+  isLocked: boolean;
+}
+
+export interface ThreadObject {
   id: number;
   title: string;
   body: string;
@@ -69,7 +92,7 @@ export interface Thread {
   replyUser: UserObject;
   likes: UserObject[];
   siteUrl: string;
-  categories: ThreadCategory[];
+  categories: ThreadCategoryObject[];
   mediaCategories: MediaObject[];
 }
 
