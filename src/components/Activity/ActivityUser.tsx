@@ -7,12 +7,15 @@ import { timeSince } from "../commonUtils";
 
 import Text from "../Base/Text";
 import { UserNavigationProps } from "../../pages/pageProps";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface ActivityUserProps {
   activity: TextActivityObject | MessageActivityObject,
 }
 
 const ActivityUser = ({ activity }: ActivityUserProps) => {
+  const storeUser = useSelector((state: RootState) => state.user.user);
   const navigation = useNavigation<UserNavigationProps>();
 
   var user!: UserObject;
@@ -23,6 +26,7 @@ const ActivityUser = ({ activity }: ActivityUserProps) => {
   }
   
   const toUser = () => {
+    if (storeUser?.id === user.id) return;
     navigation.push("User", {
       userId: user.id
     })
