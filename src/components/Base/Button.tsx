@@ -16,7 +16,7 @@ const Button = ({ onPress, style, children, icon }: ButtonProps) => {
       onPress={onPress}
       style={[styles.buttonContainer, { backgroundColor: color }, { ...style as {}}]}
     >
-      { icon && <Icon style={styles.icon} name={icon} color="white" /> }
+      { icon && <Icon style={styles.icon} size={16} name={icon} color="white" /> }
       <Text style={styles.text}>{children}</Text>
     </Pressable>
   );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 4,
     paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingVertical: 8,
     marginHorizontal: 2,
   },
   text: {

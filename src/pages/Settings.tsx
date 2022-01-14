@@ -19,7 +19,7 @@ const Settings = () => {
 
   return (
     <View style={style.container}>
-      { isLogged && <Button onPress={logoutHandler}>Logout</Button> }
+      { isLogged && <Button icon="logout" onPress={logoutHandler}>Logout</Button> }
     </View>
   )
 };

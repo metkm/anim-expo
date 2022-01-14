@@ -17,7 +17,6 @@ const loginButton = () => {
 
   useEffect(() => {
     const getAccessToken = async ({ url }: { url: string }) => {
-
       let match = /=(.*?)&/.exec(url);
       if (!match) return;
 
@@ -27,11 +26,15 @@ const loginButton = () => {
 
     Linking.addEventListener("url", getAccessToken);
     return () => {
-      Linking.removeEventListener("url", getAccessToken);  
+      Linking.removeEventListener("url", getAccessToken);
     };
   }, []);
 
-  return <Button onPress={redirect} style={{ marginTop: StatusBar.currentHeight }} >Login</Button>;
+  return (
+    <Button icon="login" onPress={redirect} style={{ marginTop: StatusBar.currentHeight }}>
+      Login
+    </Button>
+  );
 };
 
 export default loginButton;
