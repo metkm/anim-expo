@@ -1,63 +1,67 @@
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { MediaType } from "../api/objectTypes";
+import { ActivityUnion, MediaType } from "../api/objectTypes";
 
 export type LibraryPageParamList = {
   Anime: {
-    userId: number,
-    type: MediaType,
-    category: string,
-  },
+    userId: number;
+    type: MediaType;
+    category: string;
+  };
   Manga: {
-    userId: number,
-    type: MediaType,
-    category: string,
-  }
-}
+    userId: number;
+    type: MediaType;
+    category: string;
+  };
+};
 
 export type LibraryParamList = {
   Anime: {
-    userId?: number
-  },
+    userId?: number;
+  };
   Manga: {
-    userId?: number
-  }
-}
+    userId?: number;
+  };
+};
 
 export type BottomTabParamList = {
-  Discover: undefined,
-  Library: NavigatorScreenParams<LibraryPageParamList>,
+  Discover: undefined;
+  Library: NavigatorScreenParams<LibraryPageParamList>;
   User: {
-    userId: number
-  }
-}
+    userId: number;
+  };
+};
 
 export type StackParamList = {
-  Home: NavigatorScreenParams<BottomTabParamList>,
-  Settings: undefined,
+  Home: NavigatorScreenParams<BottomTabParamList>;
+  Settings: undefined;
   Media: {
-    mediaId: number
-  },
+    mediaId: number;
+  };
   User: {
-    userId: number
-  },
+    userId: number;
+  };
   Character: {
-    characterId: number
-  }
-}
+    characterId: number;
+  };
+  Activity: {
+    activity: ActivityUnion;
+  };
+};
 
-export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
-export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Settings">;
-export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
 export type CharacterNavigationProps = StackNavigationProp<StackParamList, "Character">;
+export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Settings">;
+export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activity">;
+export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
+export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
+
 
 export type UserScreenProps = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, "User">,
   BottomTabScreenProps<BottomTabParamList>
 >;
 
-export type CharacterScreenProps = CompositeScreenProps<
-  StackScreenProps<StackParamList, "Character">,
-  StackScreenProps<StackParamList>
->;
+export type ActivityScreenProps = StackScreenProps<StackParamList, "Activity">;
+export type CharacterScreenProps = StackScreenProps<StackParamList, "Character">;
+

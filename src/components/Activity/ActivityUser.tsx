@@ -1,30 +1,25 @@
 import React from "react";
 import { StyleSheet, Image, View, Pressable } from "react-native";
-
-import { MessageActivityObject, TextActivityObject, UserObject } from "../../api/objectTypes";
 import { useNavigation } from "@react-navigation/native";
+
+import { UserNavigationProps } from "../../pages/pageProps";
+import { UserObject } from "../../api/objectTypes";
 import { timeSince } from "../commonUtils";
 
 import Text from "../Base/Text";
-import { UserNavigationProps } from "../../pages/pageProps";
+
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 interface ActivityUserProps {
-  activity: TextActivityObject | MessageActivityObject,
+  user: UserObject;
+  createdAt: number;
 }
 
-const ActivityUser = ({ activity }: ActivityUserProps) => {
+const ActivityUser = ({ user, createdAt }: ActivityUserProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const navigation = useNavigation<UserNavigationProps>();
 
-  var user!: UserObject;
-  if ("user" in activity) {
-    user = activity.user;
-  } else if ("messenger" in activity) {
-    user = activity.messenger
-  }
-  
   const toUser = () => {
     if (storeUser?.id === user.id) return;
     navigation.push("User", {
@@ -39,7 +34,7 @@ const ActivityUser = ({ activity }: ActivityUserProps) => {
         <Image style={style.avatar} source={{ uri: user?.avatar?.medium || "" }} />
       </Pressable>
       <Text style={style.name}>{user!.name}</Text>
-      <Text style={style.timeText}>{timeSince(new Date(activity.createdAt * 1000))}</Text>
+      <Text style={style.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
     </View>
   )
 }

@@ -4,8 +4,8 @@ import { View, StyleSheet } from "react-native";
 import { useColors } from "../../hooks/useColors";
 import { MessageActivityObject } from "../../api/objectTypes";
 
-import ActivityUser from "./ActivityUser";
 import AnimRenderHtml from "../AnimRenderHtml";
+import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
 
 interface MessageActivityProps {
@@ -17,7 +17,7 @@ const MessageActivity = ({ activity }: MessageActivityProps) => {
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
-      <ActivityUser activity={activity} />
+      <ActivityUser user={activity.messenger} createdAt={activity.createdAt} />
       <AnimRenderHtml source={{ html: activity.message }} />
       <ActivityStats activity={activity} />
     </View>

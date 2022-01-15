@@ -16,17 +16,18 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 
-import Media from "./src/pages/Media";
-import User from "./src/pages/User";
+import Character from "./src/pages/Character";
+import Activity from "./src/pages/Activity";
 import Settings from "./src/pages/Settings";
 import Library from "./src/pages/Library/Library";
 import Browse from "./src/pages/Browse/Browse";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Login from "./src/pages/Login";
+import Media from "./src/pages/Media";
+import User from "./src/pages/User";
 
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
-import Character from "./src/pages/Character";
-import Login from "./src/pages/Login";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -104,6 +105,10 @@ const App = () => {
               options={{ headerTransparent: true, headerTitle: "" }}
             />
 
+            <Stack.Screen 
+              name="Activity"
+              component={Activity}
+            />
             <Stack.Screen
               name="User"
               component={User}

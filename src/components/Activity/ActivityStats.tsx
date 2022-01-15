@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 // components
 import Text from "../Base/Text";
@@ -7,6 +8,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { likeActivity } from "../../api/activity/likeActivity";
 import { ActivityUnion } from "../../api/objectTypes";
+
+import { ActivityNavigationProps } from "../../pages/pageProps";
 import { useColors } from "../../hooks/useColors";
 import { timeSince } from "../commonUtils";
 
@@ -21,6 +24,7 @@ interface LikeObject {
 }
 
 const ActivityStats = ({ activity }: ActivityStatsProps) => {
+  const navigation = useNavigation<ActivityNavigationProps>();
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
     id: activity.id,
@@ -28,9 +32,11 @@ const ActivityStats = ({ activity }: ActivityStatsProps) => {
     likeCount: activity.likeCount
   });
 
-  // const commentHandler = () => {
-
-  // }
+  const toActivity = () => {
+    navigation.navigate("Activity", {
+      activity
+    })
+  }
 
   const likeHandler = async () => {
     const respUnion = await likeActivity(union.id, "ACTIVITY");
@@ -42,7 +48,7 @@ const ActivityStats = ({ activity }: ActivityStatsProps) => {
       <Text style={style.timeText}>{timeSince(new Date(activity.createdAt * 1000))}</Text>
 
       <View style={style.stats}>
-        <Pressable style={style.stat}>
+        <Pressable style={style.stat} onPress={toActivity}>
           <Icon name="comment" color={colors.text} size={14} />
           <Text style={style.count}>{activity.replyCount || ""}</Text>
         </Pressable>

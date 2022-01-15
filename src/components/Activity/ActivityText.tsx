@@ -17,7 +17,7 @@ const TextActivity = ({ activity }: TextActivityProps) => {
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
-      <ActivityUser activity={activity} />
+      <ActivityUser user={activity.user} createdAt={activity.createdAt} />
       <AnimRenderHtml source={{ html: activity.text }} />
       <ActivityStats activity={activity} />
     </View>
