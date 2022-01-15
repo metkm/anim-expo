@@ -9,20 +9,18 @@ import {
 } from "react-native";
 import Animated from "react-native-reanimated";
 
-import { ActivityUnion, ListActivityObject, MessageActivityObject, TextActivityObject } from "../../api/objectTypes";
+import { ActivityUnion } from "../../api/objectTypes";
 import { getActivities } from "../../api/user/getActivities";
 import { delActivity } from "../../api/activity/delActivity";
 
-import ActivityMessage from "../Activity/ActivityMessage";
 import ActivityCreate from "../Activity/ActivityCreate";
-import ActivityList from "../Activity/ActivityList";
-import ActivityText from "../Activity/ActivityText";
 import AnimSwipeable from "../AnimSwipeable";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { getRenderElement } from "../Activity/getRenderElement";
 
 interface UserActivitiesProps {
   userId: number;
@@ -30,21 +28,6 @@ interface UserActivitiesProps {
   scrollHandler: (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
   activitiesReader: () => ActivityUnion[];
 }
-
-const renderElement: ListRenderItem<ActivityUnion> = ({ item }) => {
-  switch (item.type) {
-    case "ANIME_LIST":
-      return <ActivityList activity={item as ListActivityObject} />;
-    case "MANGA_LIST":
-      return <ActivityList activity={item as ListActivityObject} />;
-    case "TEXT":
-      return <ActivityText activity={item as TextActivityObject} />;
-    case "MESSAGE":
-      return <ActivityMessage activity={item as MessageActivityObject} />;
-    default:
-      return <></>;
-  }
-};
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
@@ -80,11 +63,11 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
     setActivities(activities => [...activities, ...resp]);
   };
 
-  const renderItem: ListRenderItem<ActivityUnion> = info => {
+  const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
     const options = () => {
       return (
         <Icon
-          onPress={() => delActivityHandler(info.index, info.item.id)}
+          onPress={() => delActivityHandler(index, item.id)}
           name="delete"
           color="white"
           size={60}
@@ -95,7 +78,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
 
     return (
       <AnimSwipeable options={options} style={{ marginVertical: 3 }}>
-        {renderElement(info)!}
+        {getRenderElement(item, item.type)}
       </AnimSwipeable>
     );
   };

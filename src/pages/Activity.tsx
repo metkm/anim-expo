@@ -1,10 +1,9 @@
 import { FlatList, StyleSheet, View } from "react-native";
 
-import { TextActivityObject } from "../api/objectTypes";
 import { ActivityScreenProps } from "./pageProps";
 
-import ActivityText from "../components/Activity/ActivityText";
 import ActivityReply from "../components/Activity/ActivityReply";
+import { getRenderElement } from "../components/Activity/getRenderElement";
 
 const Activity = ({
   route: {
@@ -13,7 +12,7 @@ const Activity = ({
 }: ActivityScreenProps) => {
   return (
     <>
-      <ActivityText activity={activity as TextActivityObject} />
+      {getRenderElement(activity, activity.type)}
       <View style={style.comments}>
         <FlatList 
           data={activity.replies}
