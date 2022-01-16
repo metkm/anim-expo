@@ -29,7 +29,7 @@ const User = ({ userReader, userId }: UserProps) => {
     onScroll: ({ contentOffset: { y } }) => {
       scrollY.value = y;
     },
-  });
+  }, []);
 
   return (
     <>

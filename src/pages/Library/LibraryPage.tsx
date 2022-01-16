@@ -1,18 +1,19 @@
 import React, { Suspense, useState, useEffect, useRef } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
-import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
-import { timingConfig } from "../../constants/reanimated";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, withDelay } from "react-native-reanimated";
 
 import { LibraryPageParamList } from "../pageProps";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
+import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
+
+import { timingConfig } from "../../constants/reanimated";
+import { usePromise } from "../../hooks/usePromise";
 
 import MediaCategories from "../../components/Media/MediaCategories";
 import MediaCard from "../../components/Media/MediaCard";
 import Loading from "../../components/AnimLoading";
-import { usePromise } from "../../hooks/usePromise";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
@@ -52,7 +53,7 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
       paddingHorizontal: 6,
       opacity: opacity.value,
     };
-  });
+  }, []);
 
   return (
     <View style={style.container}>

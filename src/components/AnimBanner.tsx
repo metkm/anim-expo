@@ -35,11 +35,11 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
 
   const bannerAnimatedStyle = useAnimatedStyle(() => ({
     height: interpolate(scrollY.value, from, [expandedHeight, NARROWED_BANNER], Extrapolate.CLAMP),
-  }));
+  }), []);
 
   const darkOverlayAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(scrollY.value, from, [0, 0.8], Extrapolate.CLAMP),
-  }));
+  }), []);
 
   const titleAnimatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -53,7 +53,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
       },
     ],
     opacity: interpolate(scrollY.value, [NARROWED_BANNER, NARROWED_BANNER + 50], [0, 1], Extrapolate.CLAMP),
-  }));
+  }), []);
 
   return (
     <Animated.View style={[style.container, bannerAnimatedStyle]}>

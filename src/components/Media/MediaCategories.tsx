@@ -55,7 +55,7 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
       borderColor: interpolateColor(isActive.value, [1, 0], [color, colors.card]),
       zIndex: currIndex.value == 0 ? 1 : 0,
     };
-  });
+  }, []);
 
   const pressHandler = () => {
     var tmpArray = positions.value;

@@ -41,7 +41,7 @@ const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
     top: withSpring(top.value, springConfig),
-  }));
+  }), []);
 
   const gestureHandler = useAnimatedGestureHandler({
     onActive: ({ absoluteY }) => {
@@ -54,7 +54,7 @@ const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
         top.value = height / 3;
       }
     },
-  });
+  }, []);
 
   return (
     <PanGestureHandler onGestureEvent={gestureHandler}>

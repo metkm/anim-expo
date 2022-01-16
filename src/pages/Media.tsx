@@ -30,7 +30,7 @@ const Media = ({ mediaReader }: MediaProps) => {
     onScroll: ({ contentOffset: { y } }) => {
       scrollY.value = y;
     },
-  });
+  }, []);
 
   return (
     <View>
