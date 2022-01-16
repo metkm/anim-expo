@@ -10,14 +10,12 @@ interface UserHeaderProps {
   user: UserObject
 }
 
-const 
-
-UserHeader = ({ user }: UserHeaderProps) => {
+const UserHeader = ({ user }: UserHeaderProps) => {
   return (
     <View style={style.content}>
       <View style={style.avatarWrapper}>
         <Image source={{ uri: user.avatar.large }} style={style.avatar} />
-        <Text style={style.name}>{user.name}</Text>
+        <Text style={style.name} numberOfLines={2}>{user.name}</Text>
       </View>
       <UserStats user={user} />
     </View>
@@ -26,8 +24,8 @@ UserHeader = ({ user }: UserHeaderProps) => {
 
 const style = StyleSheet.create({
   avatar: {
-    height: 90,
-    width: 90,
+    height: 110,
+    width: 110,
     borderRadius: 4,
   },
   avatarWrapper: {
@@ -39,9 +37,12 @@ const style = StyleSheet.create({
     marginBottom: 6,
   },
   name: {
+    flex: 1,
+    height: "55%",
     fontSize: 24,
-    marginHorizontal: 10,
     fontFamily: "Overpass_700Bold",
+    paddingHorizontal: 6,
+    paddingVertical: 4,
   },
 });
 
