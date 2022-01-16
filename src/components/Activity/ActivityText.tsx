@@ -12,7 +12,7 @@ interface TextActivityProps {
   activity: TextActivityObject;
 }
 
-const TextActivity = ({ activity }: TextActivityProps) => {
+const ActivityText = ({ activity }: TextActivityProps) => {
   const { colors } = useColors();
 
   return (
@@ -31,4 +31,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default memo(TextActivity);
+export default memo(ActivityText);

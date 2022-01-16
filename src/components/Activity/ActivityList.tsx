@@ -15,7 +15,7 @@ interface ListActivityProps {
   activity: ListActivityObject;
 }
 
-const ListActivity = ({ activity }: ListActivityProps) => {
+const ActivityList = ({ activity }: ListActivityProps) => {
   const { colors, color } = useColors();
   const navigation = useNavigation<MediaNavigationProps>();
 
@@ -64,4 +64,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default memo(ListActivity);
+export default memo(ActivityList);

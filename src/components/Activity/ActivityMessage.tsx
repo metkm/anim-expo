@@ -12,7 +12,7 @@ interface MessageActivityProps {
   activity: MessageActivityObject
 }
 
-const MessageActivity = ({ activity }: MessageActivityProps) => {
+const ActivityMessage = ({ activity }: MessageActivityProps) => {
   const { colors } = useColors();
 
   return (
@@ -30,4 +30,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default memo(MessageActivity);
+export default memo(ActivityMessage);
