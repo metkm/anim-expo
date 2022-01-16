@@ -18,10 +18,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
       <ActivityUser user={activityReply.user} createdAt={activityReply.createdAt} />
       <AnimRenderHtml source={{ html: activityReply.text }} />
       <ActivityStats
-        activityId={activityReply.id}
-        isLiked={activityReply.isLiked}
-        likeCount={activityReply.likeCount}
-        createdAt={activityReply.createdAt}
+        {...activityReply}
         type="ACTIVITY_REPLY"
       />
     </View>

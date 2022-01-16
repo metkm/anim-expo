@@ -26,36 +26,38 @@ const ActivityList = ({ activity }: ListActivityProps) => {
   };
 
   return (
-    <Pressable style={[style.container, { backgroundColor: colors.card }]} onPress={toMedia}>
-      <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
+    <View style={[style.container, { backgroundColor: colors.card }]} >
+      <Pressable style={style.coverContainer} onPress={toMedia}>
+        <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
+      </Pressable>
       <View style={style.contentTextContainer}>
         <Text style={[style.progress, { color }]}>
           {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
         </Text>
-        <Text style={style.title}>{activity.media.title.userPreferred}</Text>
+        <Text style={style.title} numberOfLines={2}>{activity.media.title.userPreferred}</Text>
 
         <ActivityStats
-          activityId={activity.id}
-          isLiked={activity.isLiked}
-          likeCount={activity.likeCount}
-          replyCount={activity.replyCount}
-          createdAt={activity.createdAt}
+          {...activity}
           type="ACTIVITY"
           bannerImage={activity.media.bannerImage}
         />
       </View>
-    </Pressable>
+    </View>
   );
 };
 
 const style = StyleSheet.create({
   container: {
     flexDirection: "row",
-    minHeight: 90,
+    maxHeight: 90,
   },
-  cover: {
+  coverContainer: {
     height: "100%",
     width: 70,
+  },
+  cover: {
+    width: "100%",
+    height: "100%",
   },
   contentTextContainer: {
     flex: 1,

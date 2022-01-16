@@ -21,13 +21,9 @@ const ActivityText = ({ activity }: TextActivityProps) => {
       <AnimRenderHtml source={{ html: activity.text }} />
       
       <ActivityStats
-          activityId={activity.id}
-          isLiked={activity.isLiked}
-          likeCount={activity.likeCount}
-          replyCount={activity.replyCount}
-          createdAt={activity.createdAt}
-          type="ACTIVITY"
-        />
+        {...activity}
+        type="ACTIVITY"
+      />
     </View>
   );
 };

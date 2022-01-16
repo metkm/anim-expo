@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImageBackground, Pressable, StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 // components
@@ -17,7 +17,7 @@ interface ActivityStatsProps {
   replyCount?: number;
   likeCount: number;
   isLiked: boolean;
-  activityId: number;
+  id: number;
   createdAt: number;
   type: LikeableType;
   bannerImage?: string;
@@ -29,24 +29,24 @@ interface LikeObject {
   likeCount: number;
 }
 
-const ActivityStats = ({ replyCount, likeCount, isLiked, activityId, createdAt, type, bannerImage }: ActivityStatsProps) => {
+const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type, bannerImage }: ActivityStatsProps) => {
   const navigation = useNavigation<ActivityNavigationProps>()
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
-    id: activityId,
+    id: id,
     isLiked,
     likeCount
   })
 
   const activityHandler = () => {
     navigation.navigate("Activity", {
-      activityId,
+      activityId: id,
       bannerImage
     })
   }
 
   const likeHandler = async () => {
-    const resp = await likeActivity(activityId, type);
+    const resp = await likeActivity(id, type);
     setUnion(resp);
   }
 

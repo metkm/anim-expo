@@ -21,9 +21,11 @@ const MediaHeader = ({ media }: MediaHeaderProps) => {
 const style = StyleSheet.create({
   title: {
     flex: 1,
-    padding: 10,
-    fontWeight: "bold",
+    height: "45%",
+    marginLeft: 8,
+    paddingVertical: 4,
     fontSize: 20,
+    fontWeight: "bold",
   },
   cover: {
     height: 180,
