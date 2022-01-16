@@ -102,17 +102,18 @@ const App = () => {
             <Stack.Screen
               name="Character"
               component={Character}
-              options={{ headerTransparent: true, headerTitle: "" }}
+              options={{ headerTransparent: true, title: "" }}
             />
 
             <Stack.Screen 
               name="Activity"
               component={Activity}
+              options={{ title: "" }}
             />
             <Stack.Screen
               name="User"
               component={User}
-              options={{ headerTransparent: true, headerShadowVisible: false, headerTitle: "" }}
+              options={{ headerShown: false, headerShadowVisible: false, title: "" }}
             />
           </Stack.Navigator>
         </NavigationContainer>

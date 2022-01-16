@@ -1,7 +1,8 @@
 import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { ActivityUnion, MediaType } from "../api/objectTypes";
+
+import { ActivityReplyObject, MediaType } from "../api/objectTypes";
 
 export type LibraryPageParamList = {
   Anime: {
@@ -46,7 +47,7 @@ export type StackParamList = {
     characterId: number;
   };
   Activity: {
-    activity: ActivityUnion;
+    activityId: number;
   };
 };
 

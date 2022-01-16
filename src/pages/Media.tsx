@@ -41,7 +41,7 @@ const Media = ({ mediaReader }: MediaProps) => {
         title={media.title.userPreferred}
       />
 
-      <Animated.ScrollView style={style.containerPadding} onScroll={scrollHandler}>
+      <Animated.ScrollView style={style.containerPadding} overScrollMode="never" onScroll={scrollHandler}>
         <MediaHeader media={media} />
         <MediaInfo media={media} />
 

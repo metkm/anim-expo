@@ -19,7 +19,15 @@ const ActivityText = ({ activity }: TextActivityProps) => {
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.user} createdAt={activity.createdAt} />
       <AnimRenderHtml source={{ html: activity.text }} />
-      <ActivityStats activity={activity} />
+      
+      <ActivityStats
+          activityId={activity.id}
+          isLiked={activity.isLiked}
+          likeCount={activity.likeCount}
+          replyCount={activity.replyCount}
+          createdAt={activity.createdAt}
+          type="ACTIVITY"
+        />
     </View>
   );
 };

@@ -14,25 +14,14 @@ query Page($id: Int, $page: Int) {
         replyCount
         isLiked
         likeCount
-        replies {
-          id
-          createdAt
-          text(asHtml: true)
-          user {
-            id
-            name
-            avatar {
-              medium
-            }
-          }
-        }
         media {
           id
           title {
             userPreferred
           }
+          bannerImage
           coverImage {
-            medium
+            large
           }
         }
       }
@@ -45,18 +34,6 @@ query Page($id: Int, $page: Int) {
         isLiked
         likeCount
         createdAt
-        replies {
-          id
-          createdAt
-          text(asHtml: true)
-          user {
-            id
-            name
-            avatar {
-              medium
-            }
-          }
-        }
         user {
           id
           name
@@ -74,18 +51,6 @@ query Page($id: Int, $page: Int) {
         likeCount
         message(asHtml: true)
         createdAt
-        replies {
-          id
-          createdAt
-          text(asHtml: true)
-          user {
-            id
-            name
-            avatar {
-              medium
-            }
-          }
-        }
         messenger {
           id
           name

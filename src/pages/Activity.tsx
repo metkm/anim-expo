@@ -1,33 +1,70 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { Suspense, useState } from "react";
+import { FlatList, StyleSheet } from "react-native";
 
 import { ActivityScreenProps } from "./pageProps";
 
-import ActivityReply from "../components/Activity/ActivityReply";
-import { getRenderElement } from "../components/Activity/getRenderElement";
+import { useNavigation } from "@react-navigation/native";
+import { useColors } from "../hooks/useColors";
 
-const Activity = ({
+import ActivityReply from "../components/Activity/ActivityReply";
+import AnimLoading from "../components/AnimLoading";
+
+// import { LinearGradient } from "expo-linear-gradient";
+import { usePromise } from "../hooks/usePromise";
+
+// import { getActivities } from "../api/user/getActivities";
+import { getActivityReplies } from "../api/activity/getActivityReplies";
+import { ActivityReplyObject } from "../api/objectTypes";
+
+interface ActivityProps {
+  repliesReader: () => ActivityReplyObject[];
+}
+
+const Activity = ({ repliesReader }: ActivityProps) => {
+  const [replies, setReplies] = useState(() => repliesReader());
+  const navigation = useNavigation();
+  const { colors } = useColors();
+
+  // useEffect(() => {
+  //   if ("media" in activity) {
+  //     navigation.setOptions({
+  //       headerBackground: () => (
+  //         <ImageBackground source={{ uri: activity.media.bannerImage }}>
+  //           <LinearGradient style={style.gradient} colors={["transparent", colors.background]} locations={[0, 1]} />
+  //         </ImageBackground>
+  //       ),
+  //     });
+  //   }
+  // }, []);
+
+  return (
+    <FlatList
+      data={replies}
+      renderItem={({ item }) => <ActivityReply activityReply={item} />}
+      keyExtractor={item => `${item.id}`}
+    />
+  );
+};
+
+const ActivitySuspense = ({
   route: {
-    params: { activity },
+    params: { activityId },
   },
 }: ActivityScreenProps) => {
+  const [repliesReader] = usePromise(getActivityReplies, activityId, 1);
+
   return (
-    <>
-      {getRenderElement(activity, activity.type)}
-      <View style={style.comments}>
-        <FlatList 
-          data={activity.replies}
-          renderItem={({ item }) => <ActivityReply activityReply={item} />}
-          keyExtractor={item => `${item.id}`}
-        />
-      </View>
-    </>
-  )
+    <Suspense fallback={<AnimLoading />}>
+      <Activity repliesReader={repliesReader} />
+    </Suspense>
+  );
 };
 
 const style = StyleSheet.create({
-  comments: {
-    marginTop: 20,
-  }
+  gradient: {
+    height: "100%",
+    width: "100%",
+  },
 });
 
-export default Activity;
+export default ActivitySuspense;

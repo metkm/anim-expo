@@ -7,14 +7,19 @@ import Text from "../Base/Text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { likeActivity } from "../../api/activity/likeActivity";
-import { ActivityUnion } from "../../api/objectTypes";
+import { ActivityReplyObject, ActivityUnion, LikeableType } from "../../api/objectTypes";
 
 import { ActivityNavigationProps } from "../../pages/pageProps";
 import { useColors } from "../../hooks/useColors";
 import { timeSince } from "../commonUtils";
 
 interface ActivityStatsProps {
-  activity: ActivityUnion;
+  replyCount?: number;
+  likeCount: number;
+  isLiked: boolean;
+  activityId: number;
+  createdAt: number;
+  type: LikeableType;
 }
 
 interface LikeObject {
@@ -23,36 +28,40 @@ interface LikeObject {
   likeCount: number;
 }
 
-const ActivityStats = ({ activity }: ActivityStatsProps) => {
-  const navigation = useNavigation<ActivityNavigationProps>();
+const ActivityStats = ({ replyCount, likeCount, isLiked, activityId, createdAt, type }: ActivityStatsProps) => {
+  const navigation = useNavigation<ActivityNavigationProps>()
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
-    id: activity.id,
-    isLiked: activity.isLiked,
-    likeCount: activity.likeCount
-  });
+    id: activityId,
+    isLiked,
+    likeCount
+  })
 
-  const toActivity = () => {
+  const activityHandler = () => {
     navigation.navigate("Activity", {
-      activity
+      activityId
     })
   }
 
   const likeHandler = async () => {
-    const respUnion = await likeActivity(union.id, "ACTIVITY");
-    setUnion(respUnion);
+    const resp = await likeActivity(activityId, type);
+    setUnion(resp);
   }
 
   return (
     <View style={style.container}>
-      <Text style={style.timeText}>{timeSince(new Date(activity.createdAt * 1000))}</Text>
+      <Text style={style.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
 
       <View style={style.stats}>
-        <Pressable style={style.stat} onPress={toActivity}>
-          <Icon name="comment" color={colors.text} size={14} />
-          <Text style={style.count}>{activity.replyCount || ""}</Text>
-        </Pressable>
-        
+        {replyCount ? (
+          <Pressable style={style.stat} onPress={activityHandler}>
+            <Icon name="comment" color={colors.text} size={14} />
+            <Text style={style.count}>{replyCount || ""}</Text>
+          </Pressable>
+        ) : (
+          <></>
+        )}
+
         <Pressable style={style.stat} onPress={likeHandler}>
           <Icon name="heart" color={union.isLiked ? color : colors.text} size={14} />
           <Text style={style.count}>{union.likeCount || ""}</Text>
@@ -78,7 +87,7 @@ const style = StyleSheet.create({
     marginHorizontal: 2,
   },
   count: {
-    fontSize: 14, 
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 2,
