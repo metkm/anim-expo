@@ -8,6 +8,7 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { StyleSheet, StatusBar, useColorScheme, ViewProps, View } from "react-native";
+import { useColors } from "../hooks/useColors";
 
 interface AnimBannerProps extends ViewProps {
   title?: string;
@@ -19,6 +20,7 @@ interface AnimBannerProps extends ViewProps {
 const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 140 }: AnimBannerProps) => {
   const NARROWED_BANNER = 90;
 
+  const { colors } = useColors();
   const isDark = useColorScheme() == "dark";
   const from = [0, NARROWED_BANNER];
 
@@ -34,6 +36,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
   }, [scrollY]);
 
   const bannerAnimatedStyle = useAnimatedStyle(() => ({
+    backgroundColor: colors.card,
     height: interpolate(scrollY.value, from, [expandedHeight, NARROWED_BANNER], Extrapolate.CLAMP),
   }), []);
 
