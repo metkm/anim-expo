@@ -1,6 +1,7 @@
 import React, { memo, useState } from "react";
 import Text from "./Base/Text";
-import { Pressable, Image, Linking, useWindowDimensions, ViewProps } from "react-native";
+
+import { Pressable, Image, Linking, useWindowDimensions, ViewProps, View } from "react-native";
 import RenderHtml, {
   HTMLElementModel,
   HTMLContentModel,
@@ -8,8 +9,10 @@ import RenderHtml, {
   RenderHTMLProps,
   TRenderEngineProvider,
   RenderHTMLConfigProvider,
-  TText,
+  CustomMixedRenderer,
+  TChildrenRenderer,
 } from "react-native-render-html";
+
 import { Video } from "expo-av";
 import { useColors } from "../hooks/useColors";
 
@@ -30,6 +33,10 @@ export const customHTMLElementModels = {
     tagName: "source",
     contentModel: HTMLContentModel.block,
   }),
+  span: HTMLElementModel.fromCustomModel({
+    tagName: "span",
+    contentModel: HTMLContentModel.mixed,
+  }),
 };
 
 const ytRegex = /.+?v=(.+)/;
@@ -37,7 +44,7 @@ export const divRenderer: CustomBlockRenderer = ({ tnode }) => {
   if (!tnode.id) return <></>;
 
   var match = ytRegex.exec(tnode.id);
-  if (!match) return <></>
+  if (!match) return <></>;
 
   return (
     <Pressable onPress={() => Linking.openURL(match![0])}>
@@ -58,37 +65,25 @@ export const videoRenderer: CustomBlockRenderer = ({ tnode }) => {
   );
 };
 
-export const spanRenderer: CustomBlockRenderer = ({ tnode }) => {
-  const [isSpoilerClosed, setIsSpoilerClosed] = useState(true);
+export const spanRenderer: CustomMixedRenderer = ({ TDefaultRenderer, tnode, ...props }) => {
+  const [hideSpoiler, setHideSpoiler] = useState(true);
   const { color } = useColors();
 
-  if (tnode.classes.includes("markdown_spoiler")) {
-    const toggleSpoiler = () => {
-      setIsSpoilerClosed(isClosed => !isClosed);
-    };
+  const toggleSpoiler = () => {
+    setHideSpoiler(hided => !hided);
+  };
 
-    if (!isSpoilerClosed) {
-      return (
-        <>
-          <Text>{"\n"}</Text>
-          <Text onPress={toggleSpoiler} >{(tnode.children[0] as TText).data}</Text>
-          <Text>{"\n"}</Text>
-        </>
-      )
-    }
+  if (!tnode.classes.includes("markdown_spoiler")) return <TDefaultRenderer tnode={tnode} {...props} />;
 
-    return (
-      <>
-        <Text>{"\n"}</Text>
-        <Pressable onPress={toggleSpoiler} style={{ backgroundColor: color, borderRadius: 4, padding: 2 }}>
-          <Text>Spoiler! click to see!</Text>
-        </Pressable>
-        <Text>{"\n"}</Text>
-      </>
-    )
-  }
-
-  return <Text>{(tnode.children[0] as TText).data}</Text>;
+  return (
+    <TDefaultRenderer tnode={tnode} {...props} onPress={toggleSpoiler}>
+      {hideSpoiler ? (
+        <Text style={{ backgroundColor: color, padding: 2, borderRadius: 2 }}>Spoiler! Click to see!</Text>
+      ) : (
+        <TChildrenRenderer tchildren={tnode.children} />
+      )}
+    </TDefaultRenderer>
+  );
 };
 
 export const tagStyles = {
