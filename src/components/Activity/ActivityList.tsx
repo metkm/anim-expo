@@ -41,6 +41,7 @@ const ActivityList = ({ activity }: ListActivityProps) => {
           replyCount={activity.replyCount}
           createdAt={activity.createdAt}
           type="ACTIVITY"
+          bannerImage={activity.media.bannerImage}
         />
       </View>
     </Pressable>

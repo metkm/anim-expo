@@ -1,41 +1,40 @@
-import { Suspense, useState } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import React, { Suspense, useEffect, useState } from "react";
+import { FlatList, ImageBackground, StyleSheet } from "react-native";
 
 import { ActivityScreenProps } from "./pageProps";
-
 import { useNavigation } from "@react-navigation/native";
-import { useColors } from "../hooks/useColors";
 
 import ActivityReply from "../components/Activity/ActivityReply";
 import AnimLoading from "../components/AnimLoading";
 
-// import { LinearGradient } from "expo-linear-gradient";
+import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
 
-// import { getActivities } from "../api/user/getActivities";
 import { getActivityReplies } from "../api/activity/getActivityReplies";
 import { ActivityReplyObject } from "../api/objectTypes";
+import { LinearGradient } from "expo-linear-gradient";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
+  bannerImage?: string;
 }
 
-const Activity = ({ repliesReader }: ActivityProps) => {
-  const [replies, setReplies] = useState(() => repliesReader());
+const Activity = ({ repliesReader, bannerImage }: ActivityProps) => {
+  const [replies] = useState(() => repliesReader());
   const navigation = useNavigation();
   const { colors } = useColors();
 
-  // useEffect(() => {
-  //   if ("media" in activity) {
-  //     navigation.setOptions({
-  //       headerBackground: () => (
-  //         <ImageBackground source={{ uri: activity.media.bannerImage }}>
-  //           <LinearGradient style={style.gradient} colors={["transparent", colors.background]} locations={[0, 1]} />
-  //         </ImageBackground>
-  //       ),
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (bannerImage) {
+      navigation.setOptions({
+        headerBackground: () => (
+          <ImageBackground style={style.gradient} source={{ uri: bannerImage }}>
+            <LinearGradient style={style.gradient} colors={["transparent", colors.background]} locations={[0, 1]} />
+          </ImageBackground>
+        ),
+      });
+    }
+  }, []);
 
   return (
     <FlatList
@@ -48,14 +47,14 @@ const Activity = ({ repliesReader }: ActivityProps) => {
 
 const ActivitySuspense = ({
   route: {
-    params: { activityId },
+    params: { activityId, bannerImage },
   },
 }: ActivityScreenProps) => {
   const [repliesReader] = usePromise(getActivityReplies, activityId, 1);
 
   return (
     <Suspense fallback={<AnimLoading />}>
-      <Activity repliesReader={repliesReader} />
+      <Activity repliesReader={repliesReader} bannerImage={bannerImage} />
     </Suspense>
   );
 };

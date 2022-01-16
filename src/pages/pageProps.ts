@@ -48,6 +48,7 @@ export type StackParamList = {
   };
   Activity: {
     activityId: number;
+    bannerImage?: string;
   };
 };
 
