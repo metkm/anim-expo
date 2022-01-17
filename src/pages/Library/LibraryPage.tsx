@@ -1,11 +1,11 @@
-import React, { Suspense, useState, useEffect, useRef } from "react";
+import React, { Suspense, useEffect } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming, runOnJS, withDelay } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { LibraryPageParamList } from "../pageProps";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
+import { MediaListCollectionObject, MediaListObject, MediaType } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
 
 import { timingConfig } from "../../constants/reanimated";
@@ -15,49 +15,58 @@ import MediaCategories from "../../components/Media/MediaCategories";
 import MediaCard from "../../components/Media/MediaCard";
 import Loading from "../../components/AnimLoading";
 
+import { useDispatch, useSelector } from "react-redux";
+import { RootDispatch, RootState } from "../../store";
+import { setCategories } from "../../store/animeCategoriesSlice";
+
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
   refresh: () => void;
+  type: MediaType;
 }
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 
-const LibraryPage = ({ libraryReader, refresh }: LibraryPage) => {
-  const [listCollection] = useState(() => libraryReader());
-  const [entries, setEntries] = useState(listCollection.lists[0].entries);
-  const categories = useRef(listCollection.lists.map(list => list.name));
-  const category = useRef(categories.current[0]);
+const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
+  const categories = type == "ANIME"
+    ? useSelector((state: RootState) => state.animeCategories.categories)
+    : useSelector((state: RootState) => state.mangaCategories.categories)
+    
+  const findEntries = (category: string) => {
+    return listCollection.lists.find(list => {
+      return list.name == category;
+    })
+  }
+  
+  const listCollection = libraryReader();
+  const dispatch = useDispatch<RootDispatch>();
+  const entries = findEntries(categories[0])?.entries;
   const opacity = useSharedValue(1);
 
-  const categoryCallback = (newCategory: string) => {
-    const list = listCollection.lists.find(list => list.name == newCategory);
-    if (!list) return;
-
-    category.current = newCategory;
-    opacity.value = withTiming(0, timingConfig, () => {
-      runOnJS(setEntries)(list.entries);
-    });
-  };
-
   useEffect(() => {
-    opacity.value = withDelay(100, withTiming(1, timingConfig));
-  }, [entries]);
+    const newCategories = listCollection.lists.map(list => list.name)
+    newCategories.forEach((newCategory, index) => {
+      if (categories.includes(newCategory)) return;
 
-  useEffect(() => {
-    let categoryIndex = listCollection.lists.findIndex(list => list.name == category.current);
-    setEntries(listCollection.lists[categoryIndex || 0].entries);
-  }, [listCollection]);
+      // new category that not in store
+      newCategories.splice(index, 0, newCategory);
+      
+      dispatch(setCategories(
+        newCategories
+      ))
+    })
+  }, [])
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       paddingHorizontal: 6,
-      opacity: opacity.value,
+      opacity: withTiming(opacity.value, timingConfig),
     };
   }, []);
 
   return (
     <View style={style.container}>
-      <MediaCategories categories={categories.current} callback={categoryCallback} />
+      <MediaCategories type={type} />
       <AnimatedFlatList
         data={entries}
         renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
@@ -88,7 +97,7 @@ const LibraryPageSuspense = ({
 
   return (
     <Suspense fallback={<Loading />}>
-      <LibraryPage libraryReader={libraryReader} refresh={refresh} />
+      <LibraryPage libraryReader={libraryReader} refresh={refresh} type={type} />
     </Suspense>
   );
 };

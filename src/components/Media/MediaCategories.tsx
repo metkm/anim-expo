@@ -10,19 +10,24 @@ import Animated, {
 } from "react-native-reanimated";
 import { ScrollView, StyleSheet, Pressable } from "react-native";
 
-import { useColors } from "../../hooks/useColors";
+import { useDispatch, useSelector } from "react-redux";
+import { RootDispatch, RootState } from "../../store";
+import { setCategories as animeSetCategories } from "../../store/animeCategoriesSlice";
+import { setCategories as mangaSetCategories } from "../../store/mangaCategoriesSlice";
+
 import { timingConfig } from "../../constants/reanimated";
+import { useColors } from "../../hooks/useColors";
+import { MediaType } from "../../api/objectTypes";
 
 interface MediaCategoriesProps {
-  categories: string[];
-  callback: (category: string) => void;
+  type: MediaType;
 }
 
 interface MediaCategory {
   category: string;
   index: number;
   positions: SharedValue<string[]>;
-  callback: (category: string) => void;
+  callback: (category: string, categories: string[]) => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -58,12 +63,14 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
   }, []);
 
   const pressHandler = () => {
-    var tmpArray = positions.value;
+    var tmpArray = [...positions.value];
     tmpArray.splice(currIndex.value, 1);
     tmpArray.splice(0, 0, category);
     positions.value = tmpArray;
 
-    callback(category);
+    setTimeout(() => {
+      callback(category, tmpArray);
+    }, 400);
   };
 
   return (
@@ -73,9 +80,25 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
   );
 };
 
-const MediaCategories = ({ categories, callback }: MediaCategoriesProps) => {
+const MediaCategories = ({ type }: MediaCategoriesProps) => {
+  const categories =
+    type == "ANIME"
+      ? useSelector(
+          (state: RootState) => state.animeCategories.categories,
+          () => true
+        )
+      : useSelector(
+          (state: RootState) => state.mangaCategories.categories,
+          () => true
+        );
+
+  const dispatch = useDispatch<RootDispatch>();
   const positions = useSharedValue(categories);
   var innerWidth = categories.length * 120 + categories.length * 4;
+
+  const updateStore = (category: string, categories: string[]) => {
+    dispatch(type == "ANIME" ? animeSetCategories(categories) : mangaSetCategories(categories));
+  };
 
   return (
     <ScrollView
@@ -85,7 +108,7 @@ const MediaCategories = ({ categories, callback }: MediaCategoriesProps) => {
       showsHorizontalScrollIndicator={false}
     >
       {categories.map((category, index) => (
-        <MediaCategory category={category} index={index} positions={positions} key={category} callback={callback} />
+        <MediaCategory category={category} index={index} positions={positions} key={category} callback={updateStore} />
       ))}
     </ScrollView>
   );
