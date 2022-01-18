@@ -30,39 +30,35 @@ interface LikeObject {
 }
 
 const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type, bannerImage }: ActivityStatsProps) => {
-  const navigation = useNavigation<ActivityNavigationProps>()
+  const navigation = useNavigation<ActivityNavigationProps>();
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
     id: id,
     isLiked,
-    likeCount
-  })
+    likeCount,
+  });
 
   const activityHandler = () => {
     navigation.navigate("Activity", {
       activityId: id,
-      bannerImage
-    })
-  }
+      bannerImage,
+    });
+  };
 
   const likeHandler = async () => {
     const resp = await likeActivity(id, type);
     setUnion(resp);
-  }
+  };
 
   return (
     <View style={style.container}>
       <Text style={style.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
 
       <View style={style.stats}>
-        {replyCount ? (
-          <Pressable style={style.stat} onPress={activityHandler}>
-            <Icon name="comment" color={colors.text} size={14} />
-            <Text style={style.count}>{replyCount || ""}</Text>
-          </Pressable>
-        ) : (
-          <></>
-        )}
+        <Pressable style={style.stat} onPress={activityHandler}>
+          <Icon name="comment" color={colors.text} size={14} />
+          {replyCount ? <Text style={style.count}>{replyCount || ""}</Text> : <></>}
+        </Pressable>
 
         <Pressable style={style.stat} onPress={likeHandler}>
           <Icon name="heart" color={union.isLiked ? color : colors.text} size={14} />
