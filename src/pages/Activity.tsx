@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { FlatList, ImageBackground, StyleSheet } from "react-native";
+import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
 
 import { ActivityScreenProps } from "./pageProps";
 import { useNavigation } from "@react-navigation/native";
@@ -13,6 +13,7 @@ import { usePromise } from "../hooks/usePromise";
 import { getActivityReplies } from "../api/activity/getActivityReplies";
 import { ActivityReplyObject } from "../api/objectTypes";
 import { LinearGradient } from "expo-linear-gradient";
+import ActivityCreate from "../components/Activity/ActivityCreate";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
@@ -37,11 +38,13 @@ const Activity = ({ repliesReader, bannerImage }: ActivityProps) => {
   }, []);
 
   return (
-    <FlatList
-      data={replies}
-      renderItem={({ item }) => <ActivityReply activityReply={item} />}
-      keyExtractor={item => `${item.id}`}
-    />
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={replies}
+        renderItem={({ item }) => <ActivityReply activityReply={item} />}
+        keyExtractor={item => `${item.id}`}
+      />
+    </View>
   );
 };
 

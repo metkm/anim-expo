@@ -8,8 +8,10 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 import { useColors } from "../../hooks/useColors";
 import { springConfig } from "../../constants/reanimated";
@@ -24,9 +26,14 @@ interface ActivityCreateProps {
 
 const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
   const bottomHeight = useBottomTabBarHeight();
-  const { colors, color } = useColors();
+  const headerHeight = useHeaderHeight();
   const { height } = useSafeAreaFrame();
-  const top = useSharedValue(height - bottomHeight - 26);
+  const { colors, color } = useColors();
+
+  const COLLAPSED = height - bottomHeight - headerHeight - 26;
+  const EXPANDED = height / 3
+  
+  const top = useSharedValue(COLLAPSED);
   const text = useRef("");
 
   const createActivity = async () => {
@@ -48,10 +55,10 @@ const ActivityCreate = ({ activityCallback }: ActivityCreateProps) => {
       top.value = absoluteY;
     },
     onEnd: () => {
-      if (top.value > height / 3 + 300) {
-        top.value = height - bottomHeight - 26;
+      if (top.value > EXPANDED + 300) {
+        top.value = COLLAPSED;
       } else {
-        top.value = height / 3;
+        top.value = EXPANDED;
       }
     },
   }, []);
