@@ -4,6 +4,7 @@ import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
 import { ActivityScreenProps } from "./pageProps";
 import { useNavigation } from "@react-navigation/native";
 
+import ActivityComment from "../components/Activity/ActivityComment";
 import ActivityReply from "../components/Activity/ActivityReply";
 import AnimLoading from "../components/AnimLoading";
 
@@ -13,17 +14,22 @@ import { usePromise } from "../hooks/usePromise";
 import { getActivityReplies } from "../api/activity/getActivityReplies";
 import { ActivityReplyObject } from "../api/objectTypes";
 import { LinearGradient } from "expo-linear-gradient";
-import ActivityCreate from "../components/Activity/ActivityCreate";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
   bannerImage?: string;
+  activityId: number;
 }
 
-const Activity = ({ repliesReader, bannerImage }: ActivityProps) => {
-  const [replies] = useState(() => repliesReader());
+const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => {
+  const [replies, setReplies] = useState(() => repliesReader());
   const navigation = useNavigation();
   const { colors } = useColors();
+
+  const addActivity = (reply: ActivityReplyObject) => {
+    console.log(reply);
+    setReplies(oldReplies => [...oldReplies, reply]);
+  }
 
   useEffect(() => {
     if (bannerImage) {
@@ -44,6 +50,8 @@ const Activity = ({ repliesReader, bannerImage }: ActivityProps) => {
         renderItem={({ item }) => <ActivityReply activityReply={item} />}
         keyExtractor={item => `${item.id}`}
       />
+
+      <ActivityComment activityCallback={addActivity} activityId={activityId} />
     </View>
   );
 };
@@ -57,7 +65,7 @@ const ActivitySuspense = ({
 
   return (
     <Suspense fallback={<AnimLoading />}>
-      <Activity repliesReader={repliesReader} bannerImage={bannerImage} />
+      <Activity repliesReader={repliesReader} bannerImage={bannerImage} activityId={activityId} />
     </Suspense>
   );
 };
