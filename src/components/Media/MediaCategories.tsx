@@ -92,12 +92,14 @@ const MediaCategories = ({ type }: MediaCategoriesProps) => {
           () => true
         );
 
+  const setCategories = type == "ANIME" ? animeSetCategories : mangaSetCategories;
+
   const dispatch = useDispatch<RootDispatch>();
   const positions = useSharedValue(categories);
   var innerWidth = categories.length * 120 + categories.length * 4;
 
   const updateStore = (category: string, categories: string[]) => {
-    dispatch(type == "ANIME" ? animeSetCategories(categories) : mangaSetCategories(categories));
+    dispatch(setCategories(categories));
   };
 
   return (
