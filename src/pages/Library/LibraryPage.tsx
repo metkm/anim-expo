@@ -17,7 +17,8 @@ import Loading from "../../components/AnimLoading";
 
 import { useDispatch, useSelector } from "react-redux";
 import { RootDispatch, RootState } from "../../store";
-import { setCategories } from "../../store/animeCategoriesSlice";
+import { setCategories as animeSetCategories } from "../../store/animeCategoriesSlice";
+import { setCategories as mangaSetCategories } from "../../store/mangaCategoriesSlice";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
@@ -28,34 +29,31 @@ interface LibraryPage {
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 
 const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
-  const categories = type == "ANIME"
-    ? useSelector((state: RootState) => state.animeCategories.categories)
-    : useSelector((state: RootState) => state.mangaCategories.categories)
-    
+  const categories =
+    type == "ANIME"
+      ? useSelector((state: RootState) => state.animeCategories.categories)
+      : useSelector((state: RootState) => state.mangaCategories.categories);
+
+  const setCategories = type == "ANIME" ? animeSetCategories : mangaSetCategories;
+
   const findEntries = (category: string) => {
     return listCollection.lists.find(list => {
       return list.name == category;
-    })
-  }
-  
+    });
+  };
+
   const listCollection = libraryReader();
   const dispatch = useDispatch<RootDispatch>();
   const entries = findEntries(categories[0])?.entries;
   const opacity = useSharedValue(1);
 
   useEffect(() => {
-    const newCategories = listCollection.lists.map(list => list.name)
-    newCategories.forEach((newCategory, index) => {
-      if (categories.includes(newCategory)) return;
-
-      // new category that not in store
-      newCategories.splice(index, 0, newCategory);
-      
-      dispatch(setCategories(
-        newCategories
-      ))
-    })
-  }, [])
+    const newCategories = listCollection.lists.map(list => list.name);
+    if (newCategories.some(category => categories.includes(category))) {
+      console.log(newCategories);
+      dispatch(setCategories([...newCategories]));
+    }
+  }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
