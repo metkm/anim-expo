@@ -31,8 +31,8 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
       x.value = translationX + startX;
     },
     onEnd: () => {
-      if (Math.abs(x.value) > width / 3) {
-        x.value = -(width / 3);
+      if (Math.abs(x.value) > width / 3.5) {
+        x.value = -(width / 3.5);
       } else {
         x.value = 0;
       }
@@ -49,7 +49,7 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
         <Animated.View style={[animatedStyle, { ...(rest.style as {}) }]}>{children}</Animated.View>
       </PanGestureHandler>
 
-      <Animated.View style={[style.options, { width: width / 3 -10 }]}>{options()}</Animated.View>
+      <Animated.View style={[style.options, { width: width / 3.5 -10 }]}>{options()}</Animated.View>
     </View>
   );
 };
