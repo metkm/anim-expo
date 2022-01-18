@@ -1,16 +1,18 @@
-import React, { memo, useState } from "react";
+import React, { memo, PropsWithChildren, useState } from "react";
 import Text from "./Base/Text";
 
-import { Pressable, Image, Linking, useWindowDimensions, ViewProps, View } from "react-native";
-import RenderHtml, {
+import { Pressable, Image, Linking, useWindowDimensions } from "react-native";
+import {
   HTMLElementModel,
   HTMLContentModel,
   CustomBlockRenderer,
-  RenderHTMLProps,
   TRenderEngineProvider,
   RenderHTMLConfigProvider,
   CustomMixedRenderer,
   TChildrenRenderer,
+  RenderHTMLSource,
+  TRenderEngineConfig,
+  RenderHTMLSourceProps,
 } from "react-native-render-html";
 
 import { Video } from "expo-av";
@@ -101,30 +103,27 @@ export const renderers = {
   span: spanRenderer,
 };
 
-export const AnimRenderHtml = (props: RenderHTMLProps) => {
-  const { colors } = useColors();
+export const AnimRenderHtml = (props: RenderHTMLSourceProps) => {
   const { width } = useWindowDimensions();
 
   return (
-    <RenderHtml
+    <RenderHTMLSource 
       {...props}
       contentWidth={width}
-      customHTMLElementModels={customHTMLElementModels}
-      baseStyle={{ color: colors.text, ...props.baseStyle, overflow: "hidden" }}
-      renderers={renderers}
-      tagsStyles={tagStyles}
     />
   );
 };
 
-export const AnimRenderBase = memo(({ children }: ViewProps) => {
+export const AnimRenderBase = memo(({ children, ...rest }: PropsWithChildren<TRenderEngineConfig>) => {
   const { colors } = useColors();
 
+  console.log(colors.text)
   return (
     <TRenderEngineProvider
       customHTMLElementModels={customHTMLElementModels}
       tagsStyles={tagStyles}
-      baseStyle={{ color: colors.text }}
+      baseStyle={{ color: colors.text, overflow: "hidden" }}
+      {...rest}
     >
       <RenderHTMLConfigProvider renderers={renderers}>{children}</RenderHTMLConfigProvider>
     </TRenderEngineProvider>

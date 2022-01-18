@@ -41,12 +41,11 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
         )}
       </View>
 
-      <AnimRenderBase>
+      <View style={{ backgroundColor: colors.card, borderRadius: 6, padding: 10, margin: 2, marginTop: 6 }}>
         <AnimRenderHtml
           source={{ html: media.description }}
-          baseStyle={{ backgroundColor: colors.card, borderRadius: 6, padding: 10, margin: 2, marginTop: 6 }}
         />
-      </AnimRenderBase>
+      </View>
     </>
   );
 };

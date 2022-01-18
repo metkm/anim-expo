@@ -37,14 +37,12 @@ const User = ({ userReader, userId }: UserProps) => {
         <UserSettingsCog />
       </AnimBanner>
 
-      <AnimRenderBase>
-        <UserActivities
-          userId={user.id}
-          header={<UserHeader user={user} />}
-          scrollHandler={scrollHandler}
-          activitiesReader={activitiesReader}
-        />
-      </AnimRenderBase>
+      <UserActivities
+        userId={user.id}
+        header={<UserHeader user={user} />}
+        scrollHandler={scrollHandler}
+        activitiesReader={activitiesReader}
+      />
     </>
   );
 };
