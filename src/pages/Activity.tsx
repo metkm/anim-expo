@@ -27,7 +27,6 @@ const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => 
   const { colors } = useColors();
 
   const addActivity = (reply: ActivityReplyObject) => {
-    console.log(reply);
     setReplies(oldReplies => [...oldReplies, reply]);
   }
 

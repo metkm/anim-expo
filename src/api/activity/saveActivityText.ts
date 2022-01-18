@@ -34,6 +34,5 @@ export const saveActivity = async (activityId: number, text: string) => {
     }
   });
 
-  console.log(resp.data);
   return resp.data.data.SaveActivityReply;
 }

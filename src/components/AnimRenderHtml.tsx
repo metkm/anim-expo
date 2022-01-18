@@ -117,7 +117,6 @@ export const AnimRenderHtml = (props: RenderHTMLSourceProps) => {
 export const AnimRenderBase = memo(({ children, ...rest }: PropsWithChildren<TRenderEngineConfig>) => {
   const { colors } = useColors();
 
-  console.log(colors.text)
   return (
     <TRenderEngineProvider
       customHTMLElementModels={customHTMLElementModels}
