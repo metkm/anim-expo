@@ -6,6 +6,7 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
+  View,
 } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -64,6 +65,12 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
   };
 
   const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
+    if (storeUser?.id !== userId) return (
+      <View style={{ marginVertical: 3 }}>
+        {getRenderElement(item, item.type)}
+      </View>
+    )
+
     const options = () => {
       return (
         <Icon
