@@ -31,6 +31,12 @@ query Media($id: Int) {
       month
       day
     }
+    mediaListEntry {
+      id
+      status
+      score
+      progress
+    }
     characters {
       edges {
         id

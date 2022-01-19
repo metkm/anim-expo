@@ -34,15 +34,15 @@ const style = StyleSheet.create({
     paddingHorizontal: 10,
   },
   content: {
-    marginBottom: 6,
+    marginVertical: 12,
   },
   name: {
     flex: 1,
-    height: "55%",
     fontSize: 24,
+    padding: 8,
+    height: "56%",
     fontFamily: "Overpass_700Bold",
-    paddingHorizontal: 6,
-    paddingVertical: 4,
+    lineHeight: 24,
   },
 });
 

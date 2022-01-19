@@ -115,7 +115,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
 
 const style = StyleSheet.create({
   flatlist: {
-    marginTop: 90,
+    marginTop: 80,
   },
   icon: {
     textAlign: "center",

@@ -18,7 +18,7 @@ interface AnimBannerProps extends ViewProps {
 }
 
 const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 140 }: AnimBannerProps) => {
-  const NARROWED_BANNER = 90;
+  const NARROWED_BANNER = 80;
 
   const { colors } = useColors();
   const isDark = useColorScheme() == "dark";

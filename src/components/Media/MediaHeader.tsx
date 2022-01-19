@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { MediaObject } from "../../api/objectTypes";
+
 import Text from "../Base/Text";
 
 interface MediaHeaderProps {
@@ -22,10 +23,10 @@ const style = StyleSheet.create({
   title: {
     flex: 1,
     height: "45%",
-    marginLeft: 8,
-    paddingVertical: 4,
+    padding: 8,
     fontSize: 20,
     fontWeight: "bold",
+    lineHeight: 22,
   },
   cover: {
     height: 180,

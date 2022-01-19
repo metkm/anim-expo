@@ -1,7 +1,9 @@
 import React from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
 import { SettingsNavigationProps } from "../../pages/pageProps";
+
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const UserSettingsCog = () => {
@@ -12,9 +14,7 @@ const UserSettingsCog = () => {
   };
 
   return (
-    <Pressable style={style.cog} onPress={onPress}>
-      <Icon name="cog" size={22} color="white" />
-    </Pressable>
+    <Icon style={style.cog} onPress={onPress} name="cog" size={22} color="white" />
   );
 };
 
