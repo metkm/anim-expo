@@ -44,9 +44,9 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
   }), []);
 
   return (
-    <View>
+    <View style={{...rest.style as {}}}>
       <PanGestureHandler onGestureEvent={gestureHandler} activeOffsetX={[-10, 10]}>
-        <Animated.View style={[animatedStyle, { ...(rest.style as {}) }]}>{children}</Animated.View>
+        <Animated.View style={animatedStyle}>{children}</Animated.View>
       </PanGestureHandler>
 
       <Animated.View style={[style.options, { width: width / 3.5 -10 }]}>{options()}</Animated.View>
@@ -57,12 +57,10 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
 const style = StyleSheet.create({
   options: {
     position: "absolute",
-    top: 3,
     right: 5,
-    bottom: 3,
+    top: 0,
+    bottom: 0,
     zIndex: -10,
-    borderRadius: 4,
-    overflow: "hidden",
   },
 });
 

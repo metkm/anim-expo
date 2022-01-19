@@ -31,6 +31,7 @@ const ActivityMessage = ({ activity }: MessageActivityProps) => {
 const style = StyleSheet.create({
   container: {
     padding: 10,
+    elevation: 1,
   },
 });
 

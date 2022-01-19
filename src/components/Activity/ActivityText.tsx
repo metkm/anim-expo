@@ -32,6 +32,7 @@ const style = StyleSheet.create({
   container: {
     minHeight: 120,
     padding: 10,
+    elevation: 1,
   },
 });
 

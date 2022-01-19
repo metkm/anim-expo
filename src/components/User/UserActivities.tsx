@@ -22,6 +22,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { getRenderElement } from "../Activity/getRenderElement";
+import AnimItemSeparator from "../AnimItemSeparator";
 
 interface UserActivitiesProps {
   userId: number;
@@ -84,7 +85,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
     };
 
     return (
-      <AnimSwipeable options={options} style={{ marginVertical: 3 }}>
+      <AnimSwipeable options={options}>
         {getRenderElement(item, item.type)}
       </AnimSwipeable>
     );
@@ -96,6 +97,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
         data={activities}
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
+        ItemSeparatorComponent={AnimItemSeparator}
         ListHeaderComponent={header}
         refreshing={isRefreshing}
         onRefresh={refreshHandler}

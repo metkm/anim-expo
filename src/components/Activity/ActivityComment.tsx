@@ -39,10 +39,7 @@ const ActivityComment = ({ activityCallback, activityId }: ActivityCommentProps)
 const style = StyleSheet.create({
   container: {
     padding: 10,
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
     borderTopWidth: 2,

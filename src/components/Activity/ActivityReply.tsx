@@ -30,6 +30,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
 const style = StyleSheet.create({
   container: {
     padding: 10,
+    elevation: 1,
   }
 });
 
