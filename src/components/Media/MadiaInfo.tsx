@@ -41,7 +41,7 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
         )}
       </View>
 
-      <View style={{ backgroundColor: colors.card, borderRadius: 6, padding: 10, margin: 2, marginTop: 6 }}>
+      <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
         <AnimRenderHtml
           source={{ html: media.description }}
         />
@@ -62,6 +62,7 @@ const style = StyleSheet.create({
     margin: 2,
     flex: 1,
     flexBasis: "48%",
+    elevation: 1,
   },
   infoTitle: {
     fontFamily: "Overpass_700Bold",

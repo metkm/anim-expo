@@ -3,7 +3,8 @@ import "react-native-reanimated";
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useColorScheme, StatusBar } from "react-native";
+import { useColorScheme } from "react-native";
+import { StatusBar } from "expo-status-bar";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -121,7 +122,7 @@ const App = () => {
           </AnimRenderBase>
         </NavigationContainer>
       </PersistGate>
-      <StatusBar translucent backgroundColor="transparent" barStyle={isDark ? "light-content" : "dark-content"} />
+      <StatusBar translucent backgroundColor="transparent" style="auto" />
     </Provider>
   );
 };

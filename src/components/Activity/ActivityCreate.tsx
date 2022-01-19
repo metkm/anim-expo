@@ -104,7 +104,7 @@ const style = StyleSheet.create({
     width: "100%",
   },
   line: {
-    width: "50%",
+    width: "20%",
     height: 6,
     borderRadius: 1000,
   }

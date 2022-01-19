@@ -1,14 +1,17 @@
 import React, { memo, useState } from "react";
-import { StyleSheet, View, Image, Text, ViewProps, Pressable } from "react-native";
-import { MediaObject } from "../../api/objectTypes";
+import { StyleSheet, View, Image, Text, ViewProps, Pressable, ViewStyle } from "react-native";
 import { timeUntil } from "./MediaUtils";
 import { capitalizeFirstLetter } from "../commonUtils";
+
+import { MediaObject } from "../../api/objectTypes";
 
 // components
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { MediaNavigationProps } from "../../pages/pageProps";
+
 import MediaEdit from "./MediaEdit";
+import { useColors } from "../../hooks/useColors";
 
 interface MediaCardProps extends ViewProps {
   item: MediaObject;
@@ -18,6 +21,7 @@ interface MediaCardProps extends ViewProps {
 }
 
 const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) => {
+  const { colors } = useColors();
   const navigation = useNavigation<MediaNavigationProps>();
   const [isVisible, setIsVisible] = useState(false);
   const [media] = useState(item);
@@ -30,8 +34,14 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
     setIsVisible(visible => !visible);
   };
 
+  const containerStyle: ViewStyle = {
+    ...style.container,
+    ...rest.style as {},
+    backgroundColor: colors.background
+  }
+
   return (
-    <Pressable onPress={toMedia} onLongPress={longPressHandler} style={[style.container, { ...(rest.style as {}) }]}>
+    <Pressable onPress={toMedia} onLongPress={longPressHandler} style={containerStyle}>
       <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
         <Image style={style.cover} source={{ uri: media.coverImage.extraLarge }} />
 
@@ -65,6 +75,7 @@ const style = StyleSheet.create({
     borderRadius: 6,
     position: "relative",
     overflow: "hidden",
+    elevation: 1,
   },
   cover: {
     ...(StyleSheet.absoluteFill as Object),

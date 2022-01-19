@@ -40,7 +40,8 @@ const style = StyleSheet.create({
     margin: 4,
     borderRadius: 4,
     overflow: "hidden",
-    flexDirection: "row"
+    flexDirection: "row",
+    elevation: 1,
   },
   image: {
     height: "100%",

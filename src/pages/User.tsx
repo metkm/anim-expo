@@ -13,7 +13,6 @@ import UserActivities from "../components/User/UserActivities";
 import AnimBanner from "../components/AnimBanner";
 import UserHeader from "../components/User/UserHeader";
 import Loading from "../components/AnimLoading";
-import { AnimRenderBase } from "../components/AnimRenderHtml";
 
 interface UserProps {
   userReader: () => UserObject;

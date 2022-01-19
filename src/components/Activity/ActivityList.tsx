@@ -50,6 +50,7 @@ const style = StyleSheet.create({
   container: {
     flexDirection: "row",
     maxHeight: 90,
+    elevation: 1,
   },
   coverContainer: {
     height: "100%",
