@@ -511,7 +511,7 @@ export interface MediaEdgeObject {
 }
 
 export interface PageInfoObject {
-  totel: number;
+  total: number;
   perPage: number;
   currentPage: number;
   lastPage: number;

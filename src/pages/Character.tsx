@@ -3,13 +3,17 @@ import { View, StyleSheet, Image, ScrollView } from "react-native";
 
 import AnimRenderHtml from "../components/AnimRenderHtml";
 import Loading from "../components/AnimLoading";
+import Button from "../components/Base/Button";
 import Text from "../components/Base/Text";
 
-import { CharacterScreenProps } from "./pageProps";
+import { toggleFavourite } from "../api/toggleFavourite";
 import { getCharacter } from "../api/character/getCharacter";
 import { CharacterObject } from "../api/objectTypes";
+
 import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
+
+import { CharacterScreenProps } from "./pageProps";
 
 interface CharacterProps {
   characterReader: () => CharacterObject;
@@ -17,7 +21,19 @@ interface CharacterProps {
 
 const Character = ({ characterReader }: CharacterProps) => {
   const [character] = useState(() => characterReader());
+  const [local, setLocal] = useState(() => ({
+    total: character.favourites,
+    isfav: character.isFavourite,
+  }));
   const { color } = useColors();
+
+  const toggleFav = async () => {
+    await toggleFavourite({ characterId: character.id });
+    setLocal(oldLocal => ({
+      isfav: !oldLocal.isfav,
+      total: !oldLocal.isfav ? oldLocal.total + 1 : oldLocal.total - 1,
+    }));
+  };
 
   return (
     <ScrollView style={style.container}>
@@ -30,6 +46,9 @@ const Character = ({ characterReader }: CharacterProps) => {
       </View>
 
       <View style={style.description}>
+        <Button icon={local.isfav ? "heart" : "heart-outline"} onPress={toggleFav} style={{ marginBottom: 10 }}>
+          Favourite - {local.total}
+        </Button>
         <AnimRenderHtml source={{ html: character.description }} />
       </View>
     </ScrollView>
@@ -47,14 +66,14 @@ const CharacterSuspense = ({
     <Suspense fallback={<Loading />}>
       <Character characterReader={characterReader} />
     </Suspense>
-  )
-}
+  );
+};
 
 const style = StyleSheet.create({
   container: {
     paddingBottom: 40,
     flexShrink: 1,
-    flex: 1
+    flex: 1,
   },
   cover: {
     alignItems: "center",
@@ -81,7 +100,7 @@ const style = StyleSheet.create({
     padding: 10,
     flex: 1,
     flexShrink: 1,
-  }
+  },
 });
 
 export default CharacterSuspense;

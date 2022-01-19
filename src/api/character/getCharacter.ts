@@ -3,6 +3,9 @@ import { CharacterObject } from "../objectTypes";
 
 export const characterQuery = `query Character($id: Int) {
   Character(id: $id) {
+    id
+    isFavourite
+    favourites
     name {
       userPreferred
       alternative
