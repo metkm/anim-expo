@@ -116,7 +116,7 @@ const App = () => {
               <Stack.Screen
                 name="User"
                 component={User}
-                options={{ headerShown: false, headerShadowVisible: false, title: "" }}
+                options={{ headerTransparent: true, title: "" }}
               />
             </Stack.Navigator>
           </AnimRenderBase>
