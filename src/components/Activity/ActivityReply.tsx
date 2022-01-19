@@ -1,4 +1,6 @@
+import { memo } from "react";
 import { StyleSheet, View } from "react-native";
+
 import { ActivityReplyObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 
@@ -28,8 +30,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
 const style = StyleSheet.create({
   container: {
     padding: 10,
-    marginTop: 6,
   }
 });
 
-export default ActivityReply;
+export default memo(ActivityReply);

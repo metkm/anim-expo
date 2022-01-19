@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { FlatList, ImageBackground, StyleSheet, View } from "react-native";
+import { FlatList, ImageBackground, ListRenderItem, StyleSheet, View } from "react-native";
 
 import { ActivityScreenProps } from "./pageProps";
 import { useNavigation } from "@react-navigation/native";
@@ -14,6 +14,11 @@ import { usePromise } from "../hooks/usePromise";
 import { getActivityReplies } from "../api/activity/getActivityReplies";
 import { ActivityReplyObject } from "../api/objectTypes";
 import { LinearGradient } from "expo-linear-gradient";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
+import AnimSwipeable from "../components/AnimSwipeable";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { delActivityReply } from "../api/activity/delActivityReply";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
@@ -22,6 +27,7 @@ interface ActivityProps {
 }
 
 const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => {
+  const storeUser = useSelector((state: RootState) => state.user.user);
   const [replies, setReplies] = useState(() => repliesReader());
   const navigation = useNavigation();
   const { colors } = useColors();
@@ -42,11 +48,43 @@ const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => 
     }
   }, []);
 
+  const delReplyHandler = async (index: number, id: number) => {
+    await delActivityReply(id);
+
+    var tmpArray = [...replies];
+    tmpArray.splice(index, 1);
+    setReplies(tmpArray);
+  }
+
+  const renderItem: ListRenderItem<ActivityReplyObject> = ({ item, index }) => {
+    if (storeUser?.id !== item.user.id) return(
+      <ActivityReply activityReply={item} />
+    )
+
+    const options = () => {
+      return (
+        <Icon
+          onPress={() => delReplyHandler(index, item.id)}
+          name="delete"
+          color="white"
+          size={60}
+          style={style.icon}
+        />
+      )
+    }
+
+    return (
+      <AnimSwipeable options={options} >
+        <ActivityReply activityReply={item} />
+      </AnimSwipeable>
+    )
+  }
+
   return (
     <View style={{ flex: 1 }}>
       <FlatList
         data={replies}
-        renderItem={({ item }) => <ActivityReply activityReply={item} />}
+        renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
       />
 
@@ -73,6 +111,13 @@ const style = StyleSheet.create({
   gradient: {
     height: "100%",
     width: "100%",
+  },
+  icon: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "#f43f5e",
   },
 });
 
