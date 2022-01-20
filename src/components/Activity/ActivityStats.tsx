@@ -39,7 +39,7 @@ const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type, ba
   });
 
   const activityHandler = () => {
-    navigation.navigate("Activity", {
+    navigation.push("Activity", {
       activityId: id,
       bannerImage,
     });
