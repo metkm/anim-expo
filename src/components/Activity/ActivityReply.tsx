@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { ActivityReplyObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 
-import AnimRenderHtml from "../AnimRenderHtml";
+// import AnimRenderHtml from "../AnimRenderHtml";
 import ActivityStats from "./ActivityStats";
 import ActivityUser from "./ActivityUser";
 
@@ -18,7 +18,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activityReply.user} createdAt={activityReply.createdAt} />
-      <AnimRenderHtml source={{ html: activityReply.text }} />
+      {/* <AnimRenderHtml source={{ html: activityReply.text }} /> */}
       <ActivityStats
         {...activityReply}
         type="ACTIVITY_REPLY"

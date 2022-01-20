@@ -49,7 +49,7 @@ query Page($id: Int, $page: Int) {
         replyCount
         isLiked
         likeCount
-        message(asHtml: true)
+        message
         createdAt
         messenger {
           id

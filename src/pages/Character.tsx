@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 
-import AnimRenderHtml from "../components/AnimRenderHtml";
+// import AnimRenderHtml from "../components/AnimRenderHtml";
 import Loading from "../components/AnimLoading";
 import Button from "../components/Base/Button";
 import Text from "../components/Base/Text";
@@ -49,7 +49,7 @@ const Character = ({ characterReader }: CharacterProps) => {
         <Button icon={local.isfav ? "heart" : "heart-outline"} onPress={toggleFav} style={{ marginBottom: 10 }}>
           Favourite - {local.total}
         </Button>
-        <AnimRenderHtml source={{ html: character.description }} />
+        {/* <AnimRenderHtml source={{ html: character.description }} /> */}
       </View>
     </ScrollView>
   );

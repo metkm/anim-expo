@@ -2332,7 +2332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:~17.0.21":
+"@types/react@npm:*, @types/react@npm:>=16.0.0, @types/react@npm:~17.0.21":
   version: 17.0.38
   resolution: "@types/react@npm:17.0.38"
   dependencies:
@@ -2482,6 +2482,7 @@ __metadata:
     react-native-web: 0.17.1
     react-redux: ^7.2.6
     redux-persist: ^6.0.0
+    simple-markdown: ^0.7.3
     typescript: ~4.3.5
   languageName: unknown
   linkType: soft
@@ -7905,6 +7906,15 @@ __metadata:
   version: 3.0.6
   resolution: "signal-exit@npm:3.0.6"
   checksum: b819ac81ba757af559dad0804233ae31bf6f054591cd8a671e9cbcf09f21c72ec3076fe87d1e04861f5b33b47d63f0694b568de99c99cd733ee2060515beb6d5
+  languageName: node
+  linkType: hard
+
+"simple-markdown@npm:^0.7.3":
+  version: 0.7.3
+  resolution: "simple-markdown@npm:0.7.3"
+  dependencies:
+    "@types/react": ">=16.0.0"
+  checksum: 165941899fddfaa7c398410f8ce6941109bc86fbc9abb17f8b6be7a9ac8ae36c0af643a3e0adcba60053a9f1eaecdd4016d46d79eef39b8ae04982d2bd52bbc9
   languageName: node
   linkType: hard
 

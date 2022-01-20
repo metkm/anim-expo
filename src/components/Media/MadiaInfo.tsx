@@ -6,7 +6,7 @@ import { useColors } from "../../hooks/useColors";
 import dayjs from "dayjs";
 
 import Text from "../Base/Text";
-import AnimRenderHtml, { AnimRenderBase } from "../AnimRenderHtml";
+// import AnimRenderHtml from "../AnimRenderHtml";
 
 interface MediaInfoProps {
   media: MediaObject;
@@ -42,9 +42,9 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
       </View>
 
       <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
-        <AnimRenderHtml
+        {/* <AnimRenderHtml
           source={{ html: media.description }}
-        />
+        /> */}
       </View>
     </>
   );
