@@ -10,7 +10,7 @@ const rules: DefaultRules = {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return <Text key={state.key}>{node.content}</Text>;
+      return <Text key={state.key}>{node.content.trim()}</Text>;
     },
   },
   image: {
