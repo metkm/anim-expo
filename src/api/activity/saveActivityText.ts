@@ -5,7 +5,7 @@ export const saveActivityQuery = `
 mutation($activityId: Int, $text: String) {
   SaveActivityReply(activityId: $activityId, text: $text) {
     id
-    text(asHtml: true)
+    text
     createdAt
     isLiked
     likeCount

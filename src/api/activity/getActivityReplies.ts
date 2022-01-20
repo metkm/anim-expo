@@ -5,7 +5,7 @@ export const getActivityRepliesQuery = `query($id: Int, $page: Int) {
   Page(page: $page, perPage: 25) {
     activityReplies(activityId: $id) {
       id
-      text(asHtml: true)
+      text
       createdAt
       isLiked
       likeCount

@@ -6,7 +6,7 @@ mutation SaveTextActivity($text: String) {
   SaveTextActivity(text: $text) {
     id
     type
-    text(asHtml: true)
+    text
     replyCount
     likeCount
     createdAt

@@ -13,7 +13,7 @@ query Media($id: Int) {
     episodes
     genres
     status
-    description(asHtml: true)
+    description
     studios {
       nodes {
         name

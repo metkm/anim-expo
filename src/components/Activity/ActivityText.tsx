@@ -7,6 +7,7 @@ import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
 
 import { TextActivityObject } from "../../api/objectTypes";
+import parse from "../../plugins/markdown";
 
 interface TextActivityProps {
   activity: TextActivityObject;
@@ -14,11 +15,16 @@ interface TextActivityProps {
 
 const ActivityText = ({ activity }: TextActivityProps) => {
   const { colors } = useColors();
+  const parsed = parse(activity.text);
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.user} createdAt={activity.createdAt} />
       {/* <AnimRenderHtml source={{ html: activity.text }} /> */}
+
+      <>
+      {parsed}
+      </>
       
       <ActivityStats
         {...activity}

@@ -29,7 +29,7 @@ query Page($id: Int, $page: Int) {
       ... on TextActivity {
         id
         type
-        text(asHtml: true)
+        text
         replyCount
         isLiked
         likeCount

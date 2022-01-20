@@ -13,7 +13,7 @@ export const characterQuery = `query Character($id: Int) {
     image {
       large
     }
-    description(asHtml: true)
+    description
   }
 }`;
 
