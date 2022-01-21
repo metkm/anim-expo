@@ -27,11 +27,11 @@ const rules: DefaultRules = {
     },
     react: (node, nestedOutput, state) => {
       return (
-        <View style={{ flexDirection: "row" }}>
-          <Text key={state.key} style={{ fontWeight: "bold", alignSelf: "flex-start", flexShrink: 1 }}>
+        <View style={{ flexDirection: "row" }} key={state.key}>
+          <Text style={{ fontWeight: "bold", alignSelf: "flex-start", flexShrink: 1 }}>
             {nestedOutput(node.content, state)}
           </Text>
-          <Text key={state.key as number + 1}>
+          <Text>
             {node.rest}
           </Text>
         </View>
@@ -118,7 +118,7 @@ interface MarkdownProps extends ViewProps {
 }
 
 const Markdown = ({ style, children }: MarkdownProps) => {
-  let text = children.replace(clearRegex, "-?");
+  let text = children.replace(clearRegex, "");
   text = text.replace(youtubeFix, "-youtube");
   const parsedTree = parser(text);
   
