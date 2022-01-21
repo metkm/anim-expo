@@ -3,8 +3,8 @@ import { StyleSheet, View } from "react-native";
 
 import { ActivityReplyObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
+import parse from "../../plugins/markdown";
 
-// import AnimRenderHtml from "../AnimRenderHtml";
 import ActivityStats from "./ActivityStats";
 import ActivityUser from "./ActivityUser";
 
@@ -14,11 +14,15 @@ interface ActivityReplyProps {
 
 const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
   const { colors } = useColors();
+  const parsed = parse(activityReply.text);
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activityReply.user} createdAt={activityReply.createdAt} />
-      {/* <AnimRenderHtml source={{ html: activityReply.text }} /> */}
+      <>
+        {parsed}
+      </>
+
       <ActivityStats
         {...activityReply}
         type="ACTIVITY_REPLY"

@@ -6,7 +6,7 @@ import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native
 import Text from "../components/Base/Text";
 import Loading from "../components/AnimLoading";
 import MediaEdit from "../components/Media/MediaEdit";
-import MediaInfo from "../components/Media/MadiaInfo";
+import MediaInfo from "../components/Media/MediaInfo";
 import AnimBanner from "../components/AnimBanner";
 import MediaHeader from "../components/Media/MediaHeader";
 import MediaRelations from "../components/Media/MediaRelations";

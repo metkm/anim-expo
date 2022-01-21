@@ -19,7 +19,6 @@ const ActivityMessage = ({ activity }: MessageActivityProps) => {
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.messenger} createdAt={activity.createdAt} />
-      {/* <AnimRenderHtml source={{ html: activity.message }} /> */}
       <View>
         {parsed}
       </View>

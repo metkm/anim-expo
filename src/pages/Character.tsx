@@ -1,7 +1,6 @@
 import React, { useState, Suspense } from "react";
 import { View, StyleSheet, Image, ScrollView } from "react-native";
 
-// import AnimRenderHtml from "../components/AnimRenderHtml";
 import Loading from "../components/AnimLoading";
 import Button from "../components/Base/Button";
 import Text from "../components/Base/Text";
@@ -12,6 +11,7 @@ import { CharacterObject } from "../api/objectTypes";
 
 import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
+import parse from "../plugins/markdown";
 
 import { CharacterScreenProps } from "./pageProps";
 
@@ -26,6 +26,7 @@ const Character = ({ characterReader }: CharacterProps) => {
     isfav: character.isFavourite,
   }));
   const { color } = useColors();
+  const parsed = parse(character.description);
 
   const toggleFav = async () => {
     await toggleFavourite({ characterId: character.id });
@@ -49,7 +50,7 @@ const Character = ({ characterReader }: CharacterProps) => {
         <Button icon={local.isfav ? "heart" : "heart-outline"} onPress={toggleFav} style={{ marginBottom: 10 }}>
           Favourite - {local.total}
         </Button>
-        {/* <AnimRenderHtml source={{ html: character.description }} /> */}
+        {parsed}
       </View>
     </ScrollView>
   );
