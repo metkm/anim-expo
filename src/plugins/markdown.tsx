@@ -9,7 +9,7 @@ const imgRegex = /^-img(.*)\((.*)\)/;
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
-const boldRegex = /^__(.*)__(.*)\n*/;
+const boldRegex = /^(__|<b>)(.*)(__|<\/b>)(.*)\n*/;
 
 // with html
 const italicRegex = /^(_|<i>)(.*)(_|<\/i>)/;
@@ -24,10 +24,9 @@ const rules: DefaultRules = {
     order: defaultRules.text.order - 0.5,
     match: source => boldRegex.exec(source),
     parse: (capture, nestedParse, state) => {
-      console.log(capture);
       return {
-        content: nestedParse(capture[1], state),
-        rest: capture[2],
+        content: nestedParse(capture[2], state),
+        rest: capture[4],
       };
     },
     react: (node, nestedOutput, state) => {
