@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+
 import { capitalizeFirstLetter } from "../commonUtils";
 import { MediaObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 import dayjs from "dayjs";
 
 import Text from "../Base/Text";
-import parse from "../../plugins/markdown";
+import Markdown from "../../plugins/Markdown";
 
 interface MediaInfoProps {
   media: MediaObject;
@@ -18,7 +19,6 @@ const dateToString = ({ year, month, day }: { year: number; month: number; day: 
 
 const MediaInfo = ({ media }: MediaInfoProps) => {
   const { colors, color } = useColors();
-  const parsed = parse(media.description);
 
   const Info = ({ title, value }: { title: string; value: string | number }) => (
     <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
@@ -43,7 +43,9 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
       </View>
 
       <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
-        {parsed}
+        <Markdown>
+          {media.description}
+        </Markdown>
       </View>
     </>
   );

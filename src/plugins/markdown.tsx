@@ -1,4 +1,4 @@
-import { Image, View } from "react-native";
+import { Image, StyleSheet, View, ViewProps } from "react-native";
 import { DefaultInOutRule, DefaultRules, defaultRules, outputFor, parserFor } from "simple-markdown";
 
 import Text from "../components/Base/Text";
@@ -9,15 +9,41 @@ const imgRegex = /^img(\d*)\((.*)\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 const youtubeRegex = /^(?:.?)youtube\((.*v=(.*))\)/;
+// const boldRegex = /^__(.*)__/;
+const boldRegex = /^__(.*)__(.*)\n/;
 
-const clearRegex = /(\r\n|\n|\r|<br>)/gm;
+const clearRegex = /(<br>)/gm;
+// const clearRegex = /(\r\n|\n|\r|<br>)/gm;
 
 const rules: DefaultRules = {
+  strong: {
+    ...defaultRules.strong,
+    order: defaultRules.text.order - 0.5,
+    match: source => boldRegex.exec(source),
+    parse: (capture, nestedParse, state) => {
+      return {
+        content: nestedParse(capture[1], state),
+        rest: capture[2],
+      };
+    },
+    react: (node, nestedOutput, state) => {
+      return (
+        <View style={{ flexDirection: "row" }}>
+          <Text key={state.key} style={{ fontWeight: "bold", alignSelf: "flex-start", flexShrink: 1 }}>
+            {nestedOutput(node.content, state)}
+          </Text>
+          <Text key={state.key as number + 1}>
+            {node.rest}
+          </Text>
+        </View>
+      );
+    },
+  },
   text: {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return <Text key={state.key}>{node.content.trim()}</Text>;
+      return <Text style={{ flexShrink: 1, alignSelf: "flex-start" }} key={state.key}>{node.content}</Text>;
     },
   },
   image: {
@@ -77,13 +103,32 @@ const youtubeRule: Omit<DefaultInOutRule, "html"> = {
   },
 };
 
-const parser = parserFor({ ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule });
+const parser = parserFor(
+  { ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule },
+  { inline: false }
+);
 const reactOut = outputFor({ ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule }, "react");
 
-export const parse = (text: string) => {
-  text = text.replace(clearRegex, "");
-  const parsedTree = parser(text);
-  return reactOut(parsedTree);
-};
+interface MarkdownProps extends ViewProps {
+  children: string
+}
 
-export default parse;
+const Markdown = ({ style, children }: MarkdownProps) => {
+  const text = children.replace(clearRegex, "");
+  const parsedTree = parser(text);
+  
+  return (
+    <View style={styles.container}>
+      {reactOut(parsedTree)}
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+  
+})
+
+export default Markdown;

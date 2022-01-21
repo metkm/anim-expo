@@ -3,10 +3,10 @@ import { View, StyleSheet } from "react-native";
 
 import { useColors } from "../../hooks/useColors";
 import { MessageActivityObject } from "../../api/objectTypes";
-import { parse } from "../../plugins/markdown";
 
 import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
+import Markdown from "../../plugins/Markdown";
 
 interface MessageActivityProps {
   activity: MessageActivityObject
@@ -14,14 +14,13 @@ interface MessageActivityProps {
 
 const ActivityMessage = ({ activity }: MessageActivityProps) => {
   const { colors } = useColors();
-  const parsed = parse(activity.message);
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.messenger} createdAt={activity.createdAt} />
-      <View>
-        {parsed}
-      </View>
+      <Markdown>
+        {activity.message}
+      </Markdown>
 
       <ActivityStats
         {...activity}

@@ -4,9 +4,9 @@ import { useColors } from "../../hooks/useColors";
 
 import ActivityUser from "./ActivityUser";
 import ActivityStats from "./ActivityStats";
+import Markdown from "../../plugins/Markdown";
 
 import { TextActivityObject } from "../../api/objectTypes";
-import parse from "../../plugins/markdown";
 
 interface TextActivityProps {
   activity: TextActivityObject;
@@ -14,14 +14,13 @@ interface TextActivityProps {
 
 const ActivityText = ({ activity }: TextActivityProps) => {
   const { colors } = useColors();
-  const parsed = parse(activity.text);
 
   return (
     <View style={[style.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.user} createdAt={activity.createdAt} />
-      <View>
-      {parsed}
-      </View>
+      <Markdown>
+        {activity.text}
+      </Markdown>
       
       <ActivityStats
         {...activity}
