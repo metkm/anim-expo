@@ -12,6 +12,7 @@ const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const boldRegex = /^__(.*)__(.*)\n/;
 
 const clearRegex = /(<br>)/gm;
+const youtubeFix = /youtube/;
 
 const rules: DefaultRules = {
   strong: {
@@ -118,8 +119,7 @@ interface MarkdownProps extends ViewProps {
 
 const Markdown = ({ style, children }: MarkdownProps) => {
   let text = children.replace(clearRegex, "-?");
-  text = text.replace(/youtube/, "-youtube")
-
+  text = text.replace(youtubeFix, "-youtube");
   const parsedTree = parser(text);
   
   return (
