@@ -5,14 +5,15 @@ import Text from "../components/Base/Text";
 import Spoiler from "./Spoiler";
 
 // REGEXES
-const imgRegex = /^img(\d*)\((.*)\)/;
+const imgRegex = /^-img(\d+)\((.*)\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const boldRegex = /^__(.*)__(.*)\n/;
 
 const clearRegex = /(<br>)/gm;
-const youtubeFix = /youtube/;
+const youtubeFix = /youtube/gm;
+const imgFix = /img(?:[^a-z])/gm;
 
 const rules: DefaultRules = {
   strong: {
@@ -50,6 +51,7 @@ const rules: DefaultRules = {
     match: source => imgRegex.exec(source),
     parse: capture => ({ link: capture[2], width: capture[1] }),
     react: (node, nestedOutput, state) => {
+      console.log(node.link)
       return (
         <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />
       );
@@ -120,6 +122,7 @@ interface MarkdownProps extends ViewProps {
 const Markdown = ({ style, children }: MarkdownProps) => {
   let text = children.replace(clearRegex, "");
   text = text.replace(youtubeFix, "-youtube");
+  text = text.replace(imgFix, "-img");
   const parsedTree = parser(text);
   
   return (
