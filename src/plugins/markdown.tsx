@@ -9,7 +9,7 @@ const imgRegex = /^-img(.*)\((.*)\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
-const boldRegex = /^__(.*)__(.*)\n/;
+const boldRegex = /^__(.*)__(.*)\n*/;
 
 const clearRegex = /(<br>)/gm;
 const youtubeFix = /youtube/gm;
@@ -21,6 +21,7 @@ const rules: DefaultRules = {
     order: defaultRules.text.order - 0.5,
     match: source => boldRegex.exec(source),
     parse: (capture, nestedParse, state) => {
+      console.log(capture);
       return {
         content: nestedParse(capture[1], state),
         rest: capture[2],
@@ -50,11 +51,9 @@ const rules: DefaultRules = {
     ...defaultRules.image,
     match: source => imgRegex.exec(source),
     parse: capture => {
-      console.log(capture);
       return { link: capture[2], width: capture[1] }
     },
     react: (node, nestedOutput, state) => {
-      // console.log(node.link)
       return (
         <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />
       );
@@ -98,7 +97,6 @@ const youtubeRule: Omit<DefaultInOutRule, "html"> = {
     return youtubeRegex.exec(source);
   },
   parse: capture => {
-    // console.log(capture)
     return { link: capture[1], id: capture[2] };
   },
   react: (node, nestedOutput, state) => {
