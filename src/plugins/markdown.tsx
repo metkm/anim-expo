@@ -6,10 +6,13 @@ import Spoiler from "./Spoiler";
 
 // REGEXES
 const imgRegex = /^-img(.*)\((.*)\)/;
+const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
-const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const boldRegex = /^__(.*)__(.*)\n*/;
+
+// with html
+const italicRegex = /^(_|<i>)(.*)(_|<\/i>)/;
 
 const clearRegex = /(<br>)/gm;
 const youtubeFix = /youtube/gm;
@@ -59,6 +62,22 @@ const rules: DefaultRules = {
       );
     },
   },
+  em: {
+    ...defaultRules.em,
+    match: source => {
+      return italicRegex.exec(source)
+    },
+    parse: capture => {
+      return {
+        text: capture[2]
+      }
+    },
+    react: node => {
+      return (
+        <Text style={{ fontStyle: "italic" }}>{node.text}</Text>
+      )
+    }
+  }
 };
 
 const spoilerRule: Omit<DefaultInOutRule, "html"> = {
@@ -125,7 +144,7 @@ const Markdown = ({ style, children }: MarkdownProps) => {
   text = text.replace(youtubeFix, "-youtube");
   text = text.replace(imgFix, "-img");
   const parsedTree = parser(text);
-  
+
   return (
     <View style={styles.container}>
       {reactOut(parsedTree)}
