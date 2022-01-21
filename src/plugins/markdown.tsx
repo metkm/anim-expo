@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View, ViewProps } from "react-native";
+import { StyleSheet, View, ViewProps, Image } from "react-native";
 import { DefaultInOutRule, DefaultRules, defaultRules, outputFor, parserFor } from "simple-markdown";
 
 import Text from "../components/Base/Text";
@@ -8,12 +8,10 @@ import Spoiler from "./Spoiler";
 const imgRegex = /^img(\d*)\((.*)\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
-const youtubeRegex = /^(?:.?)youtube\((.*v=(.*))\)/;
-// const boldRegex = /^__(.*)__/;
+const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const boldRegex = /^__(.*)__(.*)\n/;
 
 const clearRegex = /(<br>)/gm;
-// const clearRegex = /(\r\n|\n|\r|<br>)/gm;
 
 const rules: DefaultRules = {
   strong: {
@@ -43,7 +41,7 @@ const rules: DefaultRules = {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return <Text style={{ flexShrink: 1, alignSelf: "flex-start" }} key={state.key}>{node.content}</Text>;
+      return <Text key={state.key}>{node.content.trim()}</Text>;
     },
   },
   image: {
@@ -52,18 +50,22 @@ const rules: DefaultRules = {
     parse: capture => ({ link: capture[2], width: capture[1] }),
     react: (node, nestedOutput, state) => {
       return (
-        <Image key={state.key} style={{ resizeMode: "contain", paddingVertical: "40%" }} source={{ uri: node.link }} />
+        <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />
       );
     },
   },
 };
 
 const spoilerRule: Omit<DefaultInOutRule, "html"> = {
-  order: 2,
+  order: 10,
   match: source => spoilerRegex.exec(source),
-  parse: (capture, nestedParse, state) => ({ content: nestedParse(capture[1], state) }),
+  parse: (capture, nestedParse, state) => {
+    return { content: nestedParse(capture[1], state) }
+  },
   react: (node, nestedOutput, state) => {
-    return <Spoiler key={state.key}>{nestedOutput(node.content)}</Spoiler>;
+    return (
+      <Spoiler key={state.key}>{nestedOutput(node.content)}</Spoiler>
+    )
   },
 };
 
@@ -85,18 +87,19 @@ const centerRule: Omit<DefaultInOutRule, "html"> = {
 };
 
 const youtubeRule: Omit<DefaultInOutRule, "html"> = {
-  order: 3,
+  order: 8,
   match: source => {
     return youtubeRegex.exec(source);
   },
   parse: capture => {
+    // console.log(capture)
     return { link: capture[1], id: capture[2] };
   },
   react: (node, nestedOutput, state) => {
     return (
       <Image
         key={state.key}
-        style={{ width: "100%", height: 200, borderRadius: 4 }}
+        style={{ width: "100%", height: 200, borderRadius: 4, marginVertical: 4 }}
         source={{ uri: `https://img.youtube.com/vi/${node.id}/0.jpg` }}
       />
     );
@@ -105,7 +108,7 @@ const youtubeRule: Omit<DefaultInOutRule, "html"> = {
 
 const parser = parserFor(
   { ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule },
-  { inline: false }
+  { inline: true }
 );
 const reactOut = outputFor({ ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule }, "react");
 
@@ -114,7 +117,9 @@ interface MarkdownProps extends ViewProps {
 }
 
 const Markdown = ({ style, children }: MarkdownProps) => {
-  const text = children.replace(clearRegex, "");
+  let text = children.replace(clearRegex, "-?");
+  text = text.replace(/youtube/, "-youtube")
+
   const parsedTree = parser(text);
   
   return (
@@ -126,9 +131,8 @@ const Markdown = ({ style, children }: MarkdownProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    flex: 1,
   },
-  
 })
 
 export default Markdown;

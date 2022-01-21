@@ -20,7 +20,7 @@ const Spoiler = ({ children }: ViewProps) => {
           Spoiler! Click to see!
         </Text>
       ) : (
-        <Text>{children}</Text>
+        <>{children}</>
       )}
     </Pressable>
   );
@@ -31,6 +31,7 @@ const style = StyleSheet.create({
     backgroundColor: "#181818",
     padding: 2,
     borderRadius: 2,
+    color: "white",
   },
 });
 
