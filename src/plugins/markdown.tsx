@@ -5,7 +5,7 @@ import Text from "../components/Base/Text";
 import Spoiler from "./Spoiler";
 
 // REGEXES
-const imgRegex = /^-img(\d+)\((.*)\)/;
+const imgRegex = /^-img(.*)\((.*)\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
@@ -13,7 +13,7 @@ const boldRegex = /^__(.*)__(.*)\n/;
 
 const clearRegex = /(<br>)/gm;
 const youtubeFix = /youtube/gm;
-const imgFix = /img(?:[^a-z])/gm;
+const imgFix = /img(?:\d+|\()/gm;
 
 const rules: DefaultRules = {
   strong: {
@@ -49,9 +49,12 @@ const rules: DefaultRules = {
   image: {
     ...defaultRules.image,
     match: source => imgRegex.exec(source),
-    parse: capture => ({ link: capture[2], width: capture[1] }),
+    parse: capture => {
+      console.log(capture);
+      return { link: capture[2], width: capture[1] }
+    },
     react: (node, nestedOutput, state) => {
-      console.log(node.link)
+      // console.log(node.link)
       return (
         <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />
       );
