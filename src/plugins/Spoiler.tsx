@@ -1,13 +1,10 @@
 import { Pressable, StyleSheet, ViewProps } from "react-native";
 
 import { useState } from "react";
-import { useColors } from "../hooks/useColors";
-
 import Text from "../components/Base/Text";
 
 const Spoiler = ({ children }: ViewProps) => {
   const [isHided, setIsHided] = useState(true);
-  const { color } = useColors();
 
   const toggleSpoiler = () => {
     setIsHided(isHided => !isHided);
