@@ -9,10 +9,10 @@ const imgRegex = /^-img(.*)\((.*)\)/;
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
-const boldRegex = /^(__|<b>)(.*)(__|<\/b>)(.*)\n*/;
 
 // with html
-const italicRegex = /^(_|<i>)(.*)(_|<\/i>)/;
+const italicRegex = /^(_|<i>)(.*)(_|<\/*i\/*>)(.*)\n*/;
+const boldRegex = /^(__|<b>)(.*)(__|<\/b>)(.*)\n*/;
 
 const clearRegex = /(<br>)/gm;
 const youtubeFix = /youtube/gm;
@@ -46,7 +46,7 @@ const rules: DefaultRules = {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return <Text key={state.key}>{node.content.trim()}</Text>;
+      return <Text key={state.key}>{node.content}</Text>;
     },
   },
   image: {
@@ -68,12 +68,17 @@ const rules: DefaultRules = {
     },
     parse: capture => {
       return {
-        text: capture[2]
+        text: capture[2],
+        rest: capture[4]
       }
     },
-    react: node => {
+    react: (node, nestedOutput, state) => {
+      console.log(node)
       return (
-        <Text style={{ fontStyle: "italic" }}>{node.text}</Text>
+        <View key={state.key} style={{ flexDirection: "row" }}>
+          <Text style={{ fontStyle: "italic" }}>{node.text}</Text>
+          <Text>{node.rest}</Text>
+        </View>
       )
     }
   }
