@@ -11,7 +11,7 @@ const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 
 // with html
-const italicRegex = /^(_|<i>)(.*?)(_|<\/*i\/*>)/gs;
+const italicRegex = /^(_|<i>)(.*?)(_|<\/*i\/*>)(\.*)/gs;
 const boldRegex = /^(__|<b>)(.*)(__|<\/b>)(.*)\n*/;
 
 const clearRegex = /(<br\/*>)/gm;
@@ -44,11 +44,7 @@ const rules: DefaultRules = {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return (
-        <Text style={{ width: "100%" }} key={state.key}>
-          {node.content}
-        </Text>
-      );
+      return <Text key={state.key}>{node.content}</Text>;
     },
   },
   image: {
@@ -58,7 +54,7 @@ const rules: DefaultRules = {
       return { link: capture[2], width: capture[1] };
     },
     react: (node, nestedOutput, state) => {
-      return <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />;
+      return <Image key={state.key} style={{ height: 250, width: 250 }} source={{ uri: node.link }} />;
     },
   },
   em: {
@@ -69,12 +65,13 @@ const rules: DefaultRules = {
     parse: capture => {
       return {
         text: capture[2],
+        rest: capture[4]
       };
     },
     react: (node, nestedOutput, state) => {
       return (
         <Text key={state.key} style={{ fontStyle: "italic" }}>
-          {node.text}
+          {node.text + node.rest}
         </Text>
       );
     },
