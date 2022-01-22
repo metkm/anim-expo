@@ -6,7 +6,6 @@ const imgRegex = /^-img(\d*)\((\S*)\)/;
 const ruleImg: DefaultInOutRule = {
   order: 8,
   match: (source) => {
-    console.log(source);
     return imgRegex.exec(source)
   },
   parse: (capture) => {

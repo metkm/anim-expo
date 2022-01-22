@@ -11,14 +11,14 @@ const ruleItalic: DefaultInOutRule = {
   match: (source) => {
     return italicRegex.exec(source);
   },
-  parse: (capture, nestedParse, state) => {
+  parse: (capture) => {
     return {
       text: capture[2]
     }
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text style={style.italic}>{node.text}</Text>
+      <Text key={state.key} style={style.italic}>{node.text}</Text>
     )
   }
 }

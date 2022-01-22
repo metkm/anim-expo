@@ -12,14 +12,14 @@ const ruleStrong: DefaultInOutRule = {
   parse: (capture, nestedParse, state) => {
     return {
       content: nestedParse(capture[2], state),
-      rest: capture[4]
+      rest: nestedParse(capture[4], state)
     }
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text key={state.key}>
+      <Text key={state.key} style={{ backgroundColor: "red" }}>
         <Text style={style.bold}>{nestedOutput(node.content, state)}</Text>
-        <Text>{node.rest}</Text>
+        <Text>{nestedOutput(node.rest, state)}</Text>
       </Text>
     )
   },

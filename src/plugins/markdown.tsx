@@ -144,8 +144,10 @@ import { StyleSheet, View, ViewProps } from "react-native";
 import { DefaultRules, defaultRules as _defaultRules, outputFor, parserFor } from "simple-markdown";
 
 import ruleSpoiler from "./ruleSpoiler";
+import ruleYoutube from "./ruleYoutube";
 import ruleStrong from "./ruleStrong";
 import ruleItalic from "./ruleItalic";
+import ruleCenter from "./ruleCenter";
 import ruleImg from "./ruleImg";
 
 import Text from "../components/Base/Text";
@@ -164,14 +166,27 @@ const defaultRules: DefaultRules = {
   },
 };
 
-const rules = { ...defaultRules, strong: ruleStrong, spoiler: ruleSpoiler, img: ruleImg, italic: ruleItalic };
+const rules = {
+  ...defaultRules,
+  spoiler: ruleSpoiler,
+  youtube: ruleYoutube,
+  strong: ruleStrong,
+  italic: ruleItalic,
+  center: ruleCenter,
+  img: ruleImg,
+};
 
 const parser = parserFor(rules, { inline: true });
 const reactOut = outputFor(rules, "react");
 
+const ytFix = /youtube/;
+const brFix = /<br>/g;
+const imgFix = /img\d*\(/g;
+
 const Markdown = ({ children }: MarkdownProps) => {
-  children = children.replace(/<br>/g, "");
-  children = children.replace(/img\d*\(/g, "-img(");
+  children = children.replace(brFix, "");
+  children = children.replace(imgFix, "-img(");
+  children = children.replace(ytFix, "-youtube");
   const parsedTree = parser(children);
 
   return <View style={style.container}>{reactOut(parsedTree)}</View>;
@@ -180,7 +195,7 @@ const Markdown = ({ children }: MarkdownProps) => {
 const style = StyleSheet.create({
   container: {
     
-  }
-})
+  },
+});
 
 export default Markdown;
