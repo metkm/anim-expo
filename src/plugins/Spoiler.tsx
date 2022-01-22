@@ -1,10 +1,12 @@
-import { Pressable, StyleSheet, ViewProps } from "react-native";
-
 import { useState } from "react";
+import { Pressable, StyleSheet, ViewProps, View } from "react-native";
+
 import Text from "../components/Base/Text";
+import { useColors } from "../hooks/useColors";
 
 const Spoiler = ({ children }: ViewProps) => {
   const [isHided, setIsHided] = useState(true);
+  const { colors } = useColors();
 
   const toggleSpoiler = () => {
     setIsHided(isHided => !isHided);
@@ -13,11 +15,11 @@ const Spoiler = ({ children }: ViewProps) => {
   return (
     <Pressable onPress={toggleSpoiler} style={{ flexShrink: 1 }}>
       {isHided ? (
-        <Text onPress={toggleSpoiler} style={style.spoilerText}>
+        <Text onPress={toggleSpoiler} style={[style.spoilerText, { backgroundColor: colors.background }]}>
           Spoiler! Click to see!
         </Text>
       ) : (
-        <>{children}</>
+        <View >{children}</View>
       )}
     </Pressable>
   );
@@ -25,8 +27,7 @@ const Spoiler = ({ children }: ViewProps) => {
 
 const style = StyleSheet.create({
   spoilerText: {
-    backgroundColor: "#181818",
-    padding: 2,
+    padding: 4,
     borderRadius: 2,
     color: "white",
   },
