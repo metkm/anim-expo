@@ -10,7 +10,7 @@ const BrowseAnime = () => {
 
   if (!browse) return <Loading />;
   return (
-    <ScrollView style={{ paddingLeft: 10 }}>
+    <ScrollView style={{ paddingLeft: 6 }}>
       <BrowseRow title="Trending Now" mediaList={browse.trending.media} />
       <BrowseRow title="Popular This Season" mediaList={browse.season.media} />
       <BrowseRow title="Upcoming Next Season" mediaList={browse.nextSeason.media} />
