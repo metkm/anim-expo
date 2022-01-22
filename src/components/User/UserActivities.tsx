@@ -14,15 +14,14 @@ import { ActivityUnion } from "../../api/objectTypes";
 import { getActivities } from "../../api/user/getActivities";
 import { delActivity } from "../../api/activity/delActivity";
 
+import AnimItemSeparator from "../AnimItemSeparator";
 import ActivityCreate from "../Activity/ActivityCreate";
 import AnimSwipeable from "../AnimSwipeable";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { getRenderElement } from "../Activity/getRenderElement";
-import AnimItemSeparator from "../AnimItemSeparator";
 
 interface UserActivitiesProps {
   userId: number;
@@ -123,6 +122,7 @@ const style = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#f43f5e",
+    borderRadius: 6,
   },
 });
 

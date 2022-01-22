@@ -49,7 +49,7 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
         <Animated.View style={animatedStyle}>{children}</Animated.View>
       </PanGestureHandler>
 
-      <Animated.View style={[style.options, { width: width / 3.5 -10 }]}>{options()}</Animated.View>
+      <Animated.View style={[style.options, { width: width / 3.5 - 8 }]}>{options()}</Animated.View>
     </View>
   );
 };

@@ -120,6 +120,7 @@ const style = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#f43f5e",
+    borderRadius: 6,
   },
   flatlist: {
     // flex: 1,

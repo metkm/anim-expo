@@ -26,21 +26,24 @@ const ActivityList = ({ activity }: ListActivityProps) => {
   };
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]} >
-      <Pressable style={style.coverContainer} onPress={toMedia}>
+    <View style={style.container}>
+      <Pressable style={[style.coverContainer, { backgroundColor: colors.card }]} onPress={toMedia}>
         <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
       </Pressable>
-      <View style={style.contentTextContainer}>
+
+      <View style={[style.content, { backgroundColor: colors.card }]}>
         <Text style={[style.progress, { color }]}>
           {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
         </Text>
-        <Text style={style.title} numberOfLines={2}>{activity.media.title.userPreferred}</Text>
+        <Text style={style.title} numberOfLines={2}>
+          {activity.media.title.userPreferred}
+        </Text>
 
         <ActivityStats
-          {...activity}
-          type="ACTIVITY"
-          bannerImage={activity.media.bannerImage}
-        />
+           {...activity}
+           type="ACTIVITY"
+           bannerImage={activity.media.bannerImage}
+         />
       </View>
     </View>
   );
@@ -49,19 +52,22 @@ const ActivityList = ({ activity }: ListActivityProps) => {
 const style = StyleSheet.create({
   container: {
     flexDirection: "row",
-    maxHeight: 90,
-    elevation: 1,
+    marginHorizontal: 4,
   },
   coverContainer: {
-    height: "100%",
-    width: 70,
+    borderRadius: 6,
+    marginRight: 4,
+    overflow: "hidden",
+    elevation: 1,
   },
   cover: {
-    width: "100%",
-    height: "100%",
+    height: 100,
+    width: 70,
   },
-  contentTextContainer: {
+  content: {
     flex: 1,
+    elevation: 1,
+    borderRadius: 6,
     padding: 6,
   },
   title: {
@@ -69,10 +75,7 @@ const style = StyleSheet.create({
   },
   progress: {
     fontSize: 12,
-  },
-  bottom: {
-    flexDirection: "row",
-    marginTop: "auto",
+    fontWeight: "bold",
   },
 });
 
