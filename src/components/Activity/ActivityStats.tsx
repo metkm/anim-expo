@@ -94,6 +94,7 @@ const style = StyleSheet.create({
   timeText: {
     flex: 1,
     fontSize: 12,
+    fontWeight: "bold",
   },
 });
 

@@ -16,9 +16,10 @@ const BrowseRow = ({ title, mediaList }: BrowseRowProps) => {
       <Text style={style.title}>{title}</Text>
       <FlatList
         data={mediaList}
-        renderItem={({ item }) => <MediaCard item={item} style={{ minWidth: 300, maxWidth: 300 }} />}
+        renderItem={({ item }) => <MediaCard item={item} style={{ minWidth: 160, maxWidth: 160 }} />}
         showsHorizontalScrollIndicator={false}
         horizontal
+        overScrollMode="never"
       />
     </View>
   )
@@ -30,7 +31,7 @@ const style = StyleSheet.create({
     marginTop: 6,
   },
   title: {
-    fontSize: 26,
+    fontSize: 22,
     marginLeft: 10,
     fontFamily: "Overpass_700Bold",
   }

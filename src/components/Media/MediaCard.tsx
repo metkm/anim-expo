@@ -1,17 +1,16 @@
 import React, { memo, useState } from "react";
-import { StyleSheet, View, Image, Text, ViewProps, Pressable, ViewStyle } from "react-native";
-import { timeUntil } from "./MediaUtils";
+import { StyleSheet, View, Image, ViewProps, Pressable, ViewStyle } from "react-native";
+
 import { capitalizeFirstLetter } from "../commonUtils";
-
 import { MediaObject } from "../../api/objectTypes";
+import { useColors } from "../../hooks/useColors";
+import { timeUntil } from "./MediaUtils";
 
-// components
-import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { MediaNavigationProps } from "../../pages/pageProps";
 
+import Text from "../Base/Text";
 import MediaEdit from "./MediaEdit";
-import { useColors } from "../../hooks/useColors";
 
 interface MediaCardProps extends ViewProps {
   item: MediaObject;
@@ -40,27 +39,34 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
     backgroundColor: colors.background
   }
 
+  const boxStyle: ViewStyle = {
+    ...style.box,
+    backgroundColor: colors.background
+  }
+
   return (
     <Pressable onPress={toMedia} onLongPress={longPressHandler} style={containerStyle}>
-      <LinearGradient colors={["rgba(0, 0, 0, 0.2)", "rgba(0, 0, 0, 1)"]} style={{ flex: 1 }}>
+      <View style={boxStyle}>
         <Image style={style.cover} source={{ uri: media.coverImage.extraLarge }} />
 
-        {media.type && <Text style={[style.topInfo, style.type]}>{capitalizeFirstLetter(media.type)}</Text>}
+        {media.type ? <Text style={[style.topInfo, style.type]}>{capitalizeFirstLetter(media.type)}</Text>: <></>}
 
         <Text style={[style.topInfo, style.episodes]}>
           {progress! > 0 && `${progress}/`}
           {media.episodes || "?"}
         </Text>
 
-        <View style={style.textContainer}>
-          <Text style={style.title}>{media.title.userPreferred}</Text>
-          <Text style={style.untilAir} numberOfLines={1}>
-            {media.nextAiringEpisode?.timeUntilAiring
-              ? `EP ${media.nextAiringEpisode.episode}: ${timeUntil(media.nextAiringEpisode?.timeUntilAiring)}`
-              : capitalizeFirstLetter(media.status)}
-          </Text>
-        </View>
-      </LinearGradient>
+      </View>
+      
+      <View style={style.textContainer}>
+        <Text numberOfLines={1} style={style.until}>
+          {media.nextAiringEpisode?.timeUntilAiring
+          ? `EP ${media.nextAiringEpisode.episode}: ${timeUntil(media.nextAiringEpisode?.timeUntilAiring)}`
+          : capitalizeFirstLetter(media.status)}
+        </Text>
+
+        <Text numberOfLines={1} style={style.title}>{media.title.userPreferred}</Text>
+      </View>
 
       <MediaEdit editCallback={editCallback} media={item} isVisible={isVisible} setIsVisible={setIsVisible} />
     </Pressable>
@@ -70,40 +76,40 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
 const style = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 4,
+    margin: 6,
     minHeight: 250,
-    borderRadius: 6,
     position: "relative",
-    overflow: "hidden",
-    elevation: 1,
   },
   cover: {
-    ...(StyleSheet.absoluteFill as Object),
-    zIndex: -10,
-    borderRadius: 8,
+    flex: 1,
+    borderRadius: 6,
+  },
+  box: {
+    flex: 1,
+    elevation: 1,
+    borderRadius: 6,
   },
   textContainer: {
-    marginTop: "auto",
-    padding: 10,
+    marginTop: 4,
+    marginHorizontal: 4,
   },
   title: {
-    color: "white",
     fontFamily: "Overpass_700Bold",
+    lineHeight: 18,
   },
-  untilAir: {
+  until: {
     fontSize: 12,
-    color: "white",
   },
   topInfo: {
     top: 4,
     position: "absolute",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     borderRadius: 1000,
     paddingHorizontal: 6,
     paddingVertical: 2,
+    color: "white",
     fontSize: 12,
     fontWeight: "bold",
-    color: "white",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
   },
   episodes: {
     right: 4,
