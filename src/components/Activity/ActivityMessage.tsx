@@ -32,6 +32,8 @@ const style = StyleSheet.create({
   container: {
     padding: 10,
     elevation: 1,
+    marginHorizontal: 4,
+    borderRadius: 6,
   },
 });
 

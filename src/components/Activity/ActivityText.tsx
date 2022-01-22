@@ -32,6 +32,8 @@ const style = StyleSheet.create({
   container: {
     minHeight: 120,
     padding: 10,
+    marginHorizontal: 4,
+    borderRadius: 6,
     elevation: 1,
   },
 });
