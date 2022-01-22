@@ -27,9 +27,9 @@ const Spoiler = ({ children }: ViewProps) => {
 
 const style = StyleSheet.create({
   spoilerText: {
-    padding: 4,
-    borderRadius: 2,
-    color: "white",
+    // padding: 4,
+    // borderRadius: 2,
+    // color: "white",
   },
 });
 
