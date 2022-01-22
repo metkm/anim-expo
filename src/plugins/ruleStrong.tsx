@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { DefaultInOutRule } from "simple-markdown";
 import Text from "../components/Base/Text";
 
-const strongRegex = /^__(\S*)__(.*)\s/;
+const strongRegex = /^(__|\*\*)(\S*)(__|\*\*)(.*)\s?/;
 
 const ruleStrong: DefaultInOutRule = {
   order: 1,
@@ -11,8 +11,8 @@ const ruleStrong: DefaultInOutRule = {
   },
   parse: (capture, nestedParse, state) => {
     return {
-      content: nestedParse(capture[1], state),
-      rest: capture[2]
+      content: nestedParse(capture[2], state),
+      rest: capture[4]
     }
   },
   react: (node, nestedOutput, state) => {

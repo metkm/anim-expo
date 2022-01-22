@@ -1,7 +1,7 @@
 import { DefaultInOutRule } from "simple-markdown";
 import Spoiler from "./Spoiler";
 
-const spoilerRegex = /^~!(.*)!~/;
+const spoilerRegex = /^~!(.*?)!~/s;
 
 const ruleSpoiler: DefaultInOutRule = {
   order: 1,
