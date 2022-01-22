@@ -67,7 +67,6 @@ const rules: DefaultRules = {
       return italicRegex.exec(source);
     },
     parse: capture => {
-      console.log(capture);
       return {
         text: capture[2],
       };
@@ -144,7 +143,6 @@ const Markdown = ({ style, children }: MarkdownProps) => {
   text = text.replace(youtubeFix, "-youtube");
   text = text.replace(imgFix, "-img");
   const parsedTree = parser(text);
-  console.log(text);
 
   return <View style={styles.container}>{reactOut(parsedTree)}</View>;
 };
