@@ -84,7 +84,7 @@ const MediaSuspense = ({ route: { params: { mediaId } } }: StackScreenProps<Stac
 
 const style = StyleSheet.create({
   containerPadding: {
-    marginTop: 80,
+    marginTop: 90,
     paddingHorizontal: 6,
   },
   relations: {

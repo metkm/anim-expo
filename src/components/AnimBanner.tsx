@@ -18,7 +18,7 @@ interface AnimBannerProps extends ViewProps {
 }
 
 const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 140 }: AnimBannerProps) => {
-  const NARROWED_BANNER = 80;
+  const NARROWED_BANNER = 90;
 
   const { colors } = useColors();
   const isDark = useColorScheme() == "dark";
@@ -94,7 +94,7 @@ const style = StyleSheet.create({
     position: "absolute",
     color: "white",
     fontFamily: "Overpass_700Bold",
-    fontSize: 22,
+    fontSize: 18,
     maxWidth: "70%",
     bottom: 0,
     top: StatusBar.currentHeight,

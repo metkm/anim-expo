@@ -66,9 +66,9 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
 
   const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
     if (storeUser?.id !== userId) return (
-      <View style={{ marginVertical: 3 }}>
+      <>
         {getRenderElement(item, item.type)}
-      </View>
+      </>
     )
 
     const options = () => {
@@ -114,7 +114,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
 
 const style = StyleSheet.create({
   flatlist: {
-    marginTop: 80,
+    marginTop: 90,
   },
   icon: {
     textAlign: "center",
