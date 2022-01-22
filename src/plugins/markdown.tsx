@@ -11,17 +11,17 @@ const spoilerRegex = /^~!(.*)!~/;
 const centerRegex = /^~\~\~(.*)~\~\~/s;
 
 // with html
-const italicRegex = /^(_|<i>)(.*)(_|<\/*i\/*>)(.*)\n*/;
+const italicRegex = /^(_|<i>)(.*?)(_|<\/*i\/*>)/gs;
 const boldRegex = /^(__|<b>)(.*)(__|<\/b>)(.*)\n*/;
 
-const clearRegex = /(<br>)/gm;
+const clearRegex = /(<br\/*>)/gm;
 const youtubeFix = /youtube/gm;
 const imgFix = /img(?:\d+|\()/gm;
 
 const rules: DefaultRules = {
   strong: {
-    ...defaultRules.strong,
-    order: defaultRules.text.order - 0.5,
+    ...defaultRules.em,
+    order: defaultRules.em.order - 0.5,
     match: source => boldRegex.exec(source),
     parse: (capture, nestedParse, state) => {
       return {
@@ -35,9 +35,7 @@ const rules: DefaultRules = {
           <Text style={{ fontWeight: "bold", alignSelf: "flex-start", flexShrink: 1 }}>
             {nestedOutput(node.content, state)}
           </Text>
-          <Text>
-            {node.rest}
-          </Text>
+          <Text>{node.rest}</Text>
         </View>
       );
     },
@@ -46,54 +44,52 @@ const rules: DefaultRules = {
     ...defaultRules.text,
     // @ts-ignore
     react: (node, nestedOutput, state) => {
-      return <Text key={state.key}>{node.content}</Text>;
+      return (
+        <Text style={{ width: "100%" }} key={state.key}>
+          {node.content}
+        </Text>
+      );
     },
   },
   image: {
     ...defaultRules.image,
     match: source => imgRegex.exec(source),
     parse: capture => {
-      return { link: capture[2], width: capture[1] }
+      return { link: capture[2], width: capture[1] };
     },
     react: (node, nestedOutput, state) => {
-      return (
-        <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />
-      );
+      return <Image key={state.key} style={{ height: 200, width: 200 }} source={{ uri: node.link }} />;
     },
   },
   em: {
     ...defaultRules.em,
     match: source => {
-      return italicRegex.exec(source)
+      return italicRegex.exec(source);
     },
     parse: capture => {
+      console.log(capture);
       return {
         text: capture[2],
-        rest: capture[4]
-      }
+      };
     },
     react: (node, nestedOutput, state) => {
-      console.log(node)
       return (
-        <View key={state.key} style={{ flexDirection: "row" }}>
-          <Text style={{ fontStyle: "italic" }}>{node.text}</Text>
-          <Text>{node.rest}</Text>
-        </View>
-      )
-    }
-  }
+        <Text key={state.key} style={{ fontStyle: "italic" }}>
+          {node.text}
+        </Text>
+      );
+    },
+  },
 };
 
 const spoilerRule: Omit<DefaultInOutRule, "html"> = {
   order: 10,
   match: source => spoilerRegex.exec(source),
   parse: (capture, nestedParse, state) => {
-    return { content: nestedParse(capture[1], state) }
+    return { content: nestedParse(capture[1], state) };
   },
   react: (node, nestedOutput, state) => {
-    return (
-      <Spoiler key={state.key}>{nestedOutput(node.content)}</Spoiler>
-    )
+    return <Spoiler key={state.key}>{nestedOutput(node.content)}</Spoiler>;
   },
 };
 
@@ -140,7 +136,7 @@ const parser = parserFor(
 const reactOut = outputFor({ ...rules, spoiler: spoilerRule, center: centerRule, youtube: youtubeRule }, "react");
 
 interface MarkdownProps extends ViewProps {
-  children: string
+  children: string;
 }
 
 const Markdown = ({ style, children }: MarkdownProps) => {
@@ -148,18 +144,17 @@ const Markdown = ({ style, children }: MarkdownProps) => {
   text = text.replace(youtubeFix, "-youtube");
   text = text.replace(imgFix, "-img");
   const parsedTree = parser(text);
+  console.log(text);
 
-  return (
-    <View style={styles.container}>
-      {reactOut(parsedTree)}
-    </View>
-  )
-}
+  return <View style={styles.container}>{reactOut(parsedTree)}</View>;
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
-})
+});
 
 export default Markdown;
