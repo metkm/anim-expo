@@ -1,4 +1,4 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { DefaultInOutRule } from "simple-markdown";
 
 const imgRegex = /^-img(\d*)\((\S*)\)/;
@@ -15,7 +15,9 @@ const ruleImg: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Image key={state.key} style={style.img} source={{ uri: node.link }} />
+      <View key={state.key}>
+        <Image style={style.img} source={{ uri: node.link }} />
+      </View>
     )
   },
   html: () => ""

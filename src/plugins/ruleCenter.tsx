@@ -1,8 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { DefaultInOutRule } from "simple-markdown";
-import Text from "../components/Base/Text";
 
-const centerRegex = /(~~~|<center>)(.*?)(~~~|<\/center>)/s;
+const centerRegex = /^(~~~|<center>)(.*?)(~~~|<\/center>)/s;
 
 const ruleCenter: DefaultInOutRule = {
   order: 0,
@@ -16,9 +15,9 @@ const ruleCenter: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text key={state.key} style={style.container}>
+      <View key={state.key} style={style.container}>
         {nestedOutput(node.content, state)}
-      </Text>
+      </View>
     );
   },
   html: () => "",

@@ -16,7 +16,7 @@ const ruleYoutube: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <ImageBackground style={style.container} source={{ uri: `https://img.youtube.com/vi/${node.id}/0.jpg` }}>
+      <ImageBackground key={state.key} style={style.container} source={{ uri: `https://img.youtube.com/vi/${node.id}/0.jpg` }}>
         <Pressable onPress={() => Linking.openURL(node.link)} />
       </ImageBackground>
     )

@@ -1,4 +1,4 @@
-import { StyleSheet, ViewProps } from "react-native";
+import { StyleSheet, ViewProps, View } from "react-native";
 import { DefaultRules, defaultRules as _defaultRules, outputFor, parserFor } from "simple-markdown";
 
 import ruleSpoiler from "./ruleSpoiler";
@@ -48,6 +48,10 @@ const Markdown = ({ children }: MarkdownProps) => {
   children = children.replace(imgFix, "-img(");
   children = children.replace(ytFix, "-youtube");
   const parsedTree = parser(children, { inline: true });
+
+  if (parsedTree[0].type == "img") {
+    return <View style={style.container}>{reactOut(parsedTree)}</View>;
+  }
 
   return <Text style={style.container}>{reactOut(parsedTree)}</Text>;
 };
