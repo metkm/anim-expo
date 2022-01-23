@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, ViewProps, View } from "react-native";
+import { Pressable, StyleSheet, ViewProps, Dimensions } from "react-native";
 
 import Text from "../components/Base/Text";
 import { useColors } from "../hooks/useColors";
@@ -19,7 +19,7 @@ const Spoiler = ({ children }: ViewProps) => {
           Spoiler! Click to see!
         </Text>
       ) : (
-        <View >{children}</View>
+        <Text style={{ width: Dimensions.get("window").width - 20 }}>{children}</Text>
       )}
     </Pressable>
   );

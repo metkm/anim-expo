@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import { DefaultInOutRule } from "simple-markdown";
 import Text from "../components/Base/Text";
 
-const strongRegex = /^(__|\*\*)(\S*)(__|\*\*)(.*)\s?/;
+const strongRegex = /^(__|\*\*)(\S*)(__|\*\*)/;
 
 const ruleStrong: DefaultInOutRule = {
   order: 1,
@@ -12,14 +12,14 @@ const ruleStrong: DefaultInOutRule = {
   parse: (capture, nestedParse, state) => {
     return {
       content: nestedParse(capture[2], state),
-      rest: nestedParse(capture[4], state)
+      // rest: nestedParse(capture[4], state)
     }
   },
   react: (node, nestedOutput, state) => {
     return (
       <Text key={state.key}>
         <Text style={style.bold}>{nestedOutput(node.content, state)}</Text>
-        <Text>{nestedOutput(node.rest, state)}</Text>
+        {/* <Text>{nestedOutput(node.rest, state)}</Text> */}
       </Text>
     )
   },

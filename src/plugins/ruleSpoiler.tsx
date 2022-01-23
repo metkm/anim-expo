@@ -6,7 +6,8 @@ const spoilerRegex = /^~!(.*?)!~/s;
 const ruleSpoiler: DefaultInOutRule = {
   order: 1,
   match: (source) => {
-    return spoilerRegex.exec(source);
+    console.log(source);
+    return spoilerRegex.exec(source.trim());
   },
   parse: (capture, nestedParse, state) => {
     return {

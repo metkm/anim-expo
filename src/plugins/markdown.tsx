@@ -151,6 +151,7 @@ import ruleCenter from "./ruleCenter";
 import ruleImg from "./ruleImg";
 
 import Text from "../components/Base/Text";
+import ruleLink from "./ruleLink";
 
 interface MarkdownProps extends ViewProps {
   children: string;
@@ -173,10 +174,11 @@ const rules = {
   strong: ruleStrong,
   italic: ruleItalic,
   center: ruleCenter,
+  link: ruleLink,
   img: ruleImg,
 };
 
-const parser = parserFor(rules, { inline: true });
+const parser = parserFor(rules);
 const reactOut = outputFor(rules, "react");
 
 const ytFix = /youtube/;
@@ -194,7 +196,8 @@ const Markdown = ({ children }: MarkdownProps) => {
 
 const style = StyleSheet.create({
   container: {
-    
+    // flexDirection: "row",
+    // flexWrap: "wrap",
   },
 });
 
