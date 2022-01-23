@@ -16,8 +16,8 @@ const ruleStrong: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text key={state.key}>
-        <Text style={style.bold}>{nestedOutput(node.content, state)}</Text>
+      <Text key={state.key} style={style.bold}>
+        {nestedOutput(node.content, state)}
       </Text>
     )
   },

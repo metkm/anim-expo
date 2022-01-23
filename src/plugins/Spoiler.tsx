@@ -13,9 +13,9 @@ const Spoiler = ({ children }: ViewProps) => {
   };
 
   return (
-    <Pressable onPress={toggleSpoiler} style={{ flexShrink: 1, backgroundColor: color }}>
+    <Pressable onPress={toggleSpoiler} style={{ flexShrink: 1 }}>
       {isHided ? (
-        <Text onPress={toggleSpoiler} style={[style.spoilerText, { backgroundColor: color }]}>
+        <Text onPress={toggleSpoiler} style={[style.spoilerText, { backgroundColor: color, color: "white" }]}>
           Spoiler! Click to see!
         </Text>
       ) : (
