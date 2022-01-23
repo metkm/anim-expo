@@ -10,7 +10,6 @@ const ruleLink: DefaultInOutRule = {
     return linkRegex.exec(source);
   },
   parse: capture => {
-    console.log(capture);
     return {
       title: capture[1],
       link: capture[2],
@@ -19,7 +18,7 @@ const ruleLink: DefaultInOutRule = {
   react: (node, nestedOutput, state) => {
     return (
       <Pressable key={state.key} onPress={() => Linking.openURL(node.link)}>
-        <Text style={{ textDecorationStyle: "solid", textDecorationLine: "underline" }}>{node.title}</Text>
+        <Text style={{ textDecorationStyle: "solid", textDecorationLine: "underline", bottom: -4 }}>{node.title}</Text>
       </Pressable>
     );
   },

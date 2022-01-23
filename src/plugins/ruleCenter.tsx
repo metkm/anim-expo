@@ -7,8 +7,6 @@ const centerRegex = /(~~~|<center>)(.*?)(~~~|<\/center>)/s;
 const ruleCenter: DefaultInOutRule = {
   order: 0,
   match: (source) => {
-    console.log(source);
-
     return centerRegex.exec(source);
   },
   parse: (capture, nestedParse, state) => {

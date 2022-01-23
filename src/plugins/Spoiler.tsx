@@ -6,16 +6,16 @@ import { useColors } from "../hooks/useColors";
 
 const Spoiler = ({ children }: ViewProps) => {
   const [isHided, setIsHided] = useState(true);
-  const { colors } = useColors();
+  const { colors, color } = useColors();
 
   const toggleSpoiler = () => {
     setIsHided(isHided => !isHided);
   };
 
   return (
-    <Pressable onPress={toggleSpoiler} style={{ flexShrink: 1 }}>
+    <Pressable onPress={toggleSpoiler} style={{ flexShrink: 1, backgroundColor: color }}>
       {isHided ? (
-        <Text onPress={toggleSpoiler} style={[style.spoilerText, { backgroundColor: colors.background }]}>
+        <Text onPress={toggleSpoiler} style={[style.spoilerText, { backgroundColor: color }]}>
           Spoiler! Click to see!
         </Text>
       ) : (
@@ -27,9 +27,7 @@ const Spoiler = ({ children }: ViewProps) => {
 
 const style = StyleSheet.create({
   spoilerText: {
-    // padding: 4,
-    // borderRadius: 2,
-    // color: "white",
+    bottom: -3
   },
 });
 

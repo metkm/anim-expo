@@ -6,12 +6,11 @@ const spoilerRegex = /^~!(.*?)!~/s;
 const ruleSpoiler: DefaultInOutRule = {
   order: 1,
   match: (source) => {
-    console.log(source);
-    return spoilerRegex.exec(source.trim());
+    return spoilerRegex.exec(source);
   },
   parse: (capture, nestedParse, state) => {
     return {
-      content: nestedParse(capture[1].trim()),
+      content: nestedParse(capture[1], state),
     };
   },
   react: (node, nestedOutput, state) => {

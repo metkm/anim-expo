@@ -189,15 +189,15 @@ const Markdown = ({ children }: MarkdownProps) => {
   children = children.replace(brFix, "");
   children = children.replace(imgFix, "-img(");
   children = children.replace(ytFix, "-youtube");
-  const parsedTree = parser(children);
+  const parsedTree = parser(children, { inline: true });
 
-  return <View style={style.container}>{reactOut(parsedTree)}</View>;
+  return <Text style={style.container}>{reactOut(parsedTree)}</Text>;
 };
 
 const style = StyleSheet.create({
   container: {
-    // flexDirection: "row",
-    // flexWrap: "wrap",
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
 });
 
