@@ -1,6 +1,7 @@
 import { memo } from "react";
-import { StyleSheet, ViewProps, View, useWindowDimensions } from "react-native";
+import { StyleSheet, ViewProps, View } from "react-native";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 import Animated, {
   useAnimatedGestureHandler,
@@ -20,7 +21,7 @@ type AnimContext = {
 };
 
 const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
-  const { width } = useWindowDimensions();
+  const { width } = useSafeAreaFrame();
   const x = useSharedValue(0);
 
   const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, AnimContext>({

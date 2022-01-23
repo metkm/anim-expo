@@ -77,7 +77,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     margin: 6,
-    minHeight: 250,
+    minHeight: 280,
     position: "relative",
   },
   cover: {

@@ -119,7 +119,7 @@ const App = () => {
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
-      <StatusBar translucent backgroundColor="transparent" style="auto" />
+      <StatusBar translucent backgroundColor="transparent" />
     </Provider>
   );
 };

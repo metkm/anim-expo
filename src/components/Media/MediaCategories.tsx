@@ -108,6 +108,7 @@ const MediaCategories = ({ type }: MediaCategoriesProps) => {
       style={style.container}
       contentContainerStyle={{ width: innerWidth, height: 52 }}
       showsHorizontalScrollIndicator={false}
+      overScrollMode="never"
     >
       {categories.map((category, index) => (
         <MediaCategory category={category} index={index} positions={positions} key={category} callback={updateStore} />
@@ -120,14 +121,11 @@ const style = StyleSheet.create({
   container: {
     height: 52,
     maxHeight: 52,
-    position: "relative",
   },
   category: {
     top: 5,
     borderRadius: 1000,
     borderWidth: 2,
-    paddingVertical: 6,
-    paddingHorizontal: 20,
     marginHorizontal: 4,
     alignItems: "center",
     justifyContent: "center",

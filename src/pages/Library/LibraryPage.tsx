@@ -56,6 +56,7 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
+      // marginTop: 12,
       paddingHorizontal: 6,
       opacity: withTiming(opacity.value, timingConfig),
     };
@@ -63,7 +64,6 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
 
   return (
     <View style={style.container}>
-      <MediaCategories type={type} />
       <AnimatedFlatList
         data={entries}
         renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
@@ -74,8 +74,11 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
           offset: index * 250,
         })}
         numColumns={2}
+        contentContainerStyle={{ paddingTop: 10 }}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={<MediaCategories type={type} />}
         style={animatedStyle}
+        overScrollMode="never"
       />
     </View>
   );
