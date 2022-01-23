@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
-import { StatusBar } from "react-native";
 import * as Linking from "expo-linking";
 
 import Button from "./Base/Button";
+
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "../store/tokenSlice";
 import { asyncLogin } from "../store/userSlice";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 const loginButton = () => {
   const dispatch = useDispatch();
+  const { top } = useSafeAreaInsets();
 
   const redirect = () => {
     var id = __DEV__ ? 6762 : 6758;
@@ -31,7 +34,7 @@ const loginButton = () => {
   }, []);
 
   return (
-    <Button icon="login" onPress={redirect} style={{ marginTop: StatusBar.currentHeight }}>
+    <Button icon="login" onPress={redirect} style={{ marginTop: top }}>
       Login
     </Button>
   );

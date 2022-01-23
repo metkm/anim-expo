@@ -8,6 +8,8 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { StyleSheet, StatusBar, useColorScheme, ViewProps, View } from "react-native";
+
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "../hooks/useColors";
 
 interface AnimBannerProps extends ViewProps {
@@ -21,6 +23,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
   const NARROWED_BANNER = 90;
 
   const { colors } = useColors();
+  const { top } = useSafeAreaInsets();
   const isDark = useColorScheme() == "dark";
   const from = [0, NARROWED_BANNER];
 
@@ -36,6 +39,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
   }, [scrollY]);
 
   const bannerAnimatedStyle = useAnimatedStyle(() => ({
+    paddingTop: top,
     backgroundColor: colors.card,
     height: interpolate(scrollY.value, from, [expandedHeight, NARROWED_BANNER], Extrapolate.CLAMP),
   }), []);
@@ -45,6 +49,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
   }), []);
 
   const titleAnimatedStyle = useAnimatedStyle(() => ({
+    top,
     transform: [
       {
         translateY: interpolate(
@@ -66,7 +71,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
         {title}
       </Animated.Text>
 
-      <View style={[style.elementsContainer, { height: NARROWED_BANNER }]}>{children}</View>
+      <View style={[style.elementsContainer, { height: NARROWED_BANNER, paddingTop: top }]}>{children}</View>
     </Animated.View>
   );
 };
@@ -77,7 +82,6 @@ const style = StyleSheet.create({
     // height: expandedHeight + NARROWED_BANNER,
     left: 0,
     right: 0,
-    paddingTop: StatusBar.currentHeight,
     alignItems: "center",
     overflow: "hidden",
   },
@@ -97,14 +101,12 @@ const style = StyleSheet.create({
     fontSize: 18,
     maxWidth: "70%",
     bottom: 0,
-    top: StatusBar.currentHeight,
     textAlignVertical: "center",
   },
   elementsContainer: {
     position: "absolute",
     left: 0,
     right: 0,
-    paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",

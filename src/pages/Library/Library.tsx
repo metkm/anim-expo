@@ -1,10 +1,9 @@
 import React from "react";
-import { StatusBar } from "react-native";
 import { useColors } from "../../hooks/useColors";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
+import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
 import { LibraryParamList } from "../pageProps";
 
 import { useSelector } from "react-redux";
@@ -20,6 +19,7 @@ const Library = ({
 }: BottomTabScreenProps<LibraryParamList, "Anime" | "Manga">) => {
   const user = useSelector((state: RootState) => state.user.user);
   const { width } = useSafeAreaFrame();
+  const { top } = useSafeAreaInsets();
   const { color } = useColors();
   const tabWidth = width / 2 - 10;
   const indicatorWidth = 60;
@@ -31,7 +31,7 @@ const Library = ({
           position: "absolute",
           left: 10,
           right: 10,
-          top: 10 + StatusBar.currentHeight!,
+          top: 10 + top,
           borderRadius: 10,
           overflow: "hidden",
         },
@@ -42,7 +42,7 @@ const Library = ({
           borderRadius: 1000,
         },
       }}
-      sceneContainerStyle={{ paddingTop: 10 + StatusBar.currentHeight! + 44 }}
+      sceneContainerStyle={{ paddingTop: 10 + top + 44 }}
     >
       <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: user?.id || params.userId, type: "ANIME" }} />
       <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: user?.id || params.userId, type: "MANGA" }} />

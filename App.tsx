@@ -29,6 +29,7 @@ import User from "./src/pages/User";
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -94,32 +95,22 @@ const App = () => {
 
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <NavigationContainer theme={isDark ? animDark : animLight}>
-          <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
-            <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
-            <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen
-              name="Character"
-              component={Character}
-              options={{ headerTransparent: true, title: "" }}
-            />
+      <SafeAreaProvider>
+        <PersistGate persistor={persistor}>
+          <NavigationContainer theme={isDark ? animDark : animLight}>
+            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
+              <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+              <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
+              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="Character" component={Character} options={{ headerTransparent: true, title: "" }} />
 
-            <Stack.Screen 
-              name="Activity"
-              component={Activity}
-              options={{ title: "" }}
-            />
-            <Stack.Screen
-              name="User"
-              component={User}
-              options={{ headerTransparent: true, title: "" }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </PersistGate>
-      <StatusBar translucent backgroundColor="transparent" />
+              <Stack.Screen name="Activity" component={Activity} options={{ title: "" }} />
+              <Stack.Screen name="User" component={User} options={{ headerTransparent: true, title: "" }} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </PersistGate>
+        <StatusBar translucent backgroundColor="transparent" style="auto" />
+      </SafeAreaProvider>
     </Provider>
   );
 };
