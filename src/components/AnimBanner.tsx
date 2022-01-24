@@ -4,10 +4,8 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   Extrapolate,
-  useDerivedValue,
-  runOnJS,
 } from "react-native-reanimated";
-import { StyleSheet, StatusBar, useColorScheme, ViewProps, View } from "react-native";
+import { StyleSheet, ViewProps, View } from "react-native";
 
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "../hooks/useColors";
@@ -24,19 +22,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
 
   const { colors } = useColors();
   const { top } = useSafeAreaInsets();
-  const isDark = useColorScheme() == "dark";
   const from = [0, NARROWED_BANNER];
-
-  useDerivedValue(() => {
-    if (isDark) return;
-
-    if (scrollY.value > expandedHeight / 2) {
-      runOnJS(StatusBar.setBarStyle)("light-content");
-      return;
-    }
-
-    runOnJS(StatusBar.setBarStyle)("dark-content");
-  }, [scrollY]);
 
   const bannerAnimatedStyle = useAnimatedStyle(() => ({
     paddingTop: top,
@@ -44,12 +30,7 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
     height: interpolate(scrollY.value, from, [expandedHeight, NARROWED_BANNER], Extrapolate.CLAMP),
   }), []);
 
-  const darkOverlayAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(scrollY.value, from, [0, 0.8], Extrapolate.CLAMP),
-  }), []);
-
   const titleAnimatedStyle = useAnimatedStyle(() => ({
-    top,
     transform: [
       {
         translateY: interpolate(
@@ -66,7 +47,6 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
   return (
     <Animated.View style={[style.container, bannerAnimatedStyle]}>
       <Animated.Image source={{ uri: bannerImage }} style={style.banner} />
-      <Animated.View style={[style.darkOverlay, darkOverlayAnimatedStyle]} />
       <Animated.Text style={[style.title, titleAnimatedStyle]} numberOfLines={1}>
         {title}
       </Animated.Text>
@@ -79,7 +59,6 @@ const AnimBanner = ({ bannerImage, scrollY, title, children, expandedHeight = 14
 const style = StyleSheet.create({
   container: {
     position: "absolute",
-    // height: expandedHeight + NARROWED_BANNER,
     left: 0,
     right: 0,
     alignItems: "center",
@@ -89,19 +68,18 @@ const style = StyleSheet.create({
     position: "absolute",
     ...(StyleSheet.absoluteFill as {}),
   },
-  darkOverlay: {
-    position: "absolute",
-    backgroundColor: "black",
-    ...(StyleSheet.absoluteFill as {}),
-  },
   title: {
     position: "absolute",
+    bottom: 5,
+    left: 5,
+    borderRadius: 1000,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     color: "white",
     fontFamily: "Overpass_700Bold",
-    fontSize: 18,
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 2,
     maxWidth: "70%",
-    bottom: 0,
-    textAlignVertical: "center",
   },
   elementsContainer: {
     position: "absolute",
