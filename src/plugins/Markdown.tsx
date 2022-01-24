@@ -58,8 +58,7 @@ const Markdown = ({ children }: MarkdownProps) => {
 
 const style = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
+    
   },
 });
 
