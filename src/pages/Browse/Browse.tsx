@@ -1,5 +1,4 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import BrowseAnime from "./BrowseAnime";
@@ -23,7 +22,6 @@ const Browse = () => {
         <Tab.Screen name="Anime" component={BrowseAnime} />
         <Tab.Screen name="Manga" component={BrowseManga} />
       </Tab.Navigator>
-      <StatusBar translucent backgroundColor="transparent" style="dark" />
     </>
   );
 };
