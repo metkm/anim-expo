@@ -3,7 +3,7 @@ import { DefaultInOutRule, defaultRules } from "simple-markdown";
 
 import Text from "../components/Base/Text";
 
-const italicRegex = /^(_|<i>)(.+?)(_|<\/i>)/is;
+const italicRegex = /^(_|<i>|\*)(.+?)(_|<\/i>|\*)/is;
 
 const ruleItalic: DefaultInOutRule = {
   ...defaultRules.em,
