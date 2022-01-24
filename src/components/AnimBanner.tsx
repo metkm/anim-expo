@@ -71,7 +71,6 @@ const style = StyleSheet.create({
   title: {
     position: "absolute",
     bottom: 5,
-    left: 5,
     borderRadius: 1000,
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     color: "white",
