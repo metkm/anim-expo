@@ -53,7 +53,8 @@ const style = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 8,
+    // marginTop: 8,
+    marginTop: 4,
     padding: 6,
     elevation: 1,
   },

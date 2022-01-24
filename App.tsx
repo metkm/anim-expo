@@ -3,7 +3,7 @@ import "react-native-reanimated";
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useColorScheme } from "react-native";
+import { ImageBackground, useColorScheme } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
@@ -66,18 +66,21 @@ const Home = () => {
 
           return <Icon name={icons[route.name]} size={size} color={color} />;
         },
+        tabBarActiveTintColor: color,
         tabBarShowLabel: false,
         headerShown: false,
-        tabBarActiveTintColor: color,
+        title: "",
       })}
     >
       <Tab.Screen name="Discover" component={Browse} />
-      {user && <Tab.Screen name="Library" component={Library} />}
-      {user ? (
-        <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
-      ) : (
-        <Tab.Screen name="Login" component={Login} />
-      )}
+      {
+        user ?
+        <>
+          <Tab.Screen name="Library" component={Library} />
+          <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
+        </>
+        : <Tab.Screen name="Login" component={Login} />
+      }
     </Tab.Navigator>
   );
 };
@@ -98,14 +101,20 @@ const App = () => {
       <SafeAreaProvider>
         <PersistGate persistor={persistor}>
           <NavigationContainer theme={isDark ? animDark : animLight}>
-            <Stack.Navigator screenOptions={{ ...TransitionPresets.SlideFromRightIOS }}>
-              <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-              <Stack.Screen name="Media" component={Media} options={{ headerTransparent: true, headerTitle: "" }} />
-              <Stack.Screen name="Settings" component={Settings} />
-              <Stack.Screen name="Character" component={Character} options={{ headerTransparent: true, title: "" }} />
+            <Stack.Navigator screenOptions={{
+              ...TransitionPresets,
+              headerTransparent: true,
+              title: "",
+            }}>
 
-              <Stack.Screen name="Activity" component={Activity} options={{ title: "" }} />
-              <Stack.Screen name="User" component={User} options={{ headerTransparent: true, title: "" }} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Settings" component={Settings} />
+
+              <Stack.Screen name="Media" component={Media} />
+              <Stack.Screen name="Character" component={Character} />
+              <Stack.Screen name="Activity" component={Activity} />
+              <Stack.Screen name="User" component={User} />
+
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>

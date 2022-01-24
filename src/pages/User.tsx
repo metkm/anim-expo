@@ -1,8 +1,8 @@
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import { usePromise } from "../hooks/usePromise";
-import { UserScreenProps } from "./props";
+import { UserNavigationProps, UserScreenProps } from "./props";
 
 import { getUser } from "../api/user/getUser";
 import { getActivities } from "../api/user/getActivities";
@@ -13,6 +13,8 @@ import UserActivities from "../components/User/UserActivities";
 import AnimBanner from "../components/AnimBanner";
 import UserHeader from "../components/User/UserHeader";
 import Loading from "../components/AnimLoading";
+import { useNavigation } from "@react-navigation/native";
+import { ImageBackground } from "react-native";
 
 interface UserProps {
   userReader: () => UserObject;
@@ -20,9 +22,11 @@ interface UserProps {
 }
 
 const User = ({ userReader, userId }: UserProps) => {
+  // const navigation = useNavigation<UserNavigationProps>();
   const [activitiesReader] = usePromise(getActivities, userId, 1);
   const [user] = useState(() => userReader());
   const scrollY = useSharedValue(0);
+
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
@@ -32,9 +36,9 @@ const User = ({ userReader, userId }: UserProps) => {
 
   return (
     <>
-      <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} title={user.name}>
+      {/* <AnimBanner bannerImage={user.bannerImage} scrollY={scrollY} title={user.name}>
         <UserSettingsCog />
-      </AnimBanner>
+      </AnimBanner> */}
 
       <UserActivities
         userId={user.id}
@@ -50,7 +54,6 @@ const UserSuspense = ({
   route: {
     params: { userId },
   },
-  
 }: UserScreenProps) => {
   const [userReader] = usePromise(getUser, userId);
 
