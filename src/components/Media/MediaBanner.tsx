@@ -1,13 +1,16 @@
-import { Image, StyleSheet } from "react-native";
+import { Image, StyleSheet, View, ViewProps } from "react-native";
 import Animated, { Extrapolate, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
-import { useHeaderHeight } from "@react-navigation/elements";
 
-interface MediaBannerProps {
+import { useHeaderHeight } from "@react-navigation/elements";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+interface MediaBannerProps extends ViewProps {
   uri: string;
   y: SharedValue<number>;
 }
 
-const MediaBanner = ({ uri, y }: MediaBannerProps) => {
+const MediaBanner = ({ uri, y, children }: MediaBannerProps) => {
+  const { top } = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -25,6 +28,9 @@ const MediaBanner = ({ uri, y }: MediaBannerProps) => {
   return (
     <Animated.View style={animatedStyle}>
       <Image style={style.img} source={{ uri }} />
+      <View style={[style.elements, { height: headerHeight, paddingTop: top }]}>
+        {children}
+      </View>
     </Animated.View>
   )
 }
@@ -33,6 +39,14 @@ const style = StyleSheet.create({
   img: {
     width: "100%",
     height: "100%",
+  },
+  elements: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    paddingRight: 10,
+    flexDirection :"row",
+    alignItems: "center",
   }
 });
 

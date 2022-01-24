@@ -108,8 +108,8 @@ const App = () => {
                 title: "",
               }}
             >
-              <Stack.Screen name="Settings" component={Settings} />
               <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Settings" component={Settings} />
 
               <Stack.Screen name="Character" component={Character} />
               <Stack.Screen name="Activity" component={Activity} />

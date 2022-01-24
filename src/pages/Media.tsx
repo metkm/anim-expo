@@ -44,7 +44,10 @@ const Media = ({ mediaReader }: MediaProps) => {
 
   return (
     <>
-      <MediaBanner uri={media.bannerImage} y={scrollY} />
+      <MediaBanner uri={media.bannerImage} y={scrollY}>
+        <Icon style={style.icon} onPress={toggleVisible} name="pencil" color="white" size={22} />
+      </MediaBanner>
+      <MediaEdit media={media} isVisible={isVisible} setIsVisible={setIsVisible} editCallback={toggleVisible} />
 
       <Animated.ScrollView style={[style.containerPadding, { marginTop: headerHeight }]} overScrollMode="never" onScroll={scrollHandler}>
         <MediaHeader media={media} />
@@ -92,7 +95,7 @@ const style = StyleSheet.create({
   },
   icon: {
     marginLeft: "auto",
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     padding: 8,
     borderRadius: 100,
   },

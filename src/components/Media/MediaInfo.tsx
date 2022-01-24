@@ -42,11 +42,13 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
         )}
       </View>
 
-      <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
-        <Markdown>
-          {media.description}
-        </Markdown>
-      </View>
+      {media.description ? (
+        <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
+          <Markdown>{media.description}</Markdown>
+        </View>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
