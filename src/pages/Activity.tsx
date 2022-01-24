@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { FlatList, ImageBackground, ListRenderItem, StyleSheet, View } from "react-native";
 
-import { ActivityScreenProps } from "./pageProps";
+import { ActivityScreenProps } from "./props";
 import { useNavigation } from "@react-navigation/native";
 
 import ActivityComment from "../components/Activity/ActivityComment";

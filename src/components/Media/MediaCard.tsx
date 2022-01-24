@@ -7,7 +7,7 @@ import { useColors } from "../../hooks/useColors";
 import { timeUntil } from "./MediaUtils";
 
 import { useNavigation } from "@react-navigation/native";
-import { MediaNavigationProps } from "../../pages/pageProps";
+import { MediaNavigationProps } from "../../pages/props";
 
 import Text from "../Base/Text";
 import MediaEdit from "./MediaEdit";

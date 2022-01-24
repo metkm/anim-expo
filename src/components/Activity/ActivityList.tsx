@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import { capitalizeFirstLetter } from "../commonUtils";
 
-import { MediaNavigationProps } from "../../pages/pageProps";
+import { MediaNavigationProps } from "../../pages/props";
 import { ListActivityObject } from "../../api/objectTypes";
 
 import { useNavigation } from "@react-navigation/native";

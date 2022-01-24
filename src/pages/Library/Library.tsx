@@ -4,7 +4,7 @@ import { useColors } from "../../hooks/useColors";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
-import { LibraryParamList } from "../pageProps";
+import { LibraryParamList } from "../props";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";

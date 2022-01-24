@@ -6,7 +6,7 @@ import { CharacterEdgeObject } from "../../api/objectTypes";
 import { capitalizeFirstLetter } from "../commonUtils";
 
 import { useNavigation } from "@react-navigation/native";
-import { SettingsNavigationProps } from "../../pages/pageProps";
+import { SettingsNavigationProps } from "../../pages/props";
 
 interface CharacterCardProps {
   character: CharacterEdgeObject

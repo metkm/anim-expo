@@ -14,7 +14,7 @@ import MediaCharacters from "../components/Media/MediaCharacters";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { StackScreenProps } from "@react-navigation/stack";
-import { StackParamList } from "./pageProps";
+import { StackParamList } from "./props";
 
 import { MediaObject } from "../api/objectTypes";
 import { getMedia } from "../api/media/getMedia";

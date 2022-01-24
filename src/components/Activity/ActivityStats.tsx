@@ -9,7 +9,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { likeActivity } from "../../api/activity/likeActivity";
 import { LikeableType } from "../../api/objectTypes";
 
-import { ActivityNavigationProps } from "../../pages/pageProps";
+import { ActivityNavigationProps } from "../../pages/props";
 import { useColors } from "../../hooks/useColors";
 import { timeSince } from "../commonUtils";
 

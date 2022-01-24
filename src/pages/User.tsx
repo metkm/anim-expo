@@ -2,7 +2,7 @@ import { Suspense, useState } from "react";
 import { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
 import { usePromise } from "../hooks/usePromise";
-import { UserScreenProps } from "./pageProps";
+import { UserScreenProps } from "./props";
 
 import { getUser } from "../api/user/getUser";
 import { getActivities } from "../api/user/getActivities";

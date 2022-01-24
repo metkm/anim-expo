@@ -2,7 +2,7 @@ import React, { Suspense, useEffect } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
-import { LibraryPageParamList } from "../pageProps";
+import { LibraryPageParamList } from "../props";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 import { MediaListCollectionObject, MediaListObject, MediaType } from "../../api/objectTypes";

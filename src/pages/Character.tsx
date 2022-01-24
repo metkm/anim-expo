@@ -13,7 +13,7 @@ import { CharacterObject } from "../api/objectTypes";
 import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
 
-import { CharacterScreenProps } from "./pageProps";
+import { CharacterScreenProps } from "./props";
 
 interface CharacterProps {
   characterReader: () => CharacterObject;

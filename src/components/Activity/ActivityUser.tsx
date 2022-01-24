@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Image, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import { UserNavigationProps } from "../../pages/pageProps";
+import { UserNavigationProps } from "../../pages/props";
 import { UserObject } from "../../api/objectTypes";
 import { timeSince } from "../commonUtils";
 

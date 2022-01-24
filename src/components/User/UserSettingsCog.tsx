@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
-import { SettingsNavigationProps } from "../../pages/pageProps";
+import { SettingsNavigationProps } from "../../pages/props";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
