@@ -44,7 +44,7 @@ const brFix = /<br>/g;
 const imgFix = /img\d*\(/g;
 
 const Markdown = ({ children }: MarkdownProps) => {
-  children = children.replace(brFix, "");
+  children = children.replace(brFix, "\n");
   children = children.replace(imgFix, "-img(");
   children = children.replace(ytFix, "-youtube");
   const parsedTree = parser(children, { inline: true });
