@@ -1,11 +1,15 @@
 import React from "react";
+import { StatusBar } from "expo-status-bar";
 import { View, Image, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { UserObject } from "../../api/objectTypes";
 
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useColors } from "../../hooks/useColors";
+
 // components
-import Text from "../Base/Text";
 import UserStats from "./UserStats";
+import Text from "../Base/Text";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 interface UserHeaderProps {
   user: UserObject
@@ -13,16 +17,21 @@ interface UserHeaderProps {
 
 const UserHeader = ({ user }: UserHeaderProps) => {
   const { top } = useSafeAreaInsets();
+  const { colors } = useColors();
 
   return (
     <View style={[style.content, { marginTop: top }]}>
       <Image style={style.banner} source={{ uri: user.bannerImage }} />
       <View style={style.container}>
         <Image style={style.avatar} source={{ uri: user.avatar.large }} />
-        <Text style={style.name} numberOfLines={2}>{user.name}</Text>
+        <View style={style.inner}>
+          <Text style={style.name} numberOfLines={2}>{user.name}</Text>
+          <Icon style={style.icon} name="bell" color={colors.text} size={20} />
+        </View>
       </View>
 
       <UserStats user={user} />
+      <StatusBar backgroundColor={colors.background} />
     </View>
   );
 };
@@ -47,10 +56,17 @@ const style = StyleSheet.create({
   },
   name: {
     flex: 1,
-    paddingTop: 20,
     paddingLeft: 6,
     fontSize: 20,
     fontFamily: "Overpass_700Bold",
+  },
+  inner: {
+    flex: 1,
+    paddingTop: 20,
+    flexDirection: "row",
+  },
+  icon: {
+    marginTop: 6,
   }
 });
 
