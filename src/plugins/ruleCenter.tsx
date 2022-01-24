@@ -18,8 +18,6 @@ const ruleCenter: DefaultInOutRule = {
     return centerRegex.exec(source);
   },
   parse: (capture, nestedParse, state) => {
-    console.log("------------------")
-    console.log(capture);
     return {
       content: nestedParse(capture[2], state),
     };
