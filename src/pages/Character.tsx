@@ -14,6 +14,7 @@ import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
 
 import { CharacterScreenProps } from "./props";
+import { StatusBar } from "expo-status-bar";
 
 interface CharacterProps {
   characterReader: () => CharacterObject;
@@ -53,6 +54,8 @@ const Character = ({ characterReader }: CharacterProps) => {
           {character.description}
         </Markdown>
       </View>
+
+      <StatusBar style="auto" />
     </ScrollView>
   );
 };

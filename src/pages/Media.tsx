@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Image, View } from "react-native";
 
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
@@ -7,19 +7,20 @@ import Text from "../components/Base/Text";
 import Loading from "../components/AnimLoading";
 import MediaEdit from "../components/Media/MediaEdit";
 import MediaInfo from "../components/Media/MediaInfo";
-import AnimBanner from "../components/AnimBanner";
+import MediaBanner from "../components/Media/MediaBanner";
 import MediaHeader from "../components/Media/MediaHeader";
 import MediaRelations from "../components/Media/MediaRelations";
 import MediaCharacters from "../components/Media/MediaCharacters";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
+import { useHeaderHeight } from "@react-navigation/elements";
 import { StackScreenProps } from "@react-navigation/stack";
 import { StackParamList } from "./props";
 
 import { MediaObject } from "../api/objectTypes";
 import { getMedia } from "../api/media/getMedia";
 import { usePromise } from "../hooks/usePromise";
-
+import { StatusBar } from "expo-status-bar";
 
 interface MediaProps {
   mediaReader: () => MediaObject
@@ -29,6 +30,7 @@ const Media = ({ mediaReader }: MediaProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [media] = useState(() => mediaReader());
   const scrollY = useSharedValue(0);
+  const headerHeight = useHeaderHeight();
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: ({ contentOffset: { y } }) => {
@@ -42,17 +44,9 @@ const Media = ({ mediaReader }: MediaProps) => {
 
   return (
     <>
-      <AnimBanner
-        bannerImage={media.bannerImage}
-        scrollY={scrollY}
-        expandedHeight={180}
-        title={media.title.userPreferred}
-      >
-        <Icon style={style.icon} onPress={toggleVisible} name="pencil" color="white" size={22} />
-        <MediaEdit media={media} isVisible={isVisible} setIsVisible={setIsVisible} />
-      </AnimBanner>
+      <MediaBanner uri={media.bannerImage} y={scrollY} />
 
-      <Animated.ScrollView style={style.containerPadding} overScrollMode="never" onScroll={scrollHandler}>
+      <Animated.ScrollView style={[style.containerPadding, { marginTop: headerHeight }]} overScrollMode="never" onScroll={scrollHandler}>
         <MediaHeader media={media} />
         <MediaInfo media={media} />
 
@@ -67,6 +61,8 @@ const Media = ({ mediaReader }: MediaProps) => {
           <Text style={style.title}>Characters</Text>
           <MediaCharacters characterList={media.characters.edges} />
         </>
+
+        <StatusBar translucent style="light" />
       </Animated.ScrollView>
     </>
   );
@@ -84,7 +80,6 @@ const MediaSuspense = ({ route: { params: { mediaId } } }: StackScreenProps<Stac
 
 const style = StyleSheet.create({
   containerPadding: {
-    marginTop: 90,
     paddingHorizontal: 6,
   },
   relations: {
@@ -100,6 +95,12 @@ const style = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.6)",
     padding: 8,
     borderRadius: 100,
+  },
+  banner: {
+    overflow: "hidden",
+    position: "absolute",
+    left: 0,
+    right: 0,
   }
 });
 

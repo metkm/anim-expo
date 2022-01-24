@@ -1,54 +1,38 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { FlatList, ImageBackground, ListRenderItem, StyleSheet, View } from "react-native";
-
+import React, { Suspense, useState } from "react";
+import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
 import { ActivityScreenProps } from "./props";
-import { useNavigation } from "@react-navigation/native";
 
+import AnimItemSeparator from "../components/AnimItemSeparator";
 import ActivityComment from "../components/Activity/ActivityComment";
 import AnimSwipeable from "../components/AnimSwipeable";
 import ActivityReply from "../components/Activity/ActivityReply";
 import AnimLoading from "../components/AnimLoading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
-
 import { ActivityReplyObject } from "../api/objectTypes";
 import { getActivityReplies } from "../api/activity/getActivityReplies";
 import { delActivityReply } from "../api/activity/delActivityReply";
 
-import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import AnimItemSeparator from "../components/AnimItemSeparator";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
-  bannerImage?: string;
   activityId: number;
 }
 
-const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => {
+const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [replies, setReplies] = useState(() => repliesReader());
-  const navigation = useNavigation();
-  const { colors } = useColors();
+  const { top } = useSafeAreaInsets();
+  const headerHeight = useHeaderHeight();
 
   const addActivity = (reply: ActivityReplyObject) => {
     setReplies(oldReplies => [...oldReplies, reply]);
   };
-
-  useEffect(() => {
-    if (bannerImage) {
-      navigation.setOptions({
-        headerBackground: () => (
-          <ImageBackground style={style.gradient} source={{ uri: bannerImage }}>
-            <LinearGradient style={style.gradient} colors={["transparent", colors.background]} locations={[0, 1]} />
-          </ImageBackground>
-        ),
-      });
-    }
-  }, []);
 
   const delReplyHandler = async (index: number, id: number) => {
     await delActivityReply(id);
@@ -81,7 +65,7 @@ const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => 
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "space-between" }}>
+    <View style={{ flex: 1, justifyContent: "space-between", paddingTop: headerHeight }}>
       <FlatList
         data={replies}
         renderItem={renderItem}
@@ -97,14 +81,14 @@ const Activity = ({ repliesReader, bannerImage, activityId }: ActivityProps) => 
 
 const ActivitySuspense = ({
   route: {
-    params: { activityId, bannerImage },
+    params: { activityId },
   },
 }: ActivityScreenProps) => {
   const [repliesReader] = usePromise(getActivityReplies, activityId, 1);
 
   return (
     <Suspense fallback={<AnimLoading />}>
-      <Activity repliesReader={repliesReader} bannerImage={bannerImage} activityId={activityId} />
+      <Activity repliesReader={repliesReader} activityId={activityId} />
     </Suspense>
   );
 };

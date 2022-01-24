@@ -20,7 +20,6 @@ interface ActivityStatsProps {
   id: number;
   createdAt: number;
   type: LikeableType;
-  bannerImage?: string;
 }
 
 interface LikeObject {
@@ -29,7 +28,7 @@ interface LikeObject {
   likeCount: number;
 }
 
-const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type, bannerImage }: ActivityStatsProps) => {
+const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type }: ActivityStatsProps) => {
   const navigation = useNavigation<ActivityNavigationProps>();
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
@@ -41,7 +40,6 @@ const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type, ba
   const activityHandler = () => {
     navigation.push("Activity", {
       activityId: id,
-      bannerImage,
     });
   };
 

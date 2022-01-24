@@ -42,7 +42,6 @@ const ActivityList = ({ activity }: ListActivityProps) => {
         <ActivityStats
            {...activity}
            type="ACTIVITY"
-           bannerImage={activity.media.bannerImage}
          />
       </View>
     </View>

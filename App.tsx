@@ -3,7 +3,7 @@ import "react-native-reanimated";
 
 import React, { useEffect } from "react";
 import axios from "axios";
-import { ImageBackground, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
@@ -73,14 +73,14 @@ const Home = () => {
       })}
     >
       <Tab.Screen name="Discover" component={Browse} />
-      {
-        user ?
+      {user ? (
         <>
           <Tab.Screen name="Library" component={Library} />
           <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
         </>
-        : <Tab.Screen name="Login" component={Login} />
-      }
+      ) : (
+        <Tab.Screen name="Login" component={Login} />
+      )}
     </Tab.Navigator>
   );
 };
@@ -97,30 +97,30 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>
-      <SafeAreaProvider>
+    <SafeAreaProvider>
+      <Provider store={store}>
         <PersistGate persistor={persistor}>
           <NavigationContainer theme={isDark ? animDark : animLight}>
-            <Stack.Navigator screenOptions={{
-              ...TransitionPresets,
-              headerTransparent: true,
-              title: "",
-            }}>
-
-              <Stack.Screen name="Home" component={Home} />
+            <Stack.Navigator
+              screenOptions={{
+                ...TransitionPresets.SlideFromRightIOS,
+                headerTransparent: true,
+                title: "",
+              }}
+            >
               <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="Home" component={Home} />
 
-              <Stack.Screen name="Media" component={Media} />
               <Stack.Screen name="Character" component={Character} />
               <Stack.Screen name="Activity" component={Activity} />
+              <Stack.Screen name="Media" component={Media} />
               <Stack.Screen name="User" component={User} />
-
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
         <StatusBar translucent backgroundColor="transparent" style="auto" />
-      </SafeAreaProvider>
-    </Provider>
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 
