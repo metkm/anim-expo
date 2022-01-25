@@ -2,8 +2,6 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Image, StyleSheet } from "react-native";
 import { UserObject } from "../../api/objectTypes";
-
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "../../hooks/useColors";
 
 // components
@@ -16,11 +14,10 @@ interface UserHeaderProps {
 }
 
 const UserHeader = ({ user }: UserHeaderProps) => {
-  const { top } = useSafeAreaInsets();
   const { colors } = useColors();
 
   return (
-    <View style={[style.content, { marginTop: top }]}>
+    <View style={style.content}>
       <Image style={style.banner} source={{ uri: user.bannerImage }} />
       <View style={style.container}>
         <Image style={style.avatar} source={{ uri: user.avatar.large }} />
@@ -31,18 +28,19 @@ const UserHeader = ({ user }: UserHeaderProps) => {
       </View>
 
       <UserStats user={user} />
-      <StatusBar backgroundColor={colors.background} />
+      <StatusBar style="light" backgroundColor="rgba(0, 0, 0, 0.4)" />
     </View>
   );
 };
 
 const style = StyleSheet.create({
   content: {
-    padding: 4,
+    marginBottom: 4,
   },
   banner: {
-    height: 120,
-    borderRadius: 6,
+    height: 180,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
   },
   container: {
     marginTop: -20,
