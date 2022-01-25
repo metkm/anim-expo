@@ -103,20 +103,15 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
         onScroll={scrollHandler}
         onEndReached={onEndHandler}
         onEndReachedThreshold={0.4}
-        style={style.flatlist}
         overScrollMode="never"
       />
 
-      {/* {storeUser?.id == userId && <ActivityCreate activityCallback={addActivity} />} */}
       <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
     </>
   );
 };
 
 const style = StyleSheet.create({
-  flatlist: {
-    // marginTop: 90,
-  },
   icon: {
     textAlign: "center",
     textAlignVertical: "center",
