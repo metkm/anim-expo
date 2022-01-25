@@ -8,7 +8,7 @@ const centerRegex = /^(~~~|<center>)(.*?)(~~~|<\/center>)/s;
 const FillWidthView = ({ children }: ViewProps) => {
   const { width } = useSafeAreaFrame();
   return (
-    <View style={{ width: width - 20 }}>{children}</View>
+    <View style={{ width: width - 28 }}>{children}</View>
   )
 }
 
@@ -24,8 +24,8 @@ const ruleCenter: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <FillWidthView key={state.key} style={{ width: 300 }}>
-        <Text style={{ textAlign: "center" }}>
+      <FillWidthView key={state.key}>
+        <Text style={style.container}>
           {nestedOutput(node.content, state)}
         </Text>
       </FillWidthView>
@@ -37,6 +37,8 @@ const ruleCenter: DefaultInOutRule = {
 const style = StyleSheet.create({
   container: {
     textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

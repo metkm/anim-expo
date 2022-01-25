@@ -7,7 +7,7 @@ const imgRegex = /^-img(\d*)\((\S*)\)/;
 const FillWidth = ({ children }: ViewProps) => {
   const { width } = useSafeAreaFrame();
   return (
-    <View style={{ width: width - 20, height: 250, borderRadius: 6, overflow: "hidden" }}>{children}</View>
+    <View style={{ width: width - 28, height: 250, borderRadius: 6, overflow: "hidden" }}>{children}</View>
   )
 }
 
