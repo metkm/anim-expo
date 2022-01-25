@@ -6,7 +6,6 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
-  View,
 } from "react-native";
 import Animated from "react-native-reanimated";
 
@@ -66,11 +65,7 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
   };
 
   const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
-    if (storeUser?.id !== userId) return (
-      <>
-        {getRenderElement(item, item.type)}
-      </>
-    )
+    const element = getRenderElement(item, item.type);
 
     const options = () => {
       return (
@@ -84,11 +79,15 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
       );
     };
 
-    return (
-      <AnimSwipeable options={options}>
-        {getRenderElement(item, item.type)}
-      </AnimSwipeable>
-    );
+    if (storeUser?.id == userId || ("messenger" in item && item.messenger.id)) {
+      return (
+        <AnimSwipeable options={options}>
+          {element}
+        </AnimSwipeable>
+      )
+    }
+
+    return element;
   };
 
   return (
@@ -108,7 +107,8 @@ const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: Use
         overScrollMode="never"
       />
 
-      {storeUser?.id == userId && <ActivityCreate activityCallback={addActivity} />}
+      {/* {storeUser?.id == userId && <ActivityCreate activityCallback={addActivity} />} */}
+      <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
     </>
   );
 };
