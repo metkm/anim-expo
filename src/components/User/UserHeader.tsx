@@ -2,7 +2,10 @@ import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, Image, StyleSheet } from "react-native";
 import { UserObject } from "../../api/objectTypes";
+
 import { useColors } from "../../hooks/useColors";
+import { useNavigation } from "@react-navigation/native";
+import { SettingsNavigationProps } from "../../pages/props";
 
 // components
 import UserStats from "./UserStats";
@@ -14,7 +17,16 @@ interface UserHeaderProps {
 }
 
 const UserHeader = ({ user }: UserHeaderProps) => {
+  const navigation = useNavigation<SettingsNavigationProps>();
   const { colors } = useColors();
+
+  const pressHandlerSettings = () => {
+    navigation.navigate("Settings");
+  };
+
+  const pressHandlerNotifications = () => {
+    // navigation.navigate("Settings");
+  };
 
   return (
     <View style={style.content}>
@@ -23,7 +35,10 @@ const UserHeader = ({ user }: UserHeaderProps) => {
         <Image style={style.avatar} source={{ uri: user.avatar.large }} />
         <View style={style.inner}>
           <Text style={style.name} numberOfLines={2}>{user.name}</Text>
-          <Icon style={style.icon} name="bell" color={colors.text} size={20} />
+          <View>
+            <Icon style={style.icon} name="bell" color={colors.text} size={20} />
+            <Icon style={style.icon} onPress={pressHandlerSettings} name="cog" color={colors.text} size={20} />
+          </View>
         </View>
       </View>
 
@@ -65,6 +80,11 @@ const style = StyleSheet.create({
   },
   icon: {
     marginTop: 6,
+    flex: 1,
+    textAlignVertical: "center",
+  },
+  actions: {
+    flexDirection: "column",
   }
 });
 

@@ -29,6 +29,7 @@ import User from "./src/pages/User";
 import { animDark, animLight } from "./src/constants/theme";
 import { useColors } from "./src/hooks/useColors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
@@ -113,10 +114,11 @@ const App = () => {
                   marginVertical: 10,
                 },
                 headerTintColor: "white",
+                headerTitleStyle: { color: isDark ? "white": "black" },
               }}
             >
               <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="Settings" component={Settings} options={{ headerTransparent: false, title: "Settings" }} />
 
               <Stack.Screen name="Character" component={Character} />
               <Stack.Screen name="Activity" component={Activity} />
