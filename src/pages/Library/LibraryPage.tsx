@@ -49,9 +49,7 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
 
   useEffect(() => {
     const newCategories = listCollection.lists.map(list => list.name);
-    if (newCategories.some(category => !(categories.includes(category)))) {
-      dispatch(setCategories([...newCategories]));
-    }
+    dispatch(setCategories([...newCategories]));
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
