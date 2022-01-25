@@ -106,6 +106,13 @@ const App = () => {
                 ...TransitionPresets.SlideFromRightIOS,
                 headerTransparent: true,
                 title: "",
+                headerLeftContainerStyle: {
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  borderRadius: 1000,  
+                  marginLeft: 10,
+                  marginVertical: 10,
+                },
+                headerTintColor: "white",
               }}
             >
               <Stack.Screen name="Home" component={Home} />
