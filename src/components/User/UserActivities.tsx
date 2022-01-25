@@ -32,6 +32,7 @@ interface UserActivitiesProps {
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
+// TODO: #11 Make this use hasNextPage from anilist response
 const UserActivities = ({ activitiesReader, scrollHandler, userId, header }: UserActivitiesProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
