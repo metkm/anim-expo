@@ -3,7 +3,7 @@ import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { DefaultInOutRule } from "simple-markdown";
 import Text from "../components/Base/Text";
 
-const centerRegex = /^(~~~|<center>)(.*?)(~~~|<\/center>|$)/s;
+const centerRegex = /^(~~~|<center>)(.*?)(<\/center>|~~~|$)/s;
 
 const FillWidthView = ({ children }: ViewProps) => {
   const { width } = useSafeAreaFrame();
