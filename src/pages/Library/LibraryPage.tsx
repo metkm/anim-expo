@@ -1,9 +1,7 @@
 import React, { Suspense, useEffect } from "react";
 import { FlatList } from "react-native";
 
-import { LibraryPageParamList } from "../props";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-
+import { LibraryPageScreenProps } from "../props";
 import { MediaListCollectionObject, MediaType } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
 import { usePromise } from "../../hooks/usePromise";
@@ -24,13 +22,13 @@ interface LibraryPage {
 
 const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
   const { categories, setCategories } = useCategories(type);
-
+  
   const findEntries = (category: string) => {
     return listCollection.lists.find(list => {
       return list.name == category;
     });
   };
-
+  
   const listCollection = libraryReader();
   const dispatch = useDispatch<RootDispatch>();
   const entries = findEntries(categories[0])?.entries;
@@ -62,7 +60,7 @@ const LibraryPageSuspense = ({
   route: {
     params: { userId, type },
   },
-}: BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">) => {
+}: LibraryPageScreenProps) => {
   const [libraryReader, libraryUpdater] = usePromise(getEntries, userId, type);
 
   const refresh = () => {

@@ -1,0 +1,35 @@
+import { ScrollView } from "react-native";
+import Loading from "../../components/AnimLoading";
+import BrowseRow from "../../components/Browse/BrowseRow";
+
+import { useBrowse } from "../../hooks/useBrowse";
+import { BrowseScreenProps } from "../props";
+
+const labels: {[key: string]: string} = {
+  "trending": "Trending now",
+  "popular": "All Time Popular",
+  "manhwa": "Popular Manhwa",
+  "season": "Popular This Season",
+  "nextSeason": "Upcoming Next Season",
+}
+
+const BrowsePage = ({
+  route: {
+    params: { type },
+  },
+}: BrowseScreenProps) => {
+  const { browse } = useBrowse(type);
+
+  if (!browse) return <Loading />;
+  return (
+    <ScrollView>
+      {
+        Object.entries(browse).map(([key, value], index) => {
+          return <BrowseRow key={index} title={labels[key]} mediaList={value.media} />
+        })
+      }
+    </ScrollView>
+  );
+};
+
+export default BrowsePage;

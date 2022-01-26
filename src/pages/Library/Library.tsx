@@ -1,10 +1,8 @@
 import React from "react";
-
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-import { LibraryParamList } from "../props";
+import { LibraryScreenProps } from "../props";
 
-import { useTabBarStyle } from "../shared";
+import { useTabBarStyle } from "../../hooks/useTabBarStyle";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../../store";
@@ -16,7 +14,7 @@ const Library = ({
   route: {
     params,
   },
-}: BottomTabScreenProps<LibraryParamList, "Anime" | "Manga">) => {
+}: LibraryScreenProps) => {
   const user = useSelector((state: RootState) => state.user.user);
   const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle();
 

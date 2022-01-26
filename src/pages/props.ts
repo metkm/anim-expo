@@ -26,8 +26,22 @@ export type LibraryParamList = {
   };
 };
 
+export type LibraryScreenProps = BottomTabScreenProps<LibraryParamList, "Anime" | "Manga">;
+export type LibraryPageScreenProps = BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">;
+
+export type BrowseParamList = {
+  Anime: {
+    type: MediaType;
+  },
+  Manga: {
+    type: MediaType;
+  }
+}
+
+export type BrowseScreenProps = BottomTabScreenProps<BrowseParamList, "Anime" | "Manga">;
+
 export type BottomTabParamList = {
-  Discover: undefined;
+  Browse: NavigatorScreenParams<BrowseParamList>;
   Library: NavigatorScreenParams<LibraryPageParamList>;
   User: {
     userId: number;
@@ -56,7 +70,6 @@ export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Setti
 export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activity">;
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
-
 
 export type UserScreenProps = CompositeScreenProps<
   BottomTabScreenProps<BottomTabParamList, "User">,

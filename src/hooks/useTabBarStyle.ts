@@ -1,6 +1,6 @@
 import { StyleProp, ViewStyle } from "react-native";
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
-import { useColors } from "../hooks/useColors";
+import { useColors } from "./useColors";
 
 export const useTabBarStyle = () => {
   const { color } = useColors();
@@ -28,7 +28,6 @@ export const useTabBarStyle = () => {
 
   const sceneContainerStyle: StyleProp<ViewStyle> = {
     paddingTop: 10 + top + 44,
-    // paddingHorizontal: 6,
   }
 
   return {
