@@ -1,9 +1,9 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTabBarStyle } from "../shared";
 
 import BrowseAnime from "./BrowseAnime";
 import BrowseManga from "./BrowseManga";
-import { useTabBarStyle } from "../shared";
 
 const Tab = createMaterialTopTabNavigator();
 

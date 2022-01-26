@@ -121,6 +121,7 @@ const style = StyleSheet.create({
   container: {
     height: 52,
     maxHeight: 52,
+    marginTop: 10,
   },
   category: {
     top: 5,

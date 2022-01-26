@@ -1,14 +1,11 @@
 import React, { Suspense, useEffect } from "react";
 import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { LibraryPageParamList } from "../props";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 import { MediaListCollectionObject, MediaListObject, MediaType } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
-
-import { timingConfig } from "../../constants/reanimated";
 import { usePromise } from "../../hooks/usePromise";
 
 import MediaCategories from "../../components/Media/MediaCategories";
@@ -25,8 +22,6 @@ interface LibraryPage {
   refresh: () => void;
   type: MediaType;
 }
-
-const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<MediaListObject>>(FlatList);
 
 const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
   const categories =
@@ -45,24 +40,15 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
   const listCollection = libraryReader();
   const dispatch = useDispatch<RootDispatch>();
   const entries = findEntries(categories[0])?.entries;
-  const opacity = useSharedValue(1);
 
   useEffect(() => {
     const newCategories = listCollection.lists.map(list => list.name);
     dispatch(setCategories([...newCategories]));
   }, []);
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      // marginTop: 12,
-      paddingHorizontal: 6,
-      opacity: withTiming(opacity.value, timingConfig),
-    };
-  }, []);
-
   return (
     <View style={style.container}>
-      <AnimatedFlatList
+      <FlatList
         data={entries}
         renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
         keyExtractor={item => item.media.id.toString()}
@@ -72,10 +58,8 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
           offset: index * 250,
         })}
         numColumns={2}
-        contentContainerStyle={{ paddingTop: 10 }}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={<MediaCategories type={type} />}
-        style={animatedStyle}
         overScrollMode="never"
       />
     </View>
@@ -103,6 +87,7 @@ const LibraryPageSuspense = ({
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    paddingRight: 6,
   },
   title: {
     fontSize: 26,

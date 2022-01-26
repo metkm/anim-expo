@@ -16,7 +16,6 @@ import { delActivityReply } from "../api/activity/delActivityReply";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useHeaderHeight } from "@react-navigation/elements";
 
 interface ActivityProps {
@@ -27,7 +26,6 @@ interface ActivityProps {
 const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [replies, setReplies] = useState(() => repliesReader());
-  const { top } = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
 
   const addActivity = (reply: ActivityReplyObject) => {
