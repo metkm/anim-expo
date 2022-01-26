@@ -1,10 +1,10 @@
 import React from "react";
-import { Pressable, Text, PressableProps, StyleSheet } from "react-native";
+import { Text, StyleSheet, TouchableHighlight, TouchableHighlightProps, View } from "react-native";
 import { useColors } from "../../hooks/useColors";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-interface ButtonProps extends PressableProps {
+interface ButtonProps extends TouchableHighlightProps {
   icon?: string
 }
 
@@ -12,25 +12,29 @@ const Button = ({ onPress, style, children, icon }: ButtonProps) => {
   const { color } = useColors();
 
   return (
-    <Pressable
+    <TouchableHighlight
+      activeOpacity={0.9}
       onPress={onPress}
-      style={[styles.buttonContainer, { backgroundColor: color }, { ...style as {}}]}
+      style={styles.outer}
     >
-      { icon && <Icon style={styles.icon} size={16} name={icon} color="white" /> }
-      <Text style={styles.text}>{children}</Text>
-    </Pressable>
+      <View style={[styles.inner, { backgroundColor: color }, { ...style as {}}]}>
+        { icon && <Icon style={styles.icon} size={16} name={icon} color="white" /> }
+        <Text style={styles.text}>{children}</Text>
+      </View>
+    </TouchableHighlight>
   );
 };
 
 const styles = StyleSheet.create({
-  buttonContainer: {
+  inner: {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 4,
-    paddingHorizontal: 8,
-    paddingVertical: 8,
-    marginHorizontal: 2,
+    padding: 8,
+  },
+  outer: {
+    margin: 2,
   },
   text: {
     color: "white",

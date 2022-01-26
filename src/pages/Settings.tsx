@@ -20,6 +20,7 @@ const Settings = () => {
   return (
     <View style={style.container}>
       { isLogged && <Button icon="logout" onPress={logoutHandler}>Logout</Button> }
+      <Button onPress={() => console.log("xxx")}>Dummy button</Button>
     </View>
   )
 };
@@ -27,6 +28,7 @@ const Settings = () => {
 const style = StyleSheet.create({
   container: {
     padding: 10,
+    flex: 1,
   }
 })
 
