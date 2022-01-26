@@ -1,10 +1,10 @@
 import React, { Suspense, useEffect } from "react";
-import { FlatList, FlatListProps, StyleSheet, View } from "react-native";
+import { FlatList } from "react-native";
 
 import { LibraryPageParamList } from "../props";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { MediaListCollectionObject, MediaListObject, MediaType } from "../../api/objectTypes";
+import { MediaListCollectionObject, MediaType } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
 import { usePromise } from "../../hooks/usePromise";
 
@@ -47,22 +47,20 @@ const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
   }, []);
 
   return (
-    <View style={style.container}>
-      <FlatList
-        data={entries}
-        renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
-        keyExtractor={item => item.media.id.toString()}
-        getItemLayout={(_, index) => ({
-          index,
-          length: 250,
-          offset: index * 250,
-        })}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={<MediaCategories type={type} />}
-        overScrollMode="never"
-      />
-    </View>
+    <FlatList
+      data={entries}
+      renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
+      keyExtractor={item => item.media.id.toString()}
+      getItemLayout={(_, index) => ({
+        index,
+        length: 250,
+        offset: index * 250,
+      })}
+      numColumns={2}
+      showsVerticalScrollIndicator={false}
+      ListHeaderComponent={<MediaCategories type={type} />}
+      overScrollMode="never"
+    />
   );
 };
 
@@ -83,17 +81,5 @@ const LibraryPageSuspense = ({
     </Suspense>
   );
 };
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingRight: 6,
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
 
 export default LibraryPageSuspense;

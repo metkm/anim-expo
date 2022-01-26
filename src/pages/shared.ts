@@ -28,7 +28,7 @@ export const useTabBarStyle = () => {
 
   const sceneContainerStyle: StyleProp<ViewStyle> = {
     paddingTop: 10 + top + 44,
-    paddingLeft: 6,
+    // paddingHorizontal: 6,
   }
 
   return {
