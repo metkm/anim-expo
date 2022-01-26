@@ -12,10 +12,9 @@ import MediaCategories from "../../components/Media/MediaCategories";
 import MediaCard from "../../components/Media/MediaCard";
 import Loading from "../../components/AnimLoading";
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootDispatch, RootState } from "../../store";
-import { setCategories as animeSetCategories } from "../../store/animeCategoriesSlice";
-import { setCategories as mangaSetCategories } from "../../store/mangaCategoriesSlice";
+import { useDispatch } from "react-redux";
+import { RootDispatch } from "../../store";
+import { useCategories } from "../../hooks/useCategories";
 
 interface LibraryPage {
   libraryReader: () => MediaListCollectionObject;
@@ -24,12 +23,7 @@ interface LibraryPage {
 }
 
 const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
-  const categories =
-    type == "ANIME"
-      ? useSelector((state: RootState) => state.animeCategories.categories)
-      : useSelector((state: RootState) => state.mangaCategories.categories);
-
-  const setCategories = type == "ANIME" ? animeSetCategories : mangaSetCategories;
+  const { categories, setCategories } = useCategories(type);
 
   const findEntries = (category: string) => {
     return listCollection.lists.find(list => {
