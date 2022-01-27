@@ -18,10 +18,12 @@ export type LibraryPageParamList = {
 
 export type LibraryParamList = {
   Anime: {
-    userId?: number;
+    userId: number;
+    padd: boolean;
   };
   Manga: {
-    userId?: number;
+    userId: number;
+    padd: boolean;
   };
 };
 
@@ -57,6 +59,7 @@ export type UserParamList = {
   },
   Library: {
     userId: number;
+    padd: boolean;
   }
 }
 
@@ -88,8 +91,5 @@ export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activ
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
 
-
-
 export type ActivityScreenProps = StackScreenProps<StackParamList, "Activity">;
 export type CharacterScreenProps = StackScreenProps<StackParamList, "Character">;
-

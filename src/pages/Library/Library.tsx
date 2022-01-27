@@ -12,21 +12,17 @@ const Tab = createMaterialTopTabNavigator();
 
 const Library = ({
   route: {
-    params: {
-      userId
-    },
+    params: { userId, padd },
   },
 }: LibraryScreenProps) => {
   const user = useSelector((state: RootState) => state.user.user);
-  const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(2);
-  console.log("params", userId);
+  const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(2, padd); 
 
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: tabBarStyle,
         tabBarIndicatorStyle: tabBarIndicatorStyle,
-        tabBarContentContainerStyle: { justifyContent: "center", alignItems: "center" }
       }}
       sceneContainerStyle={sceneContainerStyle}
     >

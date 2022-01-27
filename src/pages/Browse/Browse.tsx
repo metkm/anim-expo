@@ -1,7 +1,8 @@
 import React from "react";
+import BrowsePage from "./BrowsePage";
+
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTabBarStyle } from "../../hooks/useTabBarStyle";
-import BrowsePage from "./BrowsePage";
 
 const Tab = createMaterialTopTabNavigator();
 

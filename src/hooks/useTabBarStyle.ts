@@ -2,7 +2,7 @@ import { StyleProp, ViewStyle } from "react-native";
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "./useColors";
 
-export const useTabBarStyle = (pgCount: number = 1) => {
+export const useTabBarStyle = (pgCount: number = 1, padd: boolean = true) => {
   const { color } = useColors();
   const { width } = useSafeAreaFrame();
   const { top } = useSafeAreaInsets();
@@ -14,13 +14,7 @@ export const useTabBarStyle = (pgCount: number = 1) => {
     width: "90%",
     borderRadius: 10,
     marginHorizontal: 20,
-    top: 10 + top,
-
-    // position: "absolute",
-    // width: "90%",
-    // top: 10 + top,
-    // borderRadius: 10,
-    // overflow: "hidden",
+    top: padd ? top + 10: 10,
   }
 
   const tabBarIndicatorStyle: StyleProp<ViewStyle> = {
@@ -31,7 +25,7 @@ export const useTabBarStyle = (pgCount: number = 1) => {
   }
 
   const sceneContainerStyle: StyleProp<ViewStyle> = {
-    paddingTop: 10  + 44,
+    paddingTop: padd ? 10 + 44 : 10,
   }
 
   return {

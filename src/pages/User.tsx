@@ -10,7 +10,7 @@ import UserActivities from "./User/UserActivities";
 import Library from "./Library/Library";
 
 import { usePromise } from "../hooks/usePromise";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
+import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { UserParamList, UserScreenProps } from "./props";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -42,6 +42,7 @@ const SNAPPED = -380
 const User = ({ userReader }: UserProps) => {
   const { sceneContainerStyle, ...tab } = useTabBarStyle(2);
   const { height } = useSafeAreaFrame();
+  const { top } = useSafeAreaInsets();
   
   try { var bottomHeight = useBottomTabBarHeight(); }
   catch { var bottomHeight = 0 }
@@ -97,8 +98,7 @@ const User = ({ userReader }: UserProps) => {
         <Animated.View style={{ height: height - bottomHeight }} animatedProps={animatedProps}>
           <Tab.Navigator sceneContainerStyle={sceneContainerStyle} screenOptions={{ ...tab }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id} />}</Tab.Screen>
-
-            <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id }} />
+            <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
           </Tab.Navigator>
         </Animated.View>
       </Animated.View>
