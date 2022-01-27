@@ -12,14 +12,11 @@ import UserStats from "./UserStats";
 import Text from "../Base/Text";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Animated, { Extrapolate, interpolate, SharedValue, useAnimatedStyle } from "react-native-reanimated";
-
 interface UserHeaderProps {
   user: UserObject,
-  offsetY: SharedValue<number>,
 }
 
-const UserHeader = ({ user, offsetY }: UserHeaderProps) => {
+const UserHeader = ({ user }: UserHeaderProps) => {
   const navigation = useNavigation<SettingsNavigationProps>();
   const { colors } = useColors();
 
@@ -31,24 +28,8 @@ const UserHeader = ({ user, offsetY }: UserHeaderProps) => {
     // navigation.navigate("Settings");
   };
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    // position: "absolute",
-    // left: 0,
-    // right: 0,
-    // transform: [
-    //   {
-    //     translateY: interpolate(
-    //       offsetY.value,
-    //       [0, 390],
-    //       [0, -390],
-    //       Extrapolate.CLAMP
-    //     )
-    //   }
-    // ]
-  }), [])
-
   return (
-    <Animated.View style={[style.content, animatedStyle]}>
+    <View style={style.content}>
       <Image style={style.banner} source={{ uri: user.bannerImage }} />
       <View style={style.container}>
         <Image style={style.avatar} source={{ uri: user.avatar.large }} />
@@ -63,13 +44,13 @@ const UserHeader = ({ user, offsetY }: UserHeaderProps) => {
 
       <UserStats user={user} />
       <StatusBar style="light" backgroundColor="rgba(0, 0, 0, 0.4)" />
-    </Animated.View>
+    </View>
   );
 };
 
 const style = StyleSheet.create({
   content: {
-    marginBottom: 4,
+    marginBottom: 8,
     height: 380,
   },
   banner: {

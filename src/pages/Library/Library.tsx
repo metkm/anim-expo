@@ -12,22 +12,26 @@ const Tab = createMaterialTopTabNavigator();
 
 const Library = ({
   route: {
-    params,
+    params: {
+      userId
+    },
   },
 }: LibraryScreenProps) => {
   const user = useSelector((state: RootState) => state.user.user);
   const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(2);
+  console.log("params", userId);
 
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: tabBarStyle,
         tabBarIndicatorStyle: tabBarIndicatorStyle,
+        tabBarContentContainerStyle: { justifyContent: "center", alignItems: "center" }
       }}
       sceneContainerStyle={sceneContainerStyle}
     >
-      <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: user?.id || params.userId, type: "ANIME" }} />
-      <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: user?.id || params.userId, type: "MANGA" }} />
+      <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
+      <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />
     </Tab.Navigator>
   );
 };

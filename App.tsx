@@ -76,7 +76,7 @@ const Home = () => {
       <Tab.Screen name="Discover" component={Browse} />
       {user ? (
         <>
-          <Tab.Screen name="Library" component={Library} />
+          <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id }} />
           <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
         </>
       ) : (

@@ -11,12 +11,16 @@ export const useTabBarStyle = (pgCount: number = 1) => {
   const indicatorWidth = 60;
 
   const tabBarStyle: StyleProp<ViewStyle> = {
-    position: "absolute",
-    left: 10,
-    right: 10,
-    top: 10 + top,
+    width: "90%",
     borderRadius: 10,
-    overflow: "hidden",
+    marginHorizontal: 20,
+    top: 10 + top,
+
+    // position: "absolute",
+    // width: "90%",
+    // top: 10 + top,
+    // borderRadius: 10,
+    // overflow: "hidden",
   }
 
   const tabBarIndicatorStyle: StyleProp<ViewStyle> = {
@@ -27,7 +31,7 @@ export const useTabBarStyle = (pgCount: number = 1) => {
   }
 
   const sceneContainerStyle: StyleProp<ViewStyle> = {
-    paddingTop: 10 + top + 44,
+    paddingTop: 10  + 44,
   }
 
   return {

@@ -1,20 +1,18 @@
-import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/native";
+import { NavigatorScreenParams } from "@react-navigation/native";
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { ActivityUnion, MediaType } from "../api/objectTypes";
+import { MediaType } from "../api/objectTypes";
 import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
 export type LibraryPageParamList = {
   Anime: {
     userId: number;
     type: MediaType;
-    category: string;
   };
   Manga: {
     userId: number;
     type: MediaType;
-    category: string;
   };
 };
 
@@ -55,6 +53,9 @@ export type BottomTabParamList = {
 
 export type UserParamList = {
   Activities: {
+    userId: number;
+  },
+  Library: {
     userId: number;
   }
 }

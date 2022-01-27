@@ -20,13 +20,13 @@ import { usePromise } from "../../hooks/usePromise";
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
-type OnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
 interface UserActivitiesProps {
   activitiesReader: () => ActivityUnion[];
+  header?: JSX.Element,
   userId: number;
 }
 
-const UserActivities = ({ activitiesReader, userId }: UserActivitiesProps) => {
+const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -81,12 +81,13 @@ const UserActivities = ({ activitiesReader, userId }: UserActivitiesProps) => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginVertical: 4 }}>
       <AnimatedFlatList
         data={activities}
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
         ItemSeparatorComponent={AnimItemSeparator}
+        ListHeaderComponent={header || <></>}
         refreshing={isRefreshing}
         onRefresh={refreshHandler}
         onEndReached={onEndHandler}
@@ -103,12 +104,12 @@ const UserActivities = ({ activitiesReader, userId }: UserActivitiesProps) => {
 };
 
 
-const UserActivitiesSuspense = ({ userId }: { userId: number,  }) => {
+const UserActivitiesSuspense = ({ userId, header }: { userId: number, header?: JSX.Element }) => {
   const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserActivities activitiesReader={activitiesReader}  userId={userId} />
+      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} />
     </Suspense>
   );
 };
