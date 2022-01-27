@@ -24,9 +24,10 @@ interface UserActivitiesProps {
   activitiesReader: () => ActivityUnion[];
   header?: JSX.Element,
   userId: number;
+  padd: number
 }
 
-const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProps) => {
+const UserActivities = ({ activitiesReader, userId, header, padd }: UserActivitiesProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -98,18 +99,18 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
         nestedScrollEnabled={true}
       />
 
-      <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
+      <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} padd={padd} />
     </View>
   );
 };
 
 
-const UserActivitiesSuspense = ({ userId, header }: { userId: number, header?: JSX.Element }) => {
+const UserActivitiesSuspense = ({ userId, header, padd = 0 }: { userId: number, header?: JSX.Element, padd?: number }) => {
   const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} />
+      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} padd={padd} />
     </Suspense>
   );
 };

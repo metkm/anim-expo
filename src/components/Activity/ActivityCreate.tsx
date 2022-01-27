@@ -7,7 +7,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
@@ -25,20 +25,22 @@ import Text from "../Base/Text";
 interface ActivityCreateProps {
   activityCallback: (activity: TextActivityObject | MessageActivityObject) => void;
   recipientId?: number;
+  padd: number;
 }
 
-const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) => {
+const ActivityCreate = ({ activityCallback, recipientId, padd }: ActivityCreateProps) => {
   try {
     var bottomHeight = useBottomTabBarHeight();
   } catch {
     bottomHeight = 20;
   }
+
   const [isPriv, setIsPriv] = useState(false);
   const { height } = useSafeAreaFrame();
   const { colors, color } = useColors();
 
-  const COLLAPSED = height - bottomHeight - 26;
-  const EXPANDED = height / 3;
+  const COLLAPSED = height - bottomHeight - 28 - padd;
+  const EXPANDED = height / 4;
 
   const top = useSharedValue(COLLAPSED);
   const text = useRef("");
@@ -62,10 +64,13 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
     []
   );
 
-  const gestureHandler = useAnimatedGestureHandler(
+  const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>(
     {
-      onActive: ({ absoluteY }) => {
-        top.value = absoluteY;
+      onStart: (_, context) => {
+        context.start = top.value;
+      },
+      onActive: ({ translationY }, { start }) => {
+        top.value = translationY + start;
       },
       onEnd: () => {
         if (top.value > EXPANDED + 300) {
@@ -106,7 +111,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
           multiline
         />
 
-        <Button style={{ width: "100%" }} onPress={createActivity}>
+        <Button onPress={createActivity}>
           Post!
         </Button>
       </Animated.View>
