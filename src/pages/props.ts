@@ -2,7 +2,8 @@ import { CompositeScreenProps, NavigatorScreenParams } from "@react-navigation/n
 import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-import { MediaType } from "../api/objectTypes";
+import { ActivityUnion, MediaType } from "../api/objectTypes";
+import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
 export type LibraryPageParamList = {
   Anime: {
@@ -29,6 +30,8 @@ export type LibraryParamList = {
 export type LibraryScreenProps = BottomTabScreenProps<LibraryParamList, "Anime" | "Manga">;
 export type LibraryPageScreenProps = BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">;
 
+/////
+
 export type BrowseParamList = {
   Anime: {
     type: MediaType;
@@ -47,6 +50,19 @@ export type BottomTabParamList = {
     userId: number;
   };
 };
+
+/////
+
+export type UserParamList = {
+  Activities: {
+    userId: number;
+  }
+}
+
+export type UserActivitiesScreenProps = MaterialTopTabScreenProps<UserParamList, "Activities">;
+export type UserScreenProps = BottomTabScreenProps<BottomTabParamList, "User">;
+
+////
 
 export type StackParamList = {
   Home: NavigatorScreenParams<BottomTabParamList>;
@@ -71,10 +87,7 @@ export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activ
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
 
-export type UserScreenProps = CompositeScreenProps<
-  BottomTabScreenProps<BottomTabParamList, "User">,
-  BottomTabScreenProps<BottomTabParamList>
->;
+
 
 export type ActivityScreenProps = StackScreenProps<StackParamList, "Activity">;
 export type CharacterScreenProps = StackScreenProps<StackParamList, "Character">;

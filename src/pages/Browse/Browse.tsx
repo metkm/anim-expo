@@ -6,7 +6,7 @@ import BrowsePage from "./BrowsePage";
 const Tab = createMaterialTopTabNavigator();
 
 const Browse = () => {
-  const { tabBarIndicatorStyle, tabBarStyle, sceneContainerStyle } = useTabBarStyle();
+  const { tabBarIndicatorStyle, tabBarStyle, sceneContainerStyle } = useTabBarStyle(2);
 
   return (
     <Tab.Navigator

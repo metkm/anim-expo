@@ -16,7 +16,7 @@ const Library = ({
   },
 }: LibraryScreenProps) => {
   const user = useSelector((state: RootState) => state.user.user);
-  const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle();
+  const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(2);
 
   return (
     <Tab.Navigator

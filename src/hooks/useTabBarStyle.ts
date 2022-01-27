@@ -2,12 +2,12 @@ import { StyleProp, ViewStyle } from "react-native";
 import { useSafeAreaFrame, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "./useColors";
 
-export const useTabBarStyle = () => {
+export const useTabBarStyle = (pgCount: number = 1) => {
   const { color } = useColors();
   const { width } = useSafeAreaFrame();
   const { top } = useSafeAreaInsets();
 
-  const tabWidth = width / 2 - 10;
+  const tabWidth = width / pgCount - 10;
   const indicatorWidth = 60;
 
   const tabBarStyle: StyleProp<ViewStyle> = {
