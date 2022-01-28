@@ -25,21 +25,20 @@ import Text from "../Base/Text";
 interface ActivityCreateProps {
   activityCallback: (activity: TextActivityObject | MessageActivityObject) => void;
   recipientId?: number;
-  padd: number;
 }
 
-const ActivityCreate = ({ activityCallback, recipientId, padd }: ActivityCreateProps) => {
+const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) => {
   try {
     var bottomHeight = useBottomTabBarHeight();
   } catch {
-    bottomHeight = 20;
+    bottomHeight = 150;
   }
 
   const [isPriv, setIsPriv] = useState(false);
   const { height } = useSafeAreaFrame();
   const { colors, color } = useColors();
 
-  const COLLAPSED = height - bottomHeight - 28 - padd;
+  const COLLAPSED = height - bottomHeight - 26;
   const EXPANDED = height / 4;
 
   const top = useSharedValue(COLLAPSED);
@@ -126,7 +125,6 @@ const style = StyleSheet.create({
     right: 0,
     bottom: 0,
     padding: 10,
-    elevation: 10,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     alignItems: "center",
@@ -135,13 +133,13 @@ const style = StyleSheet.create({
   input: {
     flex: 1,
     padding: 10,
-    marginVertical: 10,
     borderRadius: 10,
     width: "100%",
   },
   line: {
     width: "20%",
     height: 6,
+    marginBottom: 10,
     borderRadius: 1000,
   },
   setting: {

@@ -50,7 +50,7 @@ const UserHeader = ({ user }: UserHeaderProps) => {
 
 const style = StyleSheet.create({
   content: {
-    marginBottom: 16,
+    marginBottom: 10,
     height: 380,
   },
   banner: {

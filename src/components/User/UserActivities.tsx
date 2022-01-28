@@ -99,7 +99,7 @@ const UserActivities = ({ activitiesReader, userId, header, padd }: UserActiviti
         nestedScrollEnabled={true}
       />
 
-      <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} padd={padd} />
+      <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
     </View>
   );
 };
