@@ -1,77 +1,60 @@
-import React, { Suspense, useEffect } from "react";
-import { FlatList } from "react-native";
-
+import { Suspense, useState } from "react";
+import { FlatList, ListRenderItem } from "react-native";
 import { LibraryPageScreenProps } from "../props";
-import { MediaListCollectionObject, MediaType } from "../../api/objectTypes";
+
+import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
 import { getEntries } from "../../api/library/getEntries";
 import { usePromise } from "../../hooks/usePromise";
 
-import MediaCategories from "../../components/Media/MediaCategories";
-import MediaCard from "../../components/Media/MediaCard";
 import Loading from "../../components/AnimLoading";
+import MediaCard from "../../components/Media/MediaCard";
+import MediaCategories from "../../components/Media/MediaCategories";
 
-import { useDispatch } from "react-redux";
-import { RootDispatch } from "../../store";
-import { useCategories } from "../../hooks/useCategories";
-
-interface LibraryPage {
+interface LibraryPageProps {
   libraryReader: () => MediaListCollectionObject;
   refresh: () => void;
-  type: MediaType;
 }
 
-const LibraryPage = ({ libraryReader, refresh, type }: LibraryPage) => {
-  const { categories, setCategories } = useCategories(type);
-  
-  const findEntries = (category: string) => {
-    return listCollection.lists.find(list => {
-      return list.name == category;
-    });
-  };
-  
-  const listCollection = libraryReader();
-  const dispatch = useDispatch<RootDispatch>();
-  const entries = findEntries(categories[0])?.entries;
+const LibraryPage = ({ libraryReader, refresh }: LibraryPageProps) => {
+  const [listCollection] = useState(() => libraryReader());
+  const [categories, setCategories] = useState(() => listCollection.lists.map(list => list.name));
+  const entries = listCollection.lists.find(list => list.name == categories[0])?.entries;
 
-  useEffect(() => {
-    const newCategories = listCollection.lists.map(list => list.name);
-    dispatch(setCategories([...newCategories]));
-  }, []);
+  const keyExtractor = (item: MediaListObject) => (
+    item.media.id.toString()
+  )
+
+  const renderItem: ListRenderItem<MediaListObject> = ({ item }) => (
+    <MediaCard item={item.media} progress={item.progress} editCallback={refresh} />
+  )
 
   return (
     <FlatList
       data={entries}
-      renderItem={({ item }) => <MediaCard editCallback={refresh} item={item.media} progress={item.progress} />}
-      keyExtractor={item => item.media.id.toString()}
-      getItemLayout={(_, index) => ({
-        index,
-        length: 250,
-        offset: index * 250,
-      })}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      ListHeaderComponent={<MediaCategories categories={categories} onCategories={setCategories} />}
       numColumns={2}
-      showsVerticalScrollIndicator={false}
-      ListHeaderComponent={<MediaCategories type={type} />}
-      overScrollMode="never"
     />
-  );
-};
+  )
+}
 
 const LibraryPageSuspense = ({
   route: {
-    params: { userId, type },
+    params: { type, userId },
   },
 }: LibraryPageScreenProps) => {
-  const [libraryReader, libraryUpdater] = usePromise(getEntries, userId, type);
+  const [libraryReader, setLibraryUpdater] = usePromise(getEntries, userId, type);
 
   const refresh = () => {
-    libraryUpdater(userId, type);
-  };
+    setLibraryUpdater(userId, type);
+  }
 
   return (
     <Suspense fallback={<Loading />}>
-      <LibraryPage libraryReader={libraryReader} refresh={refresh} type={type} />
+      <LibraryPage libraryReader={libraryReader} refresh={refresh} />
     </Suspense>
-  );
+  )
 };
 
 export default LibraryPageSuspense;

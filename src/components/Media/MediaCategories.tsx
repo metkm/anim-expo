@@ -10,24 +10,19 @@ import Animated, {
 } from "react-native-reanimated";
 import { ScrollView, StyleSheet, Pressable } from "react-native";
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootDispatch, RootState } from "../../store";
-import { setCategories as animeSetCategories } from "../../store/animeCategoriesSlice";
-import { setCategories as mangaSetCategories } from "../../store/mangaCategoriesSlice";
-
 import { timingConfig } from "../../constants/reanimated";
 import { useColors } from "../../hooks/useColors";
-import { MediaType } from "../../api/objectTypes";
 
 interface MediaCategoriesProps {
-  type: MediaType;
+  onCategories: (categories: string[]) => void;
+  categories: string[];
 }
 
 interface MediaCategory {
   category: string;
   index: number;
   positions: SharedValue<string[]>;
-  callback: (category: string, categories: string[]) => void;
+  callback: (categories: string[]) => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -69,7 +64,7 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
     positions.value = tmpArray;
 
     setTimeout(() => {
-      callback(category, tmpArray);
+      callback(tmpArray);
     }, 400);
   };
 
@@ -80,27 +75,9 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
   );
 };
 
-const MediaCategories = ({ type }: MediaCategoriesProps) => {
-  const categories =
-    type == "ANIME"
-      ? useSelector(
-          (state: RootState) => state.animeCategories.categories,
-          () => true
-        )
-      : useSelector(
-          (state: RootState) => state.mangaCategories.categories,
-          () => true
-        );
-
-  const setCategories = type == "ANIME" ? animeSetCategories : mangaSetCategories;
-
-  const dispatch = useDispatch<RootDispatch>();
+const MediaCategories = ({ onCategories, categories }: MediaCategoriesProps) => {
   const positions = useSharedValue(categories);
   var innerWidth = categories.length * 120 + categories.length * 4;
-
-  const updateStore = (category: string, categories: string[]) => {
-    dispatch(setCategories(categories));
-  };
 
   return (
     <ScrollView
@@ -111,7 +88,7 @@ const MediaCategories = ({ type }: MediaCategoriesProps) => {
       overScrollMode="never"
     >
       {categories.map((category, index) => (
-        <MediaCategory category={category} index={index} positions={positions} key={category} callback={updateStore} />
+        <MediaCategory category={category} index={index} positions={positions} key={category} callback={onCategories} />
       ))}
     </ScrollView>
   );

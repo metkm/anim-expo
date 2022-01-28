@@ -1,8 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import animeCategoriesReducer from "./animeCategoriesSlice";
-import mangaCategoriesReducer from "./mangaCategoriesSlice";
-
 import tokenReducer from "./tokenSlice";
 import userReducer from "./userSlice";
 
@@ -12,8 +9,6 @@ import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, 
 const rootReducer = combineReducers({
   token: tokenReducer,
   user: userReducer,
-  animeCategories: animeCategoriesReducer,
-  mangaCategories: mangaCategoriesReducer,
 });
 
 const persistConfig = {

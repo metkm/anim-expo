@@ -6,7 +6,7 @@ import { getUser } from "../api/user/getUser";
 
 import Loading from "../components/AnimLoading";
 import UserHeader from "../components/User/UserHeader";
-import UserActivities from "./User/UserActivities";
+import UserActivities from "../components/User/UserActivities";
 import Library from "./Library/Library";
 
 import { usePromise } from "../hooks/usePromise";
@@ -38,56 +38,66 @@ interface UserProps {
 
 const Tab = createMaterialTopTabNavigator<UserParamList>();
 
-const SNAPPED = -380
+const SNAPPED = -380;
 const User = ({ userReader }: UserProps) => {
   const { sceneContainerStyle, ...tab } = useTabBarStyle(2);
   const { height } = useSafeAreaFrame();
   const { top } = useSafeAreaInsets();
-  
-  try { var bottomHeight = useBottomTabBarHeight(); }
-  catch { var bottomHeight = 0 }
+
+  try {
+    var bottomHeight = useBottomTabBarHeight();
+  } catch {
+    var bottomHeight = 0;
+  }
 
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [user] = useState(() => userReader());
   const offsetY = useSharedValue(0);
 
-  const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>({
-    onStart: (_, context) => {
-      context.start = offsetY.value;
-    },
-    onActive: ({ translationY }, { start }) => {
-      offsetY.value = start + translationY;
-    },
-    onEnd: () => {
-      if (offsetY.value > SNAPPED / 4) {
-        offsetY.value = 0;
-      } else {
-        offsetY.value = SNAPPED;
-      }
-    },
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        translateY: withSpring(interpolate(
-          offsetY.value,
-          [0, SNAPPED],
-          [0, SNAPPED],
-          Extrapolate.CLAMP
-        ), springConfig)
+  const gestureHandler = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>(
+    {
+      onStart: (_, context) => {
+        context.start = offsetY.value;
       },
-    ],
-  }), []);
+      onActive: ({ translationY }, { start }) => {
+        offsetY.value = start + translationY;
+      },
+      onEnd: () => {
+        if (offsetY.value > SNAPPED / 4) {
+          offsetY.value = 0;
+        } else {
+          offsetY.value = SNAPPED;
+        }
+      },
+    },
+    []
+  );
 
-  const animatedProps = useAnimatedProps<Animated.AnimateProps<ViewProps>>(() => ({
-    pointerEvents: offsetY.value == SNAPPED ? "box-none": "box-only"
-  }), []);
+  const animatedStyle = useAnimatedStyle(
+    () => ({
+      transform: [
+        {
+          translateY: withSpring(
+            interpolate(offsetY.value, [0, SNAPPED], [0, SNAPPED], Extrapolate.CLAMP),
+            springConfig
+          ),
+        },
+      ],
+    }),
+    []
+  );
+
+  const animatedProps = useAnimatedProps<Animated.AnimateProps<ViewProps>>(
+    () => ({
+      pointerEvents: offsetY.value == SNAPPED ? "box-none" : "box-only",
+    }),
+    []
+  );
 
   if (storeUser?.id == user.id) {
     return (
       <UserActivities userId={user.id} header={<UserHeader user={user} />} />
-    )
+    );
   }
 
   return (

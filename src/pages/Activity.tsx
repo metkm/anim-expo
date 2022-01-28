@@ -63,13 +63,12 @@ const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "space-between", paddingTop: headerHeight }}>
+    <View style={[style.container, { paddingTop: headerHeight }]}>
       <FlatList
         data={replies}
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
         ItemSeparatorComponent={AnimItemSeparator}
-        style={style.flatlist}
       />
 
       <ActivityComment activityCallback={addActivity} activityId={activityId} />
@@ -92,6 +91,10 @@ const ActivitySuspense = ({
 };
 
 const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
   gradient: {
     height: "100%",
     width: "100%",
@@ -103,9 +106,6 @@ const style = StyleSheet.create({
     height: "100%",
     backgroundColor: "#f43f5e",
     borderRadius: 6,
-  },
-  flatlist: {
-    // flex: 1,
   },
 });
 
