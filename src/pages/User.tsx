@@ -40,7 +40,7 @@ const Tab = createMaterialTopTabNavigator<UserParamList>();
 
 const SNAPPED = -380;
 const User = ({ userReader }: UserProps) => {
-  const { sceneContainerStyle, ...tab } = useTabBarStyle(2);
+  const { ...tab } = useTabBarStyle();
   const { height } = useSafeAreaFrame();
 
   try {
@@ -105,7 +105,7 @@ const User = ({ userReader }: UserProps) => {
         <UserHeader user={user} />
 
         <Animated.View style={{ height: height - bottomHeight }} animatedProps={animatedProps}>
-          <Tab.Navigator sceneContainerStyle={sceneContainerStyle} screenOptions={{ ...tab }}>
+          <Tab.Navigator screenOptions={{ ...tab }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
           </Tab.Navigator>

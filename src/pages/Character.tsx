@@ -54,8 +54,6 @@ const Character = ({ characterReader }: CharacterProps) => {
           {character.description}
         </Markdown>
       </View>
-
-      <StatusBar style="auto" />
     </ScrollView>
   );
 };

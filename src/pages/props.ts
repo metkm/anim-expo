@@ -19,11 +19,11 @@ export type LibraryPageParamList = {
 export type LibraryParamList = {
   Anime: {
     userId: number;
-    padd: boolean;
+    padd?: boolean;
   };
   Manga: {
     userId: number;
-    padd: boolean;
+    padd?: boolean;
   };
 };
 
@@ -59,7 +59,7 @@ export type UserParamList = {
   },
   Library: {
     userId: number;
-    padd: boolean;
+    padd?: boolean;
   }
 }
 

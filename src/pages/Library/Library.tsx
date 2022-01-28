@@ -16,7 +16,7 @@ const Library = ({
   },
 }: LibraryScreenProps) => {
   const user = useSelector((state: RootState) => state.user.user);
-  const { sceneContainerStyle, tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(2, padd); 
+  const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(padd); 
 
   return (
     <Tab.Navigator
@@ -24,7 +24,6 @@ const Library = ({
         tabBarStyle: tabBarStyle,
         tabBarIndicatorStyle: tabBarIndicatorStyle,
       }}
-      sceneContainerStyle={sceneContainerStyle}
     >
       <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
       <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />

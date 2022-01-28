@@ -64,8 +64,6 @@ const Media = ({ mediaReader }: MediaProps) => {
           <Text style={style.title}>Characters</Text>
           <MediaCharacters characterList={media.characters.edges} />
         </>
-
-        <StatusBar translucent style="light" />
       </Animated.ScrollView>
     </>
   );

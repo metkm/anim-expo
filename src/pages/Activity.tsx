@@ -16,7 +16,6 @@ import { delActivityReply } from "../api/activity/delActivityReply";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { useHeaderHeight } from "@react-navigation/elements";
 
 interface ActivityProps {
   repliesReader: () => ActivityReplyObject[];
@@ -26,7 +25,6 @@ interface ActivityProps {
 const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [replies, setReplies] = useState(() => repliesReader());
-  const headerHeight = useHeaderHeight();
 
   const addActivity = (reply: ActivityReplyObject) => {
     setReplies(oldReplies => [...oldReplies, reply]);
@@ -63,7 +61,7 @@ const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   };
 
   return (
-    <View style={[style.container, { paddingTop: headerHeight }]}>
+    <View style={style.container}>
       <FlatList
         data={replies}
         renderItem={renderItem}

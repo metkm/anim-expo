@@ -67,10 +67,9 @@ const Home = () => {
 
           return <Icon name={icons[route.name]} size={size} color={color} />;
         },
-        tabBarActiveTintColor: color,
-        tabBarShowLabel: false,
         headerShown: false,
-        title: "",
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: color,
       })}
     >
       <Tab.Screen name="Discover" component={Browse} />
@@ -105,29 +104,19 @@ const App = () => {
             <Stack.Navigator
               screenOptions={{
                 ...TransitionPresets.SlideFromRightIOS,
-                headerTransparent: true,
-                title: "",
-                headerLeftContainerStyle: {
-                  backgroundColor: "rgba(0, 0, 0, 0.8)",
-                  borderRadius: 1000,  
-                  marginLeft: 10,
-                  marginVertical: 10,
-                },
-                headerTintColor: "white",
-                headerTitleStyle: { color: isDark ? "white": "black" },
+                headerShown: false,
               }}
             >
               <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Settings" component={Settings} options={{ headerTransparent: false, title: "Settings" }} />
+              <Stack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
 
               <Stack.Screen name="Character" component={Character} />
-              <Stack.Screen name="Activity" component={Activity} />
+              <Stack.Screen name="Activity" component={Activity} options={{ headerShown: true }} />
               <Stack.Screen name="Media" component={Media} />
               <Stack.Screen name="User" component={User} />
             </Stack.Navigator>
           </NavigationContainer>
         </PersistGate>
-        <StatusBar translucent backgroundColor="transparent" style="auto" />
       </Provider>
     </SafeAreaProvider>
   );

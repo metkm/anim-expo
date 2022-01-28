@@ -7,7 +7,7 @@ import { useTabBarStyle } from "../../hooks/useTabBarStyle";
 const Tab = createMaterialTopTabNavigator();
 
 const Browse = () => {
-  const { tabBarIndicatorStyle, tabBarStyle, sceneContainerStyle } = useTabBarStyle(2);
+  const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle();
 
   return (
     <Tab.Navigator
@@ -15,7 +15,6 @@ const Browse = () => {
         tabBarStyle,
         tabBarIndicatorStyle,
       }}
-      sceneContainerStyle={sceneContainerStyle}
     >
       <Tab.Screen name="Anime" component={BrowsePage} initialParams={{ type: "ANIME" }} />
       <Tab.Screen name="Manga" component={BrowsePage} initialParams={{ type: "MANGA" }} />
