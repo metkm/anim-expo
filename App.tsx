@@ -112,7 +112,11 @@ const App = () => {
 
               <Stack.Screen name="Character" component={Character} />
               <Stack.Screen name="Activity" component={Activity} options={{ headerShown: true }} />
-              <Stack.Screen name="Media" component={Media} />
+              <Stack.Screen
+                name="Media"
+                component={Media}
+                options={{ headerShown: true, title: "", headerTransparent: true }}
+              />
               <Stack.Screen name="User" component={User} />
             </Stack.Navigator>
           </NavigationContainer>
