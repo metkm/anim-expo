@@ -1,34 +1,44 @@
 import { StyleSheet, Pressable, Linking, ImageBackground } from "react-native";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { DefaultInOutRule } from "simple-markdown";
 
 const youtubeRegex = /^-youtube\((.*v=(.*))\)/;
 
+const Youtube = ({ id, link }: { id: string; link: string }) => {
+  const { width } = useSafeAreaFrame();
+
+  return (
+    <ImageBackground
+      style={{ width: width - 20, height: 200, borderRadius: 6, overflow: "hidden" }}
+      source={{ uri: `https://img.youtube.com/vi/${id}/0.jpg` }}
+    >
+      <Pressable onPress={() => Linking.openURL(link)} />
+    </ImageBackground>
+  );
+};
+
 const ruleYoutube: DefaultInOutRule = {
   order: 10,
-  match: (source) => {
+  match: source => {
     return youtubeRegex.exec(source);
   },
-  parse: (capture) => {
+  parse: capture => {
     return {
       link: capture[1],
-      id: capture[2]
-    }
+      id: capture[2],
+    };
   },
   react: (node, nestedOutput, state) => {
-    return (
-      <ImageBackground key={state.key} style={style.container} source={{ uri: `https://img.youtube.com/vi/${node.id}/0.jpg` }}>
-        <Pressable onPress={() => Linking.openURL(node.link)} />
-      </ImageBackground>
-    )
+    return <Youtube key={state.key} id={node.id} link={node.link} />;
   },
-  html: () => ""
-}
+  html: () => "",
+};
 
 const style = StyleSheet.create({
   container: {
     width: "100%",
     height: 200,
-  }
-})
+  },
+});
 
 export default ruleYoutube;

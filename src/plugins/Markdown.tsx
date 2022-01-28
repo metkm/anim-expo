@@ -1,4 +1,4 @@
-import { StyleSheet, ViewProps, View } from "react-native";
+import { ViewProps, View } from "react-native";
 import { DefaultRules, defaultRules as _defaultRules, outputFor, parserFor } from "simple-markdown";
 
 import ruleSpoiler from "./ruleSpoiler";
@@ -50,16 +50,10 @@ const Markdown = ({ children }: MarkdownProps) => {
   const parsedTree = parser(children, { inline: true });
 
   if (parsedTree[0].type == "img") {
-    return <View style={style.container}>{reactOut(parsedTree)}</View>;
+    return <View>{reactOut(parsedTree)}</View>;
   }
 
-  return <Text style={style.container}>{reactOut(parsedTree)}</Text>;
+  return <Text>{reactOut(parsedTree)}</Text>;
 };
-
-const style = StyleSheet.create({
-  container: {
-    
-  },
-});
 
 export default Markdown;
