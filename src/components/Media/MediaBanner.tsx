@@ -12,7 +12,6 @@ interface MediaBannerProps extends ViewProps {
 const MediaBanner = ({ uri, y, children }: MediaBannerProps) => {
   const { top } = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
-  console.log(headerHeight);
 
   const animatedStyle = useAnimatedStyle(() => ({
     position: "absolute",
