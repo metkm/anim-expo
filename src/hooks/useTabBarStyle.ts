@@ -25,7 +25,7 @@ export const useTabBarStyle = (pgCount: number = 1, padd: boolean = true) => {
   }
 
   const sceneContainerStyle: StyleProp<ViewStyle> = {
-    paddingTop: padd ? 10 + 44 : 10,
+    paddingTop: padd ? 34 : 10,
   }
 
   return {
