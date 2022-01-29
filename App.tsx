@@ -26,6 +26,7 @@ import { animDark, animLight } from "./src/constants/theme";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppStackParamList } from "./src/pages/props";
+import { StatusBar } from "expo-status-bar";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
@@ -69,6 +70,8 @@ const App = () => {
           </NavigationContainer>
         </PersistGate>
       </Provider>
+
+      <StatusBar style="auto" />
     </SafeAreaProvider>
   );
 };
