@@ -1,5 +1,5 @@
 import React, { memo, Suspense, useCallback, useRef, useState } from "react";
-import { FlatListProps, ListRenderItem, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from "react-native";
+import { FlatListProps, ListRenderItem, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -7,15 +7,16 @@ import { ActivityUnion } from "../../api/objectTypes";
 import { getActivities } from "../../api/user/getActivities";
 import { delActivity } from "../../api/activity/delActivity";
 
-import AnimItemSeparator from "../AnimItemSeparator";
 import ActivityCreate from "../Activity/ActivityCreate";
+import { getActivityElement } from "../Activity/getActivityElement";
+
+import AnimItemSeparator from "../AnimItemSeparator";
 import AnimSwipeable from "../AnimSwipeable";
 import Loading from "../AnimLoading";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { getRenderElement } from "../Activity/getRenderElement";
 import { usePromise } from "../../hooks/usePromise";
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
@@ -60,7 +61,7 @@ const UserActivities = ({ activitiesReader, userId, header, padd }: UserActiviti
   };
 
   const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
-    const element = getRenderElement(item, item.type);
+    const element = getActivityElement(item, item.type);
 
     const options = () => {
       return (
