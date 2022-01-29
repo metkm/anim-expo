@@ -5,7 +5,7 @@ import { UserObject } from "../../api/objectTypes";
 
 import { useColors } from "../../hooks/useColors";
 import { useNavigation } from "@react-navigation/native";
-import { SettingsNavigationProps } from "../../pages/props";
+import { StackNavigationProps } from "../../pages/props";
 
 // components
 import UserStats from "./UserStats";
@@ -17,7 +17,7 @@ interface UserHeaderProps {
 }
 
 const UserHeader = ({ user }: UserHeaderProps) => {
-  const navigation = useNavigation<SettingsNavigationProps>();
+  const navigation = useNavigation<StackNavigationProps<"Settings" | "Notifications">>();
   const { colors } = useColors();
 
   const pressHandlerSettings = () => {
@@ -25,7 +25,7 @@ const UserHeader = ({ user }: UserHeaderProps) => {
   };
 
   const pressHandlerNotifications = () => {
-    // navigation.navigate("Settings");
+    navigation.navigate("Notifications")
   };
 
   return (
@@ -36,7 +36,7 @@ const UserHeader = ({ user }: UserHeaderProps) => {
         <View style={style.inner}>
           <Text style={style.name} numberOfLines={2}>{user.name}</Text>
           <View>
-            <Icon style={style.icon} name="bell" color={colors.text} size={20} />
+            <Icon style={style.icon} onPress={pressHandlerNotifications} name="bell" color={colors.text} size={20} />
             <Icon style={style.icon} onPress={pressHandlerSettings} name="cog" color={colors.text} size={20} />
           </View>
         </View>

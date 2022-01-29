@@ -71,6 +71,7 @@ export type UserScreenProps = BottomTabScreenProps<BottomTabParamList, "User">;
 export type StackParamList = {
   Home: NavigatorScreenParams<BottomTabParamList>;
   Settings: undefined;
+  Notifications: undefined;
   Media: {
     mediaId: number;
   };
@@ -86,10 +87,11 @@ export type StackParamList = {
 };
 
 export type CharacterNavigationProps = StackNavigationProp<StackParamList, "Character">;
-export type SettingsNavigationProps = StackNavigationProp<StackParamList, "Settings">;
 export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activity">;
 export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
 export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
+
+export type StackNavigationProps<T extends keyof StackParamList> = StackNavigationProp<StackParamList, T>;
 
 export type ActivityScreenProps = StackScreenProps<StackParamList, "Activity">;
 export type CharacterScreenProps = StackScreenProps<StackParamList, "Character">;

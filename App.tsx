@@ -4,7 +4,6 @@ import "react-native-reanimated";
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useColorScheme } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import { Overpass_400Regular, Overpass_700Bold, useFonts } from "@expo-google-fonts/overpass";
 import AppLoading from "expo-app-loading";
 
@@ -20,6 +19,7 @@ import { createStackNavigator, TransitionPresets } from "@react-navigation/stack
 import Character from "./src/pages/Character";
 import Activity from "./src/pages/Activity";
 import Settings from "./src/pages/Settings";
+import Notifications from "./src/pages/Notifications";
 import Library from "./src/pages/Library/Library";
 import Browse from "./src/pages/Browse/Browse";
 import Login from "./src/pages/Login";
@@ -109,6 +109,7 @@ const App = () => {
             >
               <Stack.Screen name="Home" component={Home} />
               <Stack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
+              <Stack.Screen name="Notifications" component={Notifications} options={{ headerShown: true }} />
 
               <Stack.Screen name="Character" component={Character} />
               <Stack.Screen name="Activity" component={Activity} options={{ headerShown: true }} />
