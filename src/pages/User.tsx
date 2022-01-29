@@ -12,7 +12,7 @@ import Library from "./Library/Library";
 import { usePromise } from "../hooks/usePromise";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 
-import { UserParamList, UserScreenProps } from "./props";
+import { HomeScreenProps } from "./props";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import Animated, {
@@ -36,7 +36,7 @@ interface UserProps {
   userReader: () => UserObject;
 }
 
-const Tab = createMaterialTopTabNavigator<UserParamList>();
+const Tab = createMaterialTopTabNavigator();
 
 const SNAPPED = -380;
 const User = ({ userReader }: UserProps) => {
@@ -119,7 +119,7 @@ const UserSuspense = ({
   route: {
     params: { userId },
   },
-}: UserScreenProps) => {
+}: HomeScreenProps<"User">) => {
   const [userReader] = usePromise(getUser, userId);
 
   return (

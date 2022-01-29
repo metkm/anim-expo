@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react";
-import { StyleSheet, Image, View } from "react-native";
+import { StyleSheet } from "react-native";
 
 import Animated, { useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
 
@@ -14,13 +14,11 @@ import MediaCharacters from "../components/Media/MediaCharacters";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { useHeaderHeight } from "@react-navigation/elements";
-import { StackScreenProps } from "@react-navigation/stack";
-import { StackParamList } from "./props";
+import { AppScreenProps } from "./props";
 
 import { MediaObject } from "../api/objectTypes";
 import { getMedia } from "../api/media/getMedia";
 import { usePromise } from "../hooks/usePromise";
-import { StatusBar } from "expo-status-bar";
 
 interface MediaProps {
   mediaReader: () => MediaObject
@@ -69,7 +67,7 @@ const Media = ({ mediaReader }: MediaProps) => {
   );
 };
 
-const MediaSuspense = ({ route: { params: { mediaId } } }: StackScreenProps<StackParamList, "Media">) => {
+const MediaSuspense = ({ route: { params: { mediaId } } }: AppScreenProps<"Media">) => {
   const [mediaReader] = usePromise(getMedia, mediaId);
 
   return (

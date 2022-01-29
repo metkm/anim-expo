@@ -1,6 +1,6 @@
 import React from "react";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { LibraryScreenProps } from "../props";
+import { HomeScreenProps, LibraryPageParamList } from "../props";
 
 import { useTabBarStyle } from "../../hooks/useTabBarStyle";
 import { useSelector } from "react-redux";
@@ -8,13 +8,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import LibraryPage from "./LibraryPage";
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator<LibraryPageParamList>();
 
 const Library = ({
   route: {
     params: { userId, padd },
   },
-}: LibraryScreenProps) => {
+}: HomeScreenProps<"Library">) => {
   const user = useSelector((state: RootState) => state.user.user);
   const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(padd); 
 

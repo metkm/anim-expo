@@ -3,7 +3,7 @@ import Loading from "../../components/AnimLoading";
 import BrowseRow from "../../components/Browse/BrowseRow";
 
 import { useBrowse } from "../../hooks/useBrowse";
-import { BrowseScreenProps } from "../props";
+import { BrowsePageScreenProps } from "../props";
 
 const labels: {[key: string]: string} = {
   "trending": "Trending now",
@@ -17,7 +17,7 @@ const BrowsePage = ({
   route: {
     params: { type },
   },
-}: BrowseScreenProps) => {
+}: BrowsePageScreenProps<"Anime" | "Manga">) => {
   const { browse } = useBrowse(type);
 
   if (!browse) return <Loading />;

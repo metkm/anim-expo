@@ -43,7 +43,7 @@ const LibraryPageSuspense = ({
   route: {
     params: { type, userId },
   },
-}: LibraryPageScreenProps) => {
+}: LibraryPageScreenProps<"Anime" | "Manga">) => {
   const [libraryReader, setLibraryUpdater] = usePromise(getEntries, userId, type);
 
   const refresh = () => {

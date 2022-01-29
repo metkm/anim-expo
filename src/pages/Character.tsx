@@ -12,9 +12,7 @@ import { CharacterObject } from "../api/objectTypes";
 
 import { useColors } from "../hooks/useColors";
 import { usePromise } from "../hooks/usePromise";
-
-import { CharacterScreenProps } from "./props";
-import { StatusBar } from "expo-status-bar";
+import { AppScreenProps } from "./props";
 
 interface CharacterProps {
   characterReader: () => CharacterObject;
@@ -62,7 +60,7 @@ const CharacterSuspense = ({
   route: {
     params: { characterId },
   },
-}: CharacterScreenProps) => {
+}: AppScreenProps<"Character">) => {
   const [characterReader] = usePromise(getCharacter, characterId);
 
   return (

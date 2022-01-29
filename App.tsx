@@ -31,11 +31,12 @@ import { useColors } from "./src/hooks/useColors";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { AppStackParamList, HomeTabParamList } from "./src/pages/props";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 
-const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator<HomeTabParamList>();
+const Stack = createStackNavigator<AppStackParamList>();
 
 interface Icons {
   [index: string]: string;
@@ -61,7 +62,7 @@ const Home = () => {
           const icons: Icons = {
             User: "account",
             Library: "book",
-            Discover: "compass",
+            Browse: "compass",
             Login: "login",
           };
 
@@ -72,7 +73,7 @@ const Home = () => {
         tabBarActiveTintColor: color,
       })}
     >
-      <Tab.Screen name="Discover" component={Browse} />
+      <Tab.Screen name="Browse" component={Browse} />
       {user ? (
         <>
           <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id }} />

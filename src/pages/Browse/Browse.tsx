@@ -3,8 +3,9 @@ import BrowsePage from "./BrowsePage";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTabBarStyle } from "../../hooks/useTabBarStyle";
+import { BrowsePageParamList } from "../props";
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator<BrowsePageParamList>();
 
 const Browse = () => {
   const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle();

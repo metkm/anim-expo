@@ -1,97 +1,55 @@
-import { NavigatorScreenParams } from "@react-navigation/native";
-import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
-
+import { StackNavigationProp, StackScreenProps } from "@react-navigation/stack";
 import { MediaType } from "../api/objectTypes";
-import { MaterialTopTabScreenProps } from "@react-navigation/material-top-tabs";
 
-export type LibraryPageParamList = {
-  Anime: {
-    userId: number;
-    type: MediaType;
-  };
-  Manga: {
-    userId: number;
-    type: MediaType;
-  };
+// Shared Screens
+export type UserParams = {
+  userId: number;
 };
 
-export type LibraryParamList = {
-  Anime: {
-    userId: number;
-    padd?: boolean;
-  };
-  Manga: {
-    userId: number;
-    padd?: boolean;
-  };
-};
-
-export type LibraryScreenProps = BottomTabScreenProps<LibraryParamList, "Anime" | "Manga">;
-export type LibraryPageScreenProps = BottomTabScreenProps<LibraryPageParamList, "Anime" | "Manga">;
-
-/////
-
-export type BrowseParamList = {
-  Anime: {
-    type: MediaType;
-  },
-  Manga: {
-    type: MediaType;
-  }
-}
-
-export type BrowseScreenProps = BottomTabScreenProps<BrowseParamList, "Anime" | "Manga">;
-
-export type BottomTabParamList = {
-  Browse: NavigatorScreenParams<BrowseParamList>;
-  Library: NavigatorScreenParams<LibraryPageParamList>;
-  User: {
-    userId: number;
-  };
-};
-
-/////
-
-export type UserParamList = {
-  Activities: {
-    userId: number;
-  },
-  Library: {
-    userId: number;
-    padd?: boolean;
-  }
-}
-
-export type UserActivitiesScreenProps = MaterialTopTabScreenProps<UserParamList, "Activities">;
-export type UserScreenProps = BottomTabScreenProps<BottomTabParamList, "User">;
-
-////
-
-export type StackParamList = {
-  Home: NavigatorScreenParams<BottomTabParamList>;
+// Root Navigator in App.tsx
+export type AppStackParamList = {
+  Home: undefined;
   Settings: undefined;
   Notifications: undefined;
-  Media: {
-    mediaId: number;
-  };
-  User: {
-    userId: number;
-  };
-  Character: {
-    characterId: number;
-  };
-  Activity: {
-    activityId: number;
-  };
+  Character: { characterId: number };
+  Activity: { activityId: number };
+  Media: { mediaId: number };
+  User: UserParams;
 };
 
-export type CharacterNavigationProps = StackNavigationProp<StackParamList, "Character">;
-export type ActivityNavigationProps = StackNavigationProp<StackParamList, "Activity">;
-export type MediaNavigationProps = StackNavigationProp<StackParamList, "Media">;
-export type UserNavigationProps = StackNavigationProp<StackParamList, "User">;
+// Bottom tab navigator in App.tsx, Comes after the root
+export type HomeTabParamList = {
+  Browse: undefined;
+  Library: { userId: number; padd?: boolean };
+  User: UserParams;
+  Login: undefined;
+};
 
-export type StackNavigationProps<T extends keyof StackParamList> = StackNavigationProp<StackParamList, T>;
+// Nested pages inside Home Screen
+type LibraryPageParams = {
+  type: MediaType;
+  userId: number;
+};
 
-export type ActivityScreenProps = StackScreenProps<StackParamList, "Activity">;
-export type CharacterScreenProps = StackScreenProps<StackParamList, "Character">;
+export type LibraryPageParamList = {
+  Anime: LibraryPageParams;
+  Manga: LibraryPageParams;
+}
+
+type BrowsePageParams = {
+  type: MediaType;
+}
+
+export type BrowsePageParamList = {
+  Anime: BrowsePageParams;
+  Manga: BrowsePageParams;
+}
+
+export type AppScreenProps<T extends keyof AppStackParamList> = StackScreenProps<AppStackParamList, T>;
+export type HomeScreenProps<T extends keyof HomeTabParamList> = BottomTabScreenProps<HomeTabParamList, T>;
+export type LibraryPageScreenProps<T extends keyof LibraryPageParamList> = BottomTabScreenProps<LibraryPageParamList, T>;
+export type BrowsePageScreenProps<T extends keyof BrowsePageParamList> = BottomTabScreenProps<BrowsePageParamList, T>;
+
+export type AppNavigationProps<T extends keyof AppStackParamList> = StackNavigationProp<AppStackParamList, T>;
+export type HomeNavigationProps<T extends keyof HomeTabParamList> = BottomTabScreenProps<HomeTabParamList, T>;

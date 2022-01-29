@@ -1,6 +1,6 @@
 import React, { Suspense, useState } from "react";
 import { FlatList, ListRenderItem, StyleSheet, View } from "react-native";
-import { ActivityScreenProps } from "./props";
+import { AppScreenProps } from "./props";
 
 import AnimItemSeparator from "../components/AnimItemSeparator";
 import ActivityComment from "../components/Activity/ActivityComment";
@@ -78,7 +78,7 @@ const ActivitySuspense = ({
   route: {
     params: { activityId },
   },
-}: ActivityScreenProps) => {
+}: AppScreenProps<"Activity">) => {
   const [repliesReader] = usePromise(getActivityReplies, activityId, 1);
 
   return (
