@@ -1,8 +1,13 @@
 import { StyleSheet, useWindowDimensions, View, ViewProps } from "react-native";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
 
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import Animated, { useAnimatedGestureHandler, useAnimatedStyle, useSharedValue } from "react-native-reanimated";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
+import { springConfig } from "../constants/reanimated";
 
 import { useColors } from "../hooks/useColors";
 
@@ -13,9 +18,9 @@ interface AnimSheetProps extends ViewProps {
 const AnimSheet = ({ children, offsetY = 0 }: AnimSheetProps) => {
   const { colors, color } = useColors();
   const { height } = useWindowDimensions();
-  
+
   const COLLAPSED = height - 36 - offsetY;
-  const EXPANDED = height / 4;
+  const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
   const onGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>({
@@ -26,19 +31,19 @@ const AnimSheet = ({ children, offsetY = 0 }: AnimSheetProps) => {
       top.value = translationY + start;
     },
     onEnd: () => {
-      if (top.value > EXPANDED / 2) {
+      if (top.value > EXPANDED / 2 + 300) {
         top.value = COLLAPSED;
       } else {
         top.value = EXPANDED;
       }
-    }
+    },
   });
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
-    top: top.value
+    top: withSpring(top.value, springConfig),
   }));
-  
+
   return (
     <PanGestureHandler onGestureEvent={onGesture}>
       <Animated.View style={[animatedStyle, style.container]}>
@@ -47,8 +52,8 @@ const AnimSheet = ({ children, offsetY = 0 }: AnimSheetProps) => {
         {children}
       </Animated.View>
     </PanGestureHandler>
-  )
-}
+  );
+};
 
 const style = StyleSheet.create({
   container: {
