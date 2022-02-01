@@ -60,30 +60,30 @@ const UserActivities = ({ activitiesReader, userId, header, padd }: UserActiviti
     setActivities(activities => [...activities, ...resp]);
   };
 
+  const options = (index: number, itemId: number) => {
+    return (
+      <Icon
+        onPress={() => delActivityHandler(index, itemId)}
+        name="delete"
+        color="white"
+        size={60}
+        style={style.icon}
+      />
+    );
+  };
+
   const renderItem: ListRenderItem<ActivityUnion> = ({ item, index }) => {
     const element = getActivityElement(item, item.type);
 
-    const options = () => {
-      return (
-        <Icon
-          onPress={() => delActivityHandler(index, item.id)}
-          name="delete"
-          color="white"
-          size={60}
-          style={style.icon}
-        />
-      );
-    };
-
     if (storeUser?.id == userId || ("messenger" in item && item.messenger.id)) {
-      return <AnimSwipeable options={options}>{element}</AnimSwipeable>;
+      return <AnimSwipeable options={() => options(index, item.id)}>{element}</AnimSwipeable>;
     }
 
     return element;
   };
 
   return (
-    <View style={{ flex: 1, marginBottom: 4 }}>
+    <View style={{ flex: 1 }}>
       <AnimatedFlatList
         data={activities}
         renderItem={renderItem}

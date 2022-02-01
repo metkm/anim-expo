@@ -5,7 +5,7 @@ import { UserObject } from "../../api/objectTypes";
 
 import { useColors } from "../../hooks/useColors";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProps } from "../../pages/props";
+import { AppNavigationProps } from "../../pages/props";
 
 // components
 import UserStats from "./UserStats";
@@ -17,7 +17,7 @@ interface UserHeaderProps {
 }
 
 const UserHeader = ({ user }: UserHeaderProps) => {
-  const navigation = useNavigation<StackNavigationProps<"Settings" | "Notifications">>();
+  const navigation = useNavigation<AppNavigationProps<"Settings" | "Notifications">>();
   const { colors } = useColors();
 
   const pressHandlerSettings = () => {

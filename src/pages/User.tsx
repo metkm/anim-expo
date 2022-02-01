@@ -74,6 +74,7 @@ const User = ({ userReader }: UserProps) => {
 
   const animatedStyle = useAnimatedStyle(
     () => ({
+      flex: 1,
       transform: [
         {
           translateY: withSpring(
@@ -104,8 +105,8 @@ const User = ({ userReader }: UserProps) => {
       <Animated.View style={animatedStyle}>
         <UserHeader user={user} />
 
-        <Animated.View style={{ height: height - bottomHeight }} animatedProps={animatedProps}>
-          <Tab.Navigator screenOptions={{ ...tab }}>
+        <Animated.View style={{ height: height - 10 }} animatedProps={animatedProps}>
+          <Tab.Navigator screenOptions={{ ...tab }} sceneContainerStyle={{ flex: 1 }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
           </Tab.Navigator>
