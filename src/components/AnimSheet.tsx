@@ -16,7 +16,6 @@ const AnimSheet = ({ children }: ViewProps) => {
   const { height } = useWindowDimensions();
 
   const COLLAPSED = height - 36;
-  console.log(height, COLLAPSED)
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
