@@ -2,7 +2,7 @@ import { Easing, WithSpringConfig, WithTimingConfig } from "react-native-reanima
 
 export const timingConfig: WithTimingConfig = {
   duration: 300,
-  easing: Easing.out(Easing.sin)
+  // easing: Easing.out(Easing.bezier)
 }
 
 export const springConfig: WithSpringConfig = {

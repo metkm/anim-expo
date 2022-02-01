@@ -18,6 +18,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { usePromise } from "../../hooks/usePromise";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
@@ -25,10 +26,9 @@ interface UserActivitiesProps {
   activitiesReader: () => ActivityUnion[];
   header?: JSX.Element,
   userId: number;
-  padd: number
 }
 
-const UserActivities = ({ activitiesReader, userId, header, padd }: UserActivitiesProps) => {
+const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -106,12 +106,12 @@ const UserActivities = ({ activitiesReader, userId, header, padd }: UserActiviti
 };
 
 
-const UserActivitiesSuspense = ({ userId, header, padd = 0 }: { userId: number, header?: JSX.Element, padd?: number }) => {
+const UserActivitiesSuspense = ({ userId, header }: { userId: number, header?: JSX.Element }) => {
   const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} padd={padd} />
+      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} />
     </Suspense>
   );
 };

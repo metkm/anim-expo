@@ -37,7 +37,7 @@ interface UserProps {
 
 const Tab = createMaterialTopTabNavigator();
 
-const SNAPPED = -380;
+const SNAPPED = -380 - 10; // 20 extra margin
 const User = ({ userReader }: UserProps) => {
   const { ...tab } = useTabBarStyle();
   const { height } = useSafeAreaFrame();
@@ -71,7 +71,7 @@ const User = ({ userReader }: UserProps) => {
       transform: [
         {
           translateY: withSpring(
-            interpolate(offsetY.value, [0, SNAPPED], [0, SNAPPED], Extrapolate.CLAMP),
+            interpolate(offsetY.value, [0, SNAPPED], [0, SNAPPED], Extrapolate.EXTEND),
             springConfig
           ),
         },
@@ -82,7 +82,7 @@ const User = ({ userReader }: UserProps) => {
 
   const animatedProps = useAnimatedProps<Animated.AnimateProps<ViewProps>>(
     () => ({
-      pointerEvents: offsetY.value == SNAPPED ? "box-none" : "box-only",
+      pointerEvents: offsetY.value == SNAPPED ? "auto" : "box-only",
     }),
     []
   );
@@ -98,7 +98,7 @@ const User = ({ userReader }: UserProps) => {
       <Animated.View style={animatedStyle}>
         <UserHeader user={user} />
 
-        <Animated.View style={{ height: height - 10 }} animatedProps={animatedProps}>
+        <Animated.View style={{ height }} animatedProps={animatedProps}>
           <Tab.Navigator screenOptions={{ ...tab }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
