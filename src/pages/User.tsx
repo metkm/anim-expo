@@ -28,7 +28,6 @@ import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-g
 import { springConfig } from "../constants/reanimated";
 import { useTabBarStyle } from "../hooks/useTabBarStyle";
 
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
@@ -42,12 +41,6 @@ const SNAPPED = -380;
 const User = ({ userReader }: UserProps) => {
   const { ...tab } = useTabBarStyle();
   const { height } = useSafeAreaFrame();
-
-  try {
-    var bottomHeight = useBottomTabBarHeight();
-  } catch {
-    var bottomHeight = 0;
-  }
 
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [user] = useState(() => userReader());
@@ -106,7 +99,7 @@ const User = ({ userReader }: UserProps) => {
         <UserHeader user={user} />
 
         <Animated.View style={{ height: height - 10 }} animatedProps={animatedProps}>
-          <Tab.Navigator screenOptions={{ ...tab }} sceneContainerStyle={{ flex: 1 }}>
+          <Tab.Navigator screenOptions={{ ...tab }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
           </Tab.Navigator>

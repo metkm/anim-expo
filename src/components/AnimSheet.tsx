@@ -11,15 +11,12 @@ import { springConfig } from "../constants/reanimated";
 
 import { useColors } from "../hooks/useColors";
 
-interface AnimSheetProps extends ViewProps {
-  offsetY?: number;
-}
-
-const AnimSheet = ({ children, offsetY = 0 }: AnimSheetProps) => {
+const AnimSheet = ({ children }: ViewProps) => {
   const { colors, color } = useColors();
   const { height } = useWindowDimensions();
 
-  const COLLAPSED = height - 36 - offsetY;
+  const COLLAPSED = height - 36;
+  console.log(height, COLLAPSED)
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
