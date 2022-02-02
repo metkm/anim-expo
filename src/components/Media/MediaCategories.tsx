@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import Text from "../Base/Text";
 import Animated, {
   useAnimatedStyle,
@@ -12,21 +12,18 @@ import { ScrollView, StyleSheet, Pressable } from "react-native";
 
 import { timingConfig } from "../../constants/reanimated";
 import { useColors } from "../../hooks/useColors";
-
-interface MediaCategoriesProps {
-  onCategories: (categories: string[]) => void;
-  categories: string[];
-}
+import { useAppSelector } from "../../store";
+import { MediaType } from "../../api/objectTypes";
 
 interface MediaCategory {
   category: string;
   index: number;
+  categoryCallback: (category: string) => void;
   positions: SharedValue<string[]>;
-  callback: (categories: string[]) => void;
 }
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
-const MediaCategory = ({ category, index, positions, callback }: MediaCategory) => {
+const MediaCategory = ({ category, index, positions, categoryCallback }: MediaCategory) => {
   const { colors, color } = useColors();
   const currIndex = useSharedValue(index);
   const isActive = useSharedValue(currIndex.value == 0 ? 1 : 0);
@@ -62,10 +59,7 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
     tmpArray.splice(currIndex.value, 1);
     tmpArray.splice(0, 0, category);
     positions.value = tmpArray;
-
-    setTimeout(() => {
-      callback(tmpArray);
-    }, 400);
+    categoryCallback(category);
   };
 
   return (
@@ -75,9 +69,18 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
   );
 };
 
-const MediaCategories = ({ onCategories, categories }: MediaCategoriesProps) => {
+interface MediaCategoriesProps {
+  type: MediaType
+}
+
+const MediaCategories = ({ type }: MediaCategoriesProps) => {
+  const categories = useAppSelector(state => state.categories[type]);
   const positions = useSharedValue(categories);
   var innerWidth = categories.length * 120 + categories.length * 4;
+
+  const categoryCallback = (category: string) => {
+    console.log("category", category);
+  }
 
   return (
     <ScrollView
@@ -88,7 +91,7 @@ const MediaCategories = ({ onCategories, categories }: MediaCategoriesProps) => 
       overScrollMode="never"
     >
       {categories.map((category, index) => (
-        <MediaCategory category={category} index={index} positions={positions} key={category} callback={onCategories} />
+        <MediaCategory category={category} categoryCallback={categoryCallback} index={index} positions={positions} key={category} />
       ))}
     </ScrollView>
   );
