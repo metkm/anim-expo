@@ -16,7 +16,7 @@ const height = Dimensions.get("screen").height;
 
 const AnimSheet = ({ children }: ViewProps) => {
   const { colors, color } = useColors();
-  
+
   try {
     var bottomHeight = useBottomTabBarHeight();
   } catch {
@@ -35,17 +35,13 @@ const AnimSheet = ({ children }: ViewProps) => {
       top.value = translationY + start;
     },
     onEnd: () => {
-      if (top.value > EXPANDED / 2 + 300) {
-        top.value = COLLAPSED;
-      } else {
-        top.value = EXPANDED;
-      }
+      top.value = withSpring(top.value > EXPANDED / 2 + 300 ? COLLAPSED : EXPANDED, springConfig);
     },
   });
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
-    top: withSpring(top.value, springConfig),
+    top: top.value,
   }));
 
   return (
