@@ -99,7 +99,7 @@ const User = ({ userReader }: UserProps) => {
 
         <Animated.View style={{ height }}>
           <Tab.Navigator screenOptions={{ ...tab }}>
-            <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
+            <Tab.Screen name="Activities">{() => <UserActivities userId={user.id} />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />
           </Tab.Navigator>
         </Animated.View>

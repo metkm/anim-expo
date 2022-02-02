@@ -5,8 +5,8 @@ import { useColors } from "../../hooks/useColors";
 import { CharacterEdgeObject } from "../../api/objectTypes";
 import { capitalizeFirstLetter } from "../commonUtils";
 
+import { AppNavigationProps } from "../../pages/props";
 import { useNavigation } from "@react-navigation/native";
-import { SettingsNavigationProps } from "../../pages/props";
 
 interface CharacterCardProps {
   character: CharacterEdgeObject
@@ -14,7 +14,7 @@ interface CharacterCardProps {
 
 const CharacterCard = ({ character }: CharacterCardProps) => {
   const { colors } = useColors();
-  const navigation = useNavigation<SettingsNavigationProps>();
+  const navigation = useNavigation<AppNavigationProps<"Character">>();
 
   const toCharacter = () => {
     navigation.push("Character", { characterId: character.node.id })

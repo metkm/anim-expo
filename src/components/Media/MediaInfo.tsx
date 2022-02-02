@@ -17,15 +17,19 @@ const dateToString = ({ year, month, day }: { year: number; month: number; day: 
   return dayjs(new Date(year, month, day)).format("MMM D, YYYY");
 };
 
-const MediaInfo = ({ media }: MediaInfoProps) => {
+const Info = ({ title, value }: { title: string; value: string | number }) => {
   const { colors, color } = useColors();
 
-  const Info = ({ title, value }: { title: string; value: string | number }) => (
+  return (
     <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
       <Text style={[style.infoTitle, { color }]}>{title}</Text>
       <Text style={style.infoValue}>{value}</Text>
     </View>
   );
+};
+
+const MediaInfo = ({ media }: MediaInfoProps) => {
+  const { colors } = useColors();
 
   return (
     <>

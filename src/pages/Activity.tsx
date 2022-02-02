@@ -32,10 +32,10 @@ const Activity = ({ repliesReader, activityId }: ActivityProps) => {
 
   const delReplyHandler = async (index: number, id: number) => {
     await delActivityReply(id);
-
-    var tmpArray = [...replies];
-    tmpArray.splice(index, 1);
-    setReplies(tmpArray);
+    setReplies(replies => [
+      ...replies.slice(0, index),
+      ...replies.slice(index + 1)
+    ]);
   };
 
   const renderItem: ListRenderItem<ActivityReplyObject> = ({ item, index }) => {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppNavigationProps } from "../../pages/props";
 
 // components
 import Text from "../Base/Text";
@@ -9,7 +10,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { likeActivity } from "../../api/activity/likeActivity";
 import { LikeableType } from "../../api/objectTypes";
 
-import { ActivityNavigationProps } from "../../pages/props";
 import { useColors } from "../../hooks/useColors";
 import { timeSince } from "../commonUtils";
 
@@ -29,7 +29,7 @@ interface LikeObject {
 }
 
 const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type }: ActivityStatsProps) => {
-  const navigation = useNavigation<ActivityNavigationProps>();
+  const navigation = useNavigation<AppNavigationProps<"Activity">>();
   const { color, colors } = useColors();
   const [union, setUnion] = useState<LikeObject>({
     id: id,

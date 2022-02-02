@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Image, View, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { AppNavigationProps } from "../../pages/props";
 
-import { UserNavigationProps } from "../../pages/props";
 import { UserObject } from "../../api/objectTypes";
 import { timeSince } from "../commonUtils";
 
@@ -18,7 +18,7 @@ interface ActivityUserProps {
 
 const ActivityUser = ({ user, createdAt }: ActivityUserProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
-  const navigation = useNavigation<UserNavigationProps>();
+  const navigation = useNavigation<AppNavigationProps<"User">>();
 
   const toUser = () => {
     if (storeUser?.id === user.id) return;

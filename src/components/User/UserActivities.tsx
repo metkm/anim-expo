@@ -1,5 +1,5 @@
-import React, { createRef, memo, Suspense, useCallback, useRef, useState } from "react";
-import { FlatListProps, ListRenderItem, StyleSheet, View } from "react-native";
+import React, { memo, Suspense, useCallback, useRef, useState } from "react";
+import { FlatListProps, ListRenderItem, StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { FlatList } from "react-native-gesture-handler";
 
@@ -7,9 +7,9 @@ import { ActivityUnion } from "../../api/objectTypes";
 import { getActivities } from "../../api/user/getActivities";
 import { delActivity } from "../../api/activity/delActivity";
 
-import ActivityCreate from "../Activity/ActivityCreate";
 import { getActivityElement } from "../Activity/getActivityElement";
 
+import ActivityCreate from "../Activity/ActivityCreate";
 import AnimItemSeparator from "../AnimItemSeparator";
 import AnimSwipeable from "../AnimSwipeable";
 import Loading from "../AnimLoading";
@@ -18,7 +18,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { usePromise } from "../../hooks/usePromise";
-import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<ActivityUnion>>(FlatList);
 
@@ -41,9 +40,10 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
   const delActivityHandler = async (index: number, id: number) => {
     await delActivity(id);
 
-    var tempActivities = [...activities];
-    tempActivities.splice(index, 1);
-    setActivities(tempActivities);
+    setActivities(activities => [
+      ...activities.slice(0, index),
+      ...activities.slice(index + 1),
+    ]);
   };
 
   const refreshHandler = useCallback(async () => {

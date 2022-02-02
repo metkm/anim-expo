@@ -2,8 +2,8 @@ import React, { memo } from "react";
 import { StyleSheet, View, Image, Pressable } from "react-native";
 import { capitalizeFirstLetter } from "../commonUtils";
 
-import { MediaNavigationProps } from "../../pages/props";
 import { ListActivityObject } from "../../api/objectTypes";
+import { AppNavigationProps } from "../../pages/props";
 
 import { useNavigation } from "@react-navigation/native";
 import { useColors } from "../../hooks/useColors";
@@ -17,7 +17,7 @@ interface ListActivityProps {
 
 const ActivityList = ({ activity }: ListActivityProps) => {
   const { colors, color } = useColors();
-  const navigation = useNavigation<MediaNavigationProps>();
+  const navigation = useNavigation<AppNavigationProps<"Media">>();
 
   const toMedia = () => {
     navigation.push("Media", {

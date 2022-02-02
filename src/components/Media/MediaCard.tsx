@@ -7,7 +7,7 @@ import { useColors } from "../../hooks/useColors";
 import { timeUntil } from "./MediaUtils";
 
 import { useNavigation } from "@react-navigation/native";
-import { MediaNavigationProps } from "../../pages/props";
+import { AppNavigationProps } from "../../pages/props";
 
 import Text from "../Base/Text";
 import MediaEdit from "./MediaEdit";
@@ -21,7 +21,7 @@ interface MediaCardProps extends ViewProps {
 
 const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) => {
   const { colors } = useColors();
-  const navigation = useNavigation<MediaNavigationProps>();
+  const navigation = useNavigation<AppNavigationProps<"Media">>();
   const [isVisible, setIsVisible] = useState(false);
   const [media] = useState(item);
 
