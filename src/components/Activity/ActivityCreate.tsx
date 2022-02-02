@@ -55,7 +55,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
         multiline
       />
 
-      <Button onPress={createActivity}>Post!</Button>
+      <Button style={{ width: "100%" }} onPress={createActivity}>Post!</Button>
     </AnimSheet>
   );
 };

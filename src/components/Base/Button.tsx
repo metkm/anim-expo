@@ -39,6 +39,8 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontFamily: "Overpass_700Bold",
+    textAlign: "center",
+    flex: 1,
   },
   icon: {
     marginHorizontal: 4,

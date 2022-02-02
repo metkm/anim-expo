@@ -37,7 +37,7 @@ interface UserProps {
 
 const Tab = createMaterialTopTabNavigator();
 
-const SNAPPED = -380 - 10; // 20 extra margin
+const SNAPPED = -380 - 10; // 10 extra margin
 const User = ({ userReader }: UserProps) => {
   const { ...tab } = useTabBarStyle();
   const { height } = useSafeAreaFrame();
