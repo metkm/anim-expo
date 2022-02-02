@@ -26,3 +26,6 @@ export const librarySlice = createSlice({
     },
   },
 });
+
+export const { addMedia, removeMedia, setCategories } = librarySlice.actions;
+export default librarySlice.reducer;
