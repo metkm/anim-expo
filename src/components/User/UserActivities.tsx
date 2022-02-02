@@ -83,7 +83,7 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <>
       <AnimatedFlatList
         data={activities}
         renderItem={renderItem}
@@ -97,11 +97,10 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
         contentContainerStyle={{ paddingBottom: 26 }}
         overScrollMode="never"
         scrollEventThrottle={16}
-        nestedScrollEnabled={true}
       />
 
       <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
-    </View>
+    </>
   );
 };
 

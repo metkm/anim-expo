@@ -67,7 +67,6 @@ const User = ({ userReader }: UserProps) => {
 
   const animatedStyle = useAnimatedStyle(
     () => ({
-      flex: 1,
       transform: [
         {
           translateY: withSpring(
@@ -94,11 +93,11 @@ const User = ({ userReader }: UserProps) => {
   }
 
   return (
-    <PanGestureHandler onGestureEvent={gestureHandler} activeOffsetY={[-10, 10]}>
-      <Animated.View style={animatedStyle}>
+    <PanGestureHandler onGestureEvent={gestureHandler} >
+      <Animated.View style={animatedStyle} animatedProps={animatedProps}>
         <UserHeader user={user} />
 
-        <Animated.View style={{ height }} animatedProps={animatedProps}>
+        <Animated.View style={{ height }}>
           <Tab.Navigator screenOptions={{ ...tab }}>
             <Tab.Screen name="Activities">{() => <UserActivities userId={user.id}  />}</Tab.Screen>
             <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id, padd: false }} />

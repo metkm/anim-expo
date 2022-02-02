@@ -1,4 +1,5 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { memo } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
@@ -16,7 +17,7 @@ import { useColors } from "../hooks/useColors";
 
 const AnimSheet = ({ children }: ViewProps) => {
   const { colors, color } = useColors();
-  const { height } = useSafeAreaFrame();
+  const { height, width } = useSafeAreaFrame();
   
   try {
     var bottomHeight = useBottomTabBarHeight();
@@ -38,12 +39,12 @@ const AnimSheet = ({ children }: ViewProps) => {
     onEnd: () => {
       top.value = withSpring(top.value > EXPANDED / 2 + 300 ? COLLAPSED : EXPANDED, springConfig);
     },
-  });
+  }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
     top: top.value,
-  }));
+  }), []);
 
   return (
     <PanGestureHandler onGestureEvent={onGesture}>
@@ -65,7 +66,6 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     alignItems: "center",
-    overflow: "hidden",
   },
   line: {
     width: "20%",
@@ -75,4 +75,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default AnimSheet;
+export default memo(AnimSheet);

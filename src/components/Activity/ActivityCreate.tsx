@@ -1,14 +1,16 @@
 import { memo, useRef, useState } from "react";
-import { StyleSheet, Switch, TextInput, View } from "react-native";
+import { StyleSheet, Switch, View } from "react-native";
 import { useColors } from "../../hooks/useColors";
 
 import { MessageActivityObject, TextActivityObject } from "../../api/objectTypes";
 import { saveTextActivity } from "../../api/activity/saveTextActivity";
 import { saveMessageActivity } from "../../api/activity/saveMessageActivity";
 
+import { TextInput } from "react-native-gesture-handler";
+
+import AnimSheet from "../AnimSheet";
 import Button from "../Base/Button";
 import Text from "../Base/Text";
-import AnimSheet from "../AnimSheet";
 
 interface ActivityCreateProps {
   activityCallback: (activity: TextActivityObject | MessageActivityObject) => void;
@@ -32,18 +34,18 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
 
   return (
     <AnimSheet>
-      {recipientId ? (
+      {recipientId && (
         <View style={style.setting}>
           <Text>Private</Text>
           <Switch
+            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             value={isPriv}
             onValueChange={setIsPriv}
             trackColor={{ false: colors.text, true: color }}
             thumbColor={colors.text}
+            style={style.switch}
           />
         </View>
-      ) : (
-        <></>
       )}
 
       <TextInput
@@ -55,7 +57,9 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
         multiline
       />
 
-      <Button style={{ width: "100%" }} onPress={createActivity}>Post!</Button>
+      <Button style={{ width: "100%" }} onPress={createActivity}>
+        Post!
+      </Button>
     </AnimSheet>
   );
 };
@@ -71,6 +75,9 @@ const style = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
+  switch: {
+    
+  }
 });
 
 export default memo(ActivityCreate);
