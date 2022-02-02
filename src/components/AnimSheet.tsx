@@ -1,4 +1,5 @@
-import { StyleSheet, useWindowDimensions, View, ViewProps } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { Dimensions, StyleSheet, View, ViewProps } from "react-native";
 
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import Animated, {
@@ -11,11 +12,18 @@ import { springConfig } from "../constants/reanimated";
 
 import { useColors } from "../hooks/useColors";
 
+const height = Dimensions.get("screen").height;
+
 const AnimSheet = ({ children }: ViewProps) => {
   const { colors, color } = useColors();
-  const { height } = useWindowDimensions();
+  
+  try {
+    var bottomHeight = useBottomTabBarHeight();
+  } catch {
+    bottomHeight = 100;
+  }
 
-  const COLLAPSED = height - 36;
+  const COLLAPSED = height - bottomHeight - 26;
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
