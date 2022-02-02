@@ -20,7 +20,6 @@ interface ActivityCreateProps {
 const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) => {
   const [isPriv, setIsPriv] = useState(false);
   const { colors, color } = useColors();
-
   const text = useRef("");
 
   const createActivity = async () => {

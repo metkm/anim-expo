@@ -1,4 +1,4 @@
-import React, { memo, Suspense, useCallback, useRef, useState } from "react";
+import React, { createRef, memo, Suspense, useCallback, useRef, useState } from "react";
 import { FlatListProps, ListRenderItem, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 import { FlatList } from "react-native-gesture-handler";

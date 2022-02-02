@@ -1,5 +1,5 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { memo } from "react";
+import { forwardRef, memo, useImperativeHandle } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
@@ -9,15 +9,16 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
+
 import { springConfig } from "../constants/reanimated";
+import { AnimSheetHandle } from "./types";
+
+import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useColors } from "../hooks/useColors";
 
-// const height = Dimensions.get("screen").height;
-
-const AnimSheet = ({ children }: ViewProps) => {
+const AnimSheet = forwardRef<AnimSheetHandle, ViewProps>(({ children }, ref) => {
   const { colors, color } = useColors();
-  const { height, width } = useSafeAreaFrame();
+  const { height } = useSafeAreaFrame();
   
   try {
     var bottomHeight = useBottomTabBarHeight();
@@ -29,6 +30,12 @@ const AnimSheet = ({ children }: ViewProps) => {
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
+  useImperativeHandle(ref, () => ({
+    toggle: () => {
+      top.value = top.value == COLLAPSED ? EXPANDED : COLLAPSED;
+    }
+  }))
+
   const onGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>({
     onStart: (_, context) => {
       context.start = top.value;
@@ -37,13 +44,13 @@ const AnimSheet = ({ children }: ViewProps) => {
       top.value = translationY + start;
     },
     onEnd: () => {
-      top.value = withSpring(top.value > EXPANDED / 2 + 300 ? COLLAPSED : EXPANDED, springConfig);
+      top.value = top.value > EXPANDED / 2 + 300 ? COLLAPSED : EXPANDED, springConfig;
     },
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => ({
     backgroundColor: colors.background,
-    top: top.value,
+    top: withSpring(top.value, springConfig),
   }), []);
 
   return (
@@ -55,7 +62,7 @@ const AnimSheet = ({ children }: ViewProps) => {
       </Animated.View>
     </PanGestureHandler>
   );
-};
+});
 
 const style = StyleSheet.create({
   container: {
