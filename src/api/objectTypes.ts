@@ -32,6 +32,210 @@ export type NotificationType =
   | "MEDIA_MERGE"
   | "MEDIA_DELETION";
 
+export interface AiringNotification {
+  id: number;
+  type: NotificationType;
+  animeId: number;
+  episode: number;
+  contexts: string[];
+  createdAt: number;
+  media: MediaObject;
+}
+
+export interface FollowingNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  context: string;
+  createdAt: number;
+  user: UserObject;
+}
+
+export interface ActivityMessageNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  message: MessageActivityObject;
+  user: UserObject;
+}
+
+export interface ActivityMentionNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  activity: ActivityUnion;
+  user: UserObject;
+}
+
+export interface ActivityReplyNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  activity: ActivityUnion;
+  user: UserObject;
+}
+
+export interface ActivityReplySubscribedNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  activity: ActivityUnion;
+  user: UserObject;
+}
+
+export interface ActivityLikeNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  activity: ActivityUnion;
+  user: UserObject;
+}
+
+export interface ActivityReplyLikeNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  activityId: number;
+  context: string;
+  createdAt: number;
+  activity: ActivityUnion;
+  user: UserObject;
+}
+
+export interface ThreadCommentMentionNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  commentId: number;
+  context: string;
+  createdAt: number;
+  thread: ThreadObject;
+  comment: ThreadCommentObject;
+  user: UserObject;
+}
+
+export interface ThreadCommentReplyNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  commentId: number;
+  context: string;
+  createdAt: number;
+  thread: ThreadObject;
+  comment: ThreadCommentObject;
+  user: UserObject;
+}
+
+export interface ThreadCommentSubscribedNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  commentId: number;
+  context: string;
+  createdAt: number;
+  thread: ThreadObject;
+  comment: ThreadCommentObject;
+  user: UserObject;
+}
+
+export interface ThreadCommentLikeNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  commentId: number;
+  context: string;
+  createdAt: number;
+  thread: ThreadObject;
+  comment: ThreadCommentObject;
+  user: UserObject;
+}
+
+export interface ThreadLikeNotification {
+  id: number;
+  userId: number;
+  type: NotificationType;
+  threadId: number;
+  context: string;
+  createdAt: number;
+  thread: ThreadObject;
+  comment: ThreadCommentObject;
+  user: UserObject;
+}
+
+export interface RelatedMediaAdditionNotification {
+  id: number;
+  type: NotificationType;
+  mediaId: number;
+  context: string;
+  createdAt: number;
+  media: MediaObject;
+}
+
+export interface MediaDataChangeNotification {
+  id: number;
+  type: NotificationType;
+  mediaId: number;
+  context: string;
+  reason: string;
+  createdAt: number;
+  media: MediaObject;
+}
+
+export interface MediaMergeNotification {
+  id: number;
+  type: NotificationType;
+  mediaId: number;
+  deletedMediaTitles: string[];
+  context: string;
+  reason: string;
+  createdAt: number;
+  media: MediaObject;
+}
+
+export interface MediaDeletionNotification {
+  id: number;
+  type: NotificationType;
+  deletedMediaTitle: string;
+  context: string;
+  reason: string;
+  createdAt: number;
+}
+
+export interface NotificationUnion {
+  AiringNotification: any;
+  FollowingNotification: any;
+  ActivityMessageNotification: any;
+  ActivityMentionNotification: any;
+  ActivityReplyNotification: any;
+  ActivityReplySubscribedNotification: any;
+  ActivityLikeNotification: any;
+  ActivityReplyLikeNotification: any;
+  ThreadCommentMentionNotification: any;
+  ThreadCommentReplyNotification: any;
+  ThreadCommentSubscribedNotification: any;
+  ThreadCommentLikeNotification: any;
+  ThreadLikeNotification: any;
+  RelatedMediaAdditionNotification: any;
+  MediaDataChangeNotification: any;
+  MediaMergeNotification: any;
+  MediaDeletionNotification: any;
+}
+
 export type ActivityType = "TEXT" | "ANIME_LIST" | "MANGA_LIST" | "MESSAGE" | "MEDIA_LIST";
 
 export type UserStaffNameLanguage = "ROMAJI_WESTERN" | "ROMAJI" | "NATIVE";
