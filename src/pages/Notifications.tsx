@@ -1,12 +1,40 @@
-import { View } from "react-native";
-import Text from "../components/Base/Text";
+import { Suspense, useState } from "react";
+import { FlatList } from "react-native-gesture-handler";
 
-const Notifications = () => {
+import { NotificationUnion } from "../api/objectTypes";
+import { getNotifications } from "../api/user/getNotifications";
+
+import { getNotificationElement } from "../components/Notifications/getNotificationElement";
+import AnimItemSeparator from "../components/AnimItemSeparator";
+import Loading from "../components/AnimLoading";
+
+import { usePromise } from "../hooks/usePromise";
+
+interface NotificationsProps {
+  notificationsReader: () => NotificationUnion[];
+}
+
+const Notifications = ({ notificationsReader }: NotificationsProps) => {
+  const [notifications] = useState(() => notificationsReader());
+
   return (
-    <View>
-      <Text>Notifications lule</Text>
-    </View>
+    <FlatList 
+      data={notifications}
+      renderItem={getNotificationElement}
+      keyExtractor={item => `${item.id}`}
+      ItemSeparatorComponent={AnimItemSeparator}
+    />
   )
 }
 
-export default Notifications;
+const NotificationsSuspense = () => {
+  const [notificationsReader] = usePromise(getNotifications, 1);
+
+  return (
+    <Suspense fallback={<Loading />}>
+      <Notifications notificationsReader={notificationsReader} />
+    </Suspense>
+  )
+}
+
+export default NotificationsSuspense;
