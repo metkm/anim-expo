@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 
 import { NotificationUnion } from "../api/objectTypes";
@@ -15,7 +15,14 @@ interface NotificationsProps {
 }
 
 const Notifications = ({ notificationsReader }: NotificationsProps) => {
-  const [notifications] = useState(() => notificationsReader());
+  const [notifications, setNotifications] = useState(() => notificationsReader());
+  const page = useRef(1);
+
+  const onEndReach = async () => {
+    page.current++;
+    const resp = await getNotifications(page.current);
+    setNotifications(notifications => [...notifications, ...resp]);
+  }
 
   return (
     <FlatList 
@@ -23,6 +30,8 @@ const Notifications = ({ notificationsReader }: NotificationsProps) => {
       renderItem={getNotificationElement}
       keyExtractor={item => `${item.id}`}
       ItemSeparatorComponent={AnimItemSeparator}
+      onEndReachedThreshold={0.4}
+      onEndReached={onEndReach}
     />
   )
 }
