@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from "react";
+import { createRef, memo, useRef, useState } from "react";
 import { StyleSheet, Switch, View } from "react-native";
 import { useColors } from "../../hooks/useColors";
 
@@ -11,6 +11,7 @@ import { TextInput } from "react-native-gesture-handler";
 import AnimSheet from "../AnimSheet";
 import Button from "../Base/Button";
 import Text from "../Base/Text";
+import { AnimSheetHandle } from "../types";
 
 interface ActivityCreateProps {
   activityCallback: (activity: TextActivityObject | MessageActivityObject) => void;
@@ -21,6 +22,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
   const [isPriv, setIsPriv] = useState(false);
   const { colors, color } = useColors();
   const text = useRef("");
+  const sheet = createRef<AnimSheetHandle>();
 
   const createActivity = async () => {
     if (text.current.length < 5) return;
@@ -28,11 +30,12 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
       ? await saveMessageActivity(recipientId, text.current, isPriv)
       : await saveTextActivity(text.current);
 
+    sheet.current?.toggle();
     activityCallback(activity);
   };
 
   return (
-    <AnimSheet>
+    <AnimSheet ref={sheet}>
       {recipientId && (
         <View style={style.setting}>
           <Text>Private</Text>
