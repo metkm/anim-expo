@@ -45,7 +45,6 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
             onValueChange={setIsPriv}
             trackColor={{ false: colors.text, true: color }}
             thumbColor={colors.text}
-            style={style.switch}
           />
         </View>
       )}
@@ -77,9 +76,6 @@ const style = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  switch: {
-    
-  }
 });
 
 export default memo(ActivityCreate);
