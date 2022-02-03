@@ -217,23 +217,23 @@ export interface MediaDeletionNotification {
 }
 
 export interface NotificationUnion {
-  AiringNotification: any;
-  FollowingNotification: any;
-  ActivityMessageNotification: any;
-  ActivityMentionNotification: any;
-  ActivityReplyNotification: any;
-  ActivityReplySubscribedNotification: any;
-  ActivityLikeNotification: any;
-  ActivityReplyLikeNotification: any;
-  ThreadCommentMentionNotification: any;
-  ThreadCommentReplyNotification: any;
-  ThreadCommentSubscribedNotification: any;
-  ThreadCommentLikeNotification: any;
-  ThreadLikeNotification: any;
-  RelatedMediaAdditionNotification: any;
-  MediaDataChangeNotification: any;
-  MediaMergeNotification: any;
-  MediaDeletionNotification: any;
+  AiringNotification: AiringNotification;
+  FollowingNotification: FollowingNotification;
+  ActivityMessageNotification: ActivityMessageNotification;
+  ActivityMentionNotification: ActivityMentionNotification;
+  ActivityReplyNotification: ActivityReplyNotification;
+  ActivityReplySubscribedNotification: ActivityReplySubscribedNotification;
+  ActivityLikeNotification: ActivityLikeNotification;
+  ActivityReplyLikeNotification: ActivityReplyLikeNotification;
+  ThreadCommentMentionNotification: ThreadCommentMentionNotification;
+  ThreadCommentReplyNotification: ThreadCommentReplyNotification;
+  ThreadCommentSubscribedNotification: ThreadCommentSubscribedNotification;
+  ThreadCommentLikeNotification: ThreadCommentLikeNotification;
+  ThreadLikeNotification: ThreadLikeNotification;
+  RelatedMediaAdditionNotification: RelatedMediaAdditionNotification;
+  MediaDataChangeNotification: MediaDataChangeNotification;
+  MediaMergeNotification: MediaMergeNotification;
+  MediaDeletionNotification: MediaDeletionNotification;
 }
 
 export type ActivityType = "TEXT" | "ANIME_LIST" | "MANGA_LIST" | "MESSAGE" | "MEDIA_LIST";
