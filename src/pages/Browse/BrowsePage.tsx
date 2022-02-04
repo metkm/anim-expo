@@ -1,3 +1,4 @@
+import { PortalProvider } from "@gorhom/portal";
 import { ScrollView } from "react-native";
 import Loading from "../../components/AnimLoading";
 import BrowseRow from "../../components/Browse/BrowseRow";
@@ -22,13 +23,15 @@ const BrowsePage = ({
 
   if (!browse) return <Loading />;
   return (
-    <ScrollView>
-      {
-        Object.entries(browse).map(([key, value], index) => {
-          return <BrowseRow key={index} title={labels[key]} mediaList={value.media} />
-        })
-      }
-    </ScrollView>
+    <PortalProvider>
+      <ScrollView>
+        {
+          Object.entries(browse).map(([key, value], index) => {
+            return <BrowseRow key={index} title={labels[key]} mediaList={value.media} />
+          })
+        }
+      </ScrollView>
+    </PortalProvider>
   );
 };
 

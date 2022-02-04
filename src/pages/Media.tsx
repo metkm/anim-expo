@@ -19,6 +19,7 @@ import { AppScreenProps } from "./props";
 import { MediaObject } from "../api/objectTypes";
 import { getMedia } from "../api/media/getMedia";
 import { usePromise } from "../hooks/usePromise";
+import { PortalProvider } from "@gorhom/portal";
 
 interface MediaProps {
   mediaReader: () => MediaObject
@@ -41,11 +42,11 @@ const Media = ({ mediaReader }: MediaProps) => {
   }
 
   return (
-    <>
+    <PortalProvider>
       <MediaBanner uri={media.bannerImage} y={scrollY}>
         <Icon style={style.icon} onPress={toggleVisible} name="pencil" color="white" size={22} />
       </MediaBanner>
-      <MediaEdit media={media} isVisible={isVisible} setIsVisible={setIsVisible} editCallback={toggleVisible} />
+      <MediaEdit media={media} isVisible={isVisible} editCallback={toggleVisible} />
 
       <Animated.ScrollView style={[style.containerPadding, { marginTop: headerHeight }]} overScrollMode="never" onScroll={scrollHandler}>
         <MediaHeader media={media} />
@@ -63,7 +64,7 @@ const Media = ({ mediaReader }: MediaProps) => {
           <MediaCharacters characterList={media.characters.edges} />
         </>
       </Animated.ScrollView>
-    </>
+    </PortalProvider>
   );
 };
 

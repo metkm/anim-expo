@@ -15,18 +15,20 @@ import { AnimSheetHandle } from "./types";
 
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useColors } from "../hooks/useColors";
+import { useTabBarStyle } from "../hooks/useTabBarStyle";
 
 const AnimSheet = forwardRef<AnimSheetHandle, ViewProps>(({ children }, ref) => {
   const { colors, color } = useColors();
   const { height } = useSafeAreaFrame();
-
+  const { totalHeight } = useTabBarStyle();
+  
   try {
     var bottomHeight = useBottomTabBarHeight();
   } catch {
     var bottomHeight = 100;
   }
 
-  const COLLAPSED = height - bottomHeight - 26;
+  const COLLAPSED = (height - bottomHeight - 26);
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
@@ -79,6 +81,7 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     alignItems: "center",
+    zIndex: 10,
   },
   line: {
     width: "20%",

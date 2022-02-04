@@ -9,6 +9,7 @@ import { timeUntil } from "./MediaUtils";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigationProps } from "../../pages/props";
 
+import { Portal } from "@gorhom/portal";
 import Text from "../Base/Text";
 import MediaEdit from "./MediaEdit";
 
@@ -21,16 +22,16 @@ interface MediaCardProps extends ViewProps {
 
 const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) => {
   const { colors } = useColors();
+  const [media] = useState(item);
   const navigation = useNavigation<AppNavigationProps<"Media">>();
   const [isVisible, setIsVisible] = useState(false);
-  const [media] = useState(item);
 
   const toMedia = () => {
     navigation.push("Media", { mediaId: media.id });
   };
 
   const longPressHandler = () => {
-    setIsVisible(visible => !visible);
+    setIsVisible(isVisib => !isVisib);
   };
 
   const containerStyle: ViewStyle = {
@@ -68,7 +69,9 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
         <Text numberOfLines={1} style={style.title}>{media.title.userPreferred}</Text>
       </View>
 
-      <MediaEdit editCallback={editCallback} media={item} isVisible={isVisible} setIsVisible={setIsVisible} />
+      <Portal>
+        <MediaEdit editCallback={editCallback} media={item} isVisible={isVisible} />
+      </Portal>
     </Pressable>
   );
 };

@@ -27,8 +27,6 @@ import { animDark, animLight } from "./src/constants/theme";
 
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppStackParamList } from "./src/pages/props";
-
-import { PortalProvider } from "@gorhom/portal";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
@@ -51,29 +49,27 @@ const App = () => {
       <SafeAreaProvider>
         <Provider store={store}>
           <PersistGate persistor={persistor}>
-            <PortalProvider>
-              <NavigationContainer theme={isDark ? animDark : animLight}>
-                <Stack.Navigator
-                  screenOptions={{
-                    ...TransitionPresets.SlideFromRightIOS,
-                    headerShown: false,
-                  }}
-                >
-                  <Stack.Screen name="Home" component={Home} />
-                  <Stack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
-                  <Stack.Screen name="Notifications" component={Notifications} options={{ headerShown: true }} />
+            <NavigationContainer theme={isDark ? animDark : animLight}>
+              <Stack.Navigator
+                screenOptions={{
+                  ...TransitionPresets.SlideFromRightIOS,
+                  headerShown: false,
+                }}
+              >
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
+                <Stack.Screen name="Notifications" component={Notifications} options={{ headerShown: true }} />
 
-                  <Stack.Screen name="Character" component={Character} />
-                  <Stack.Screen name="Activity" component={Activity} options={{ headerShown: true }} />
-                  <Stack.Screen
-                    name="Media"
-                    component={Media}
-                    options={{ headerShown: true, title: "", headerTransparent: true }}
-                  />
-                  <Stack.Screen name="User" component={User} />
-                </Stack.Navigator>
-              </NavigationContainer>
-            </PortalProvider>
+                <Stack.Screen name="Character" component={Character} />
+                <Stack.Screen name="Activity" component={Activity} options={{ headerShown: true }} />
+                <Stack.Screen
+                  name="Media"
+                  component={Media}
+                  options={{ headerShown: true, title: "", headerTransparent: true }}
+                />
+                <Stack.Screen name="User" component={User} />
+              </Stack.Navigator>
+            </NavigationContainer>
           </PersistGate>
         </Provider>
 

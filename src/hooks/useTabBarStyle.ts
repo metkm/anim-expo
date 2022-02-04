@@ -5,6 +5,7 @@ import { useColors } from "./useColors";
 export const useTabBarStyle = (padd: boolean = true) => {
   const { color } = useColors();
   const { top } = useSafeAreaInsets();
+  const totalHeight = 170 + (padd ? top + 10 : 10);
 
   const tabBarStyle: StyleProp<ViewStyle> = {
     marginTop: padd ? top + 10 : 10,
@@ -19,6 +20,7 @@ export const useTabBarStyle = (padd: boolean = true) => {
 
   return {
     tabBarStyle,
+    totalHeight,
     tabBarIndicatorStyle,
   }
 }
