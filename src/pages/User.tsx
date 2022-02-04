@@ -93,7 +93,7 @@ const User = ({ userReader }: UserProps) => {
   }
 
   return (
-    <PanGestureHandler onGestureEvent={gestureHandler} >
+    <PanGestureHandler onGestureEvent={gestureHandler} activeOffsetY={[-10, 10]}>
       <Animated.View style={animatedStyle} animatedProps={animatedProps}>
         <UserHeader user={user} />
 

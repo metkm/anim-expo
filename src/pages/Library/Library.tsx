@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../../store";
 import LibraryPage from "./LibraryPage";
+import { PortalProvider } from "@gorhom/portal";
 
 const Tab = createMaterialTopTabNavigator<LibraryPageParamList>();
 
@@ -19,15 +20,17 @@ const Library = ({
   const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(padd); 
 
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarStyle: tabBarStyle,
-        tabBarIndicatorStyle: tabBarIndicatorStyle,
-      }}
-    >
-      <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
-      <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />
-    </Tab.Navigator>
+    <PortalProvider>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarStyle: tabBarStyle,
+          tabBarIndicatorStyle: tabBarIndicatorStyle,
+        }}
+      >
+        <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
+        <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />
+      </Tab.Navigator>
+    </PortalProvider>
   );
 };
 

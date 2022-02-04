@@ -1,5 +1,5 @@
 import { Suspense, useState } from "react";
-import { FlatList, ListRenderItem } from "react-native";
+import { ListRenderItem, FlatList } from "react-native";
 import { LibraryPageScreenProps } from "../props";
 
 import { MediaListCollectionObject, MediaListObject } from "../../api/objectTypes";
@@ -20,13 +20,11 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPageProps) => {
   const [categories, setCategories] = useState(() => listCollection.lists.map(list => list.name));
   const entries = listCollection.lists.find(list => list.name == categories[0])?.entries;
 
-  const keyExtractor = (item: MediaListObject) => (
-    item.media.id.toString()
-  )
+  const keyExtractor = (item: MediaListObject) => item.media.id.toString();
 
   const renderItem: ListRenderItem<MediaListObject> = ({ item }) => (
     <MediaCard item={item.media} progress={item.progress} editCallback={refresh} />
-  )
+  );
 
   return (
     <FlatList
@@ -36,8 +34,8 @@ const LibraryPage = ({ libraryReader, refresh }: LibraryPageProps) => {
       ListHeaderComponent={<MediaCategories categories={categories} onCategories={setCategories} />}
       numColumns={2}
     />
-  )
-}
+  );
+};
 
 const LibraryPageSuspense = ({
   route: {
@@ -48,13 +46,13 @@ const LibraryPageSuspense = ({
 
   const refresh = () => {
     setLibraryUpdater(userId, type);
-  }
+  };
 
   return (
     <Suspense fallback={<Loading />}>
       <LibraryPage libraryReader={libraryReader} refresh={refresh} />
     </Suspense>
-  )
+  );
 };
 
 export default LibraryPageSuspense;

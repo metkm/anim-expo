@@ -12,6 +12,7 @@ import { AppNavigationProps } from "../../pages/props";
 import { Portal } from "@gorhom/portal";
 import Text from "../Base/Text";
 import MediaEdit from "./MediaEdit";
+import Animated from "react-native-reanimated";
 
 interface MediaCardProps extends ViewProps {
   item: MediaObject;

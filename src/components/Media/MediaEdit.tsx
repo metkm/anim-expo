@@ -1,5 +1,5 @@
-import { StyleSheet, Modal, View, TextInput, ViewStyle, TextStyle } from "react-native";
-import { Dispatch, SetStateAction, useState, useRef, createRef, useEffect } from "react";
+import { StyleSheet, View, TextInput, ViewStyle, TextStyle } from "react-native";
+import { useState, useRef, createRef, useEffect } from "react";
 import { Picker } from "@react-native-picker/picker";
 
 import Text from "../Base/Text";
@@ -9,7 +9,6 @@ import AnimSheet from "../AnimSheet";
 import { MediaObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
 import { mutateMediaListEntry } from "../../api/media/mutateMediaListEntry";
-import { Portal } from "@gorhom/portal";
 import { AnimSheetHandle } from "../types";
 
 interface MediaEditProps {
@@ -53,7 +52,7 @@ const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
       editCallback(newMedia, media);
     }
     sheet.current?.toggle();
-  }
+  };
 
   return (
     <AnimSheet ref={sheet} showTop={false}>
@@ -121,40 +120,7 @@ const styles = StyleSheet.create({
   },
   label: {
     flex: 1,
-  }
-
-  // center: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  // },
-  // container: {
-  //   borderRadius: 10,
-  //   padding: 10,
-  //   width: "90%",
-  // },
-  // label: {
-  //   flex: 1,
-  // },
-  // row: {
-  //   flexDirection: "row",
-  //   alignItems: "center",
-  //   marginBottom: 6,
-  // },
-  // input: {
-  //   flex: 1,
-  //   borderRadius: 6,
-  //   marginLeft: 10,
-  //   paddingVertical: 5,
-  //   paddingHorizontal: 10,
-  // },
-  // picker: {
-  //   flex: 1,
-  //   paddingVertical: 5,
-  //   paddingHorizontal: 10,
-  //   marginLeft: 10,
-  //   borderRadius: 6,
-  // },
+  },
 });
 
 export default MediaEdit;
