@@ -20,17 +20,15 @@ const Library = ({
   const { tabBarIndicatorStyle, tabBarStyle } = useTabBarStyle(padd); 
 
   return (
-    <PortalProvider>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: tabBarStyle,
-          tabBarIndicatorStyle: tabBarIndicatorStyle,
-        }}
-      >
-        <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
-        <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />
-      </Tab.Navigator>
-    </PortalProvider>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: tabBarStyle,
+        tabBarIndicatorStyle: tabBarIndicatorStyle,
+      }}
+    >
+      <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
+      <Tab.Screen name="Manga" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "MANGA" }} />
+    </Tab.Navigator>
   );
 };
 

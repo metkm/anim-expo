@@ -69,10 +69,6 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
 
         <Text numberOfLines={1} style={style.title}>{media.title.userPreferred}</Text>
       </View>
-
-      <Portal>
-        <MediaEdit editCallback={editCallback} media={item} isVisible={isVisible} />
-      </Portal>
     </Pressable>
   );
 };
