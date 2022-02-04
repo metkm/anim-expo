@@ -1732,6 +1732,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gorhom/portal@npm:^1.0.12":
+  version: 1.0.12
+  resolution: "@gorhom/portal@npm:1.0.12"
+  dependencies:
+    nanoid: ^3.1.23
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 90fc512879ab674b051c253654e3a26ea729ef8d48c31db18dcd266a64ba8a1059b6ad963f39037a1878eaf04ea2cd3df4b343c11da23b50a06c40a2cd9d0b4c
+  languageName: node
+  linkType: hard
+
 "@hapi/hoek@npm:^9.0.0":
   version: 9.2.1
   resolution: "@hapi/hoek@npm:9.2.1"
@@ -2383,6 +2395,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.9
     "@expo-google-fonts/overpass": ^0.2.0
+    "@gorhom/portal": ^1.0.12
     "@react-native-async-storage/async-storage": ~1.15.0
     "@react-native-picker/picker": 2.2.1
     "@react-navigation/bottom-tabs": ^6.0.9

@@ -3,6 +3,7 @@ import axios from "axios";
 
 import { HomeTabParamList } from "./props";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { PortalProvider } from "@gorhom/portal";
 
 import { RootState } from "../store";
 import { asyncLogin } from "../store/userSlice";
@@ -36,33 +37,35 @@ const Home = () => {
   }, [accessToken]);
 
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          const icons: Icons = {
-            User: "account",
-            Library: "book",
-            Browse: "compass",
-            Login: "login",
-          };
+    <PortalProvider>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ color, size }) => {
+            const icons: Icons = {
+              User: "account",
+              Library: "book",
+              Browse: "compass",
+              Login: "login",
+            };
 
-          return <Icon name={icons[route.name]} size={size} color={color} />;
-        },
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: color,
-      })}
-    >
-      <Tab.Screen name="Browse" component={Browse} />
-      {user ? (
-        <>
-          <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id }} />
-          <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
-        </>
-      ) : (
-        <Tab.Screen name="Login" component={Login} />
-      )}
-    </Tab.Navigator>
+            return <Icon name={icons[route.name]} size={size} color={color} />;
+          },
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: color,
+        })}
+      >
+        <Tab.Screen name="Browse" component={Browse} />
+        {user ? (
+          <>
+            <Tab.Screen name="Library" component={Library} initialParams={{ userId: user.id }} />
+            <Tab.Screen name="User" component={User} initialParams={{ userId: user.id }} />
+          </>
+        ) : (
+          <Tab.Screen name="Login" component={Login} />
+        )}
+      </Tab.Navigator>
+    </PortalProvider>
   );
 };
 
