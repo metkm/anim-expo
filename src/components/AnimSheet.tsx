@@ -14,13 +14,17 @@ import { springConfig } from "../constants/reanimated";
 import { AnimSheetHandle } from "./types";
 
 import { useSafeAreaFrame } from "react-native-safe-area-context";
+import { useHeaderHeight } from "@react-navigation/elements";
 import { useColors } from "../hooks/useColors";
-import { useTabBarStyle } from "../hooks/useTabBarStyle";
 
-const AnimSheet = forwardRef<AnimSheetHandle, ViewProps>(({ children }, ref) => {
+interface AnimSheetProps extends ViewProps {
+  showTop?: boolean;
+}
+
+const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showTop = true }, ref) => {
   const { colors, color } = useColors();
   const { height } = useSafeAreaFrame();
-  const { totalHeight } = useTabBarStyle();
+  const headerHeight = useHeaderHeight();
   
   try {
     var bottomHeight = useBottomTabBarHeight();
@@ -28,7 +32,8 @@ const AnimSheet = forwardRef<AnimSheetHandle, ViewProps>(({ children }, ref) => 
     var bottomHeight = 100;
   }
 
-  const COLLAPSED = (height - bottomHeight - 26);
+  const padd = showTop ? 26 : 0;
+  const COLLAPSED = (height - bottomHeight - padd) + headerHeight;
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 

@@ -28,6 +28,7 @@ import { animDark, animLight } from "./src/constants/theme";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { AppStackParamList } from "./src/pages/props";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { PortalProvider } from "@gorhom/portal";
 
 axios.defaults.baseURL = "https://graphql.anilist.co";
 

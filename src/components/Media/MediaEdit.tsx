@@ -16,9 +16,6 @@ interface MediaEditProps {
   media: MediaObject;
   isVisible: boolean;
   editCallback?: (media: MediaObject, oldMedia: MediaObject) => void;
-
-  // isVisible: boolean;
-  // setIsVisible: Dispatch<SetStateAction<boolean>>;
 }
 
 const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
@@ -59,7 +56,7 @@ const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
   }
 
   return (
-    <AnimSheet ref={sheet}>
+    <AnimSheet ref={sheet} showTop={false}>
       <View style={styles.row}>
         <Text style={styles.label}>Status</Text>
         <Picker style={[styles.picker, extraStyle]} selectedValue={status} onValueChange={setStatus}>
