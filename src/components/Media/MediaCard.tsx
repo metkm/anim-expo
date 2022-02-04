@@ -78,7 +78,6 @@ const style = StyleSheet.create({
     flex: 1,
     margin: 6,
     minHeight: 280,
-    position: "relative",
   },
   cover: {
     flex: 1,
