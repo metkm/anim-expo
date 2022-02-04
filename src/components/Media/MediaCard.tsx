@@ -57,7 +57,6 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
           {progress! > 0 && `${progress}/`}
           {media.episodes || "?"}
         </Text>
-
       </View>
       
       <View style={style.textContainer}>

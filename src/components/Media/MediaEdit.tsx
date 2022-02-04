@@ -18,9 +18,9 @@ interface MediaEditProps {
 }
 
 const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
-  const [status, setStatus] = useState(media.mediaListEntry?.status ? media.mediaListEntry.status : "Status");
-  const progress = useRef(0);
-  const score = useRef(0);
+  const [status, setStatus] = useState(media.mediaListEntry.status ? media.mediaListEntry.status : "Status");
+  const progress = useRef(media.mediaListEntry.progress || 0);
+  const score = useRef(media.mediaListEntry.score || 0);
 
   const { colors } = useColors();
   const sheet = createRef<AnimSheetHandle>();
