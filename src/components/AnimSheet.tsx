@@ -1,5 +1,5 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { forwardRef, memo, useCallback, useImperativeHandle } from "react";
+import { forwardRef, memo, useImperativeHandle } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
@@ -43,7 +43,7 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
     },
   }));
 
-  const onGesture = useCallback(useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>(
+  const onGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent, { start: number }>(
     {
       onStart: (_, context) => {
         context.start = top.value;
@@ -56,7 +56,7 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
       },
     },
     []
-  ), []);
+  );
 
   const animatedStyle = useAnimatedStyle(
     () => ({
