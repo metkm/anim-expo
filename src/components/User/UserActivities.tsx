@@ -67,7 +67,7 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
         name="delete"
         color="white"
         size={60}
-        style={style.icon}
+        style={styles.icon}
       />
     );
   };
@@ -115,7 +115,7 @@ const UserActivitiesSuspense = ({ userId, header }: { userId: number, header?: J
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   icon: {
     textAlign: "center",
     textAlignVertical: "center",

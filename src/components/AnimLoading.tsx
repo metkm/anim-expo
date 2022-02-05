@@ -6,13 +6,13 @@ const Loading = () => {
   const { color } = useColors();
 
   return (
-    <View style={style.container}>
+    <View style={styles.container}>
       <ActivityIndicator size="large" color={color} />
     </View>
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",

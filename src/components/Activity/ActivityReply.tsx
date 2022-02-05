@@ -16,7 +16,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
   const { colors } = useColors();
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
+    <View style={[styles.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activityReply.user} createdAt={activityReply.createdAt} />
       <Markdown>
         {activityReply.text}
@@ -30,7 +30,7 @@ const ActivityReply = ({ activityReply }: ActivityReplyProps) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 10,
     elevation: 1,

@@ -36,43 +36,43 @@ const MediaCard = ({ item, progress, editCallback, ...rest }: MediaCardProps) =>
   };
 
   const containerStyle: ViewStyle = {
-    ...style.container,
+    ...styles.container,
     ...rest.style as {},
     backgroundColor: colors.background
   }
 
   const boxStyle: ViewStyle = {
-    ...style.box,
+    ...styles.box,
     backgroundColor: colors.background
   }
 
   return (
     <Pressable onPress={toMedia} onLongPress={longPressHandler} style={containerStyle}>
       <View style={boxStyle}>
-        <Image style={style.cover} source={{ uri: media.coverImage.extraLarge }} />
+        <Image style={styles.cover} source={{ uri: media.coverImage.extraLarge }} />
 
-        {media.type ? <Text style={[style.topInfo, style.type]}>{capitalizeFirstLetter(media.type)}</Text>: <></>}
+        {media.type ? <Text style={[styles.topInfo, styles.type]}>{capitalizeFirstLetter(media.type)}</Text>: <></>}
 
-        <Text style={[style.topInfo, style.episodes]}>
+        <Text style={[styles.topInfo, styles.episodes]}>
           {progress! > 0 && `${progress}/`}
           {media.episodes || "?"}
         </Text>
       </View>
       
-      <View style={style.textContainer}>
-        <Text numberOfLines={1} style={style.until}>
+      <View style={styles.textContainer}>
+        <Text numberOfLines={1} style={styles.until}>
           {media.nextAiringEpisode?.timeUntilAiring
           ? `EP ${media.nextAiringEpisode.episode}: ${timeUntil(media.nextAiringEpisode?.timeUntilAiring)}`
           : capitalizeFirstLetter(media.status)}
         </Text>
 
-        <Text numberOfLines={1} style={style.title}>{media.title.userPreferred}</Text>
+        <Text numberOfLines={1} style={styles.title}>{media.title.userPreferred}</Text>
       </View>
     </Pressable>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 6,

@@ -49,25 +49,25 @@ const ActivityStats = ({ replyCount, likeCount, isLiked, id, createdAt, type }: 
   };
 
   return (
-    <View style={style.container}>
-      <Text style={style.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
+    <View style={styles.container}>
+      <Text style={styles.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
 
-      <View style={style.stats}>
-        <Pressable style={style.stat} onPress={activityHandler}>
+      <View style={styles.stats}>
+        <Pressable style={styles.stat} onPress={activityHandler}>
           <Icon name="comment" color={colors.text} size={14} />
-          {replyCount ? <Text style={style.count}>{replyCount || ""}</Text> : <></>}
+          {replyCount ? <Text style={styles.count}>{replyCount || ""}</Text> : <></>}
         </Pressable>
 
-        <Pressable style={style.stat} onPress={likeHandler}>
+        <Pressable style={styles.stat} onPress={likeHandler}>
           <Icon name="heart" color={union.isLiked ? color : colors.text} size={14} />
-          <Text style={style.count}>{union.likeCount || ""}</Text>
+          <Text style={styles.count}>{union.likeCount || ""}</Text>
         </Pressable>
       </View>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",

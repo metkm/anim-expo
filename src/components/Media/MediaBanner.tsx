@@ -27,15 +27,15 @@ const MediaBanner = ({ uri, y, children }: MediaBannerProps) => {
 
   return (
     <Animated.View style={animatedStyle}>
-      <Image style={style.img} source={{ uri }} />
-      <View style={[style.elements, { height: headerHeight, paddingTop: top }]}>
+      <Image style={styles.img} source={{ uri }} />
+      <View style={[styles.elements, { height: headerHeight, paddingTop: top }]}>
         {children}
       </View>
     </Animated.View>
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   img: {
     width: "100%",
     height: "100%",

@@ -16,7 +16,7 @@ const ActivityText = ({ activity }: TextActivityProps) => {
   const { colors } = useColors();
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
+    <View style={[styles.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.user} createdAt={activity.createdAt} />
       <Markdown>
         {activity.text}
@@ -30,7 +30,7 @@ const ActivityText = ({ activity }: TextActivityProps) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     // minHeight: 120,
     padding: 10,

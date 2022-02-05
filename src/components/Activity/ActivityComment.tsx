@@ -22,7 +22,7 @@ const ActivityComment = ({ activityCallback, activityId }: ActivityCommentProps)
   }
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card, borderColor: color }]}>
+    <View style={[styles.container, { backgroundColor: colors.card, borderColor: color }]}>
       <TextInput
         style={{ color: colors.text, flex: 1,  }}
         onChangeText={newText => text.current = newText}
@@ -36,7 +36,7 @@ const ActivityComment = ({ activityCallback, activityId }: ActivityCommentProps)
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 10,
     width: "100%",

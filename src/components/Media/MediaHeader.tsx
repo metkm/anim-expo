@@ -10,16 +10,16 @@ interface MediaHeaderProps {
 
 const MediaHeader = ({ media }: MediaHeaderProps) => {
   return (
-    <View style={style.coverWrapper}>
-      <Image source={{ uri: media.coverImage.large }} style={style.cover} />
-      <Text numberOfLines={2} style={style.title}>
+    <View style={styles.coverWrapper}>
+      <Image source={{ uri: media.coverImage.large }} style={styles.cover} />
+      <Text numberOfLines={2} style={styles.title}>
         {media.title.userPreferred}
       </Text>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   title: {
     flex: 1,
     height: 76,

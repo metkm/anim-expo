@@ -34,7 +34,7 @@ const ruleYoutube: DefaultInOutRule = {
   html: () => "",
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 200,

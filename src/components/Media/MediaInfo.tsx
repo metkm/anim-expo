@@ -21,9 +21,9 @@ const Info = ({ title, value }: { title: string; value: string | number }) => {
   const { colors, color } = useColors();
 
   return (
-    <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
-      <Text style={[style.infoTitle, { color }]}>{title}</Text>
-      <Text style={style.infoValue}>{value}</Text>
+    <View style={[styles.infoContainer, { backgroundColor: colors.card }]}>
+      <Text style={[styles.infoTitle, { color }]}>{title}</Text>
+      <Text style={styles.infoValue}>{value}</Text>
     </View>
   );
 };
@@ -33,7 +33,7 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
 
   return (
     <>
-      <View style={style.container}>
+      <View style={styles.container}>
         <Info title="Start Date" value={dateToString(media.startDate)} />
         <Info title="Format" value={capitalizeFirstLetter(media.status)} />
         {media.season && <Info title="Season" value={`${capitalizeFirstLetter(media.season)} ${media.seasonYear}`} />}
@@ -47,7 +47,7 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
       </View>
 
       {media.description ? (
-        <View style={[style.infoContainer, { backgroundColor: colors.card }]}>
+        <View style={[styles.infoContainer, { backgroundColor: colors.card }]}>
           <Markdown>{media.description}</Markdown>
         </View>
       ) : (
@@ -57,7 +57,7 @@ const MediaInfo = ({ media }: MediaInfoProps) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     borderRadius: 6,
     flexDirection: "row",

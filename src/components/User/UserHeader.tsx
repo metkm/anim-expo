@@ -29,15 +29,15 @@ const UserHeader = ({ user }: UserHeaderProps) => {
   };
 
   return (
-    <View style={style.content}>
-      <Image style={style.banner} source={{ uri: user.bannerImage }} />
-      <View style={style.container}>
-        <Image style={style.avatar} source={{ uri: user.avatar.large }} />
-        <View style={style.inner}>
-          <Text style={style.name} numberOfLines={2}>{user.name}</Text>
+    <View style={styles.content}>
+      <Image style={styles.banner} source={{ uri: user.bannerImage }} />
+      <View style={styles.container}>
+        <Image style={styles.avatar} source={{ uri: user.avatar.large }} />
+        <View style={styles.inner}>
+          <Text style={styles.name} numberOfLines={2}>{user.name}</Text>
           <View>
-            <Icon style={style.icon} onPress={pressHandlerNotifications} name="bell" color={colors.text} size={20} />
-            <Icon style={style.icon} onPress={pressHandlerSettings} name="cog" color={colors.text} size={20} />
+            <Icon style={styles.icon} onPress={pressHandlerNotifications} name="bell" color={colors.text} size={20} />
+            <Icon style={styles.icon} onPress={pressHandlerSettings} name="cog" color={colors.text} size={20} />
           </View>
         </View>
       </View>
@@ -48,7 +48,7 @@ const UserHeader = ({ user }: UserHeaderProps) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   content: {
     marginBottom: 10,
     height: 380,

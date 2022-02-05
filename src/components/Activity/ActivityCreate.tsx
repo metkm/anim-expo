@@ -37,7 +37,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
   return (
     <AnimSheet ref={sheet}>
       {recipientId && (
-        <View style={style.setting}>
+        <View style={styles.setting}>
           <Text>Private</Text>
           <Switch
             hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -50,7 +50,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
       )}
 
       <TextInput
-        style={[style.input, { backgroundColor: colors.card, color: colors.text }]}
+        style={[styles.input, { backgroundColor: colors.card, color: colors.text }]}
         onChangeText={newText => (text.current = newText)}
         placeholder="Write a status.."
         placeholderTextColor="#A1A1A1"
@@ -65,7 +65,7 @@ const ActivityCreate = ({ activityCallback, recipientId }: ActivityCreateProps) 
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     flex: 1,
     padding: 10,

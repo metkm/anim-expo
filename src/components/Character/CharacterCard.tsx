@@ -22,9 +22,9 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
 
   return (
     <Pressable onPress={toCharacter}>
-      <View style={[style.container, { backgroundColor: colors.card }]}>
-        <Image source={{ uri: character.node.image.large }} style={style.image} />
-        <View style={style.info}>
+      <View style={[styles.container, { backgroundColor: colors.card }]}>
+        <Image source={{ uri: character.node.image.large }} style={styles.image} />
+        <View style={styles.info}>
           <Text>{character.node.name.userPreferred}</Text>
           <Text>{capitalizeFirstLetter(character.role)}</Text>
         </View>
@@ -33,7 +33,7 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     width: 200,
     height: 120,

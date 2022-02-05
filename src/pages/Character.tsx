@@ -35,16 +35,16 @@ const Character = ({ characterReader }: CharacterProps) => {
   };
 
   return (
-    <ScrollView style={style.container}>
-      <View style={[style.cover, { backgroundColor: color }]}>
-        <Image source={{ uri: character.image.large }} style={style.image} />
-        <Text style={style.name}>{character.name.userPreferred}</Text>
+    <ScrollView style={styles.container}>
+      <View style={[styles.cover, { backgroundColor: color }]}>
+        <Image source={{ uri: character.image.large }} style={styles.image} />
+        <Text style={styles.name}>{character.name.userPreferred}</Text>
         {character.name.alternative.length > 0 && (
-          <Text style={style.alternative}>{character.name.alternative.join(", ")}</Text>
+          <Text style={styles.alternative}>{character.name.alternative.join(", ")}</Text>
         )}
       </View>
 
-      <View style={style.description}>
+      <View style={styles.description}>
         <Button icon={local.isfav ? "heart" : "heart-outline"} onPress={toggleFav} style={{ marginBottom: 10 }}>
           Favourite - {local.total}
         </Button>
@@ -70,7 +70,7 @@ const CharacterSuspense = ({
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     paddingBottom: 40,
     flexShrink: 1,

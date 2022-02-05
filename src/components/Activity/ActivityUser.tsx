@@ -29,17 +29,17 @@ const ActivityUser = ({ user, createdAt }: ActivityUserProps) => {
   
   if (!user) return <></>;
   return (
-    <View style={style.user}>
+    <View style={styles.user}>
       <Pressable onPress={toUser}>
-        <Image style={style.avatar} source={{ uri: user?.avatar?.medium || "" }} />
+        <Image style={styles.avatar} source={{ uri: user?.avatar?.medium || "" }} />
       </Pressable>
-      <Text style={style.name}>{user!.name}</Text>
-      <Text style={style.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
+      <Text style={styles.name}>{user!.name}</Text>
+      <Text style={styles.timeText}>{timeSince(new Date(createdAt * 1000))}</Text>
     </View>
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   user: {
     flexDirection: "row",
     alignItems: "center",

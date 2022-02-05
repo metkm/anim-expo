@@ -16,40 +16,40 @@ const UserStats = ({ user }: UserStatsProps) => {
 
   return (
     <>
-      <View style={[style.container, { backgroundColor: colors.card }]}>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{user.statistics.anime.count}</Text>
-          <Text style={style.statTitle}>Total Anime</Text>
+      <View style={[styles.container, { backgroundColor: colors.card }]}>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{user.statistics.anime.count}</Text>
+          <Text style={styles.statTitle}>Total Anime</Text>
         </View>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{(user.statistics.anime.minutesWatched / 1440).toFixed(2)}</Text>
-          <Text style={style.statTitle}>Days Watched</Text>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{(user.statistics.anime.minutesWatched / 1440).toFixed(2)}</Text>
+          <Text style={styles.statTitle}>Days Watched</Text>
         </View>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{(user.statistics.anime.meanScore).toFixed(1)}</Text>
-          <Text style={style.statTitle}>Mean Score</Text>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{(user.statistics.anime.meanScore).toFixed(1)}</Text>
+          <Text style={styles.statTitle}>Mean Score</Text>
         </View>
       </View>
 
-      <View style={[style.container, { backgroundColor: colors.card }]}>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{user.statistics.manga.count}</Text>
-          <Text style={style.statTitle}>Total Manga</Text>
+      <View style={[styles.container, { backgroundColor: colors.card }]}>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{user.statistics.manga.count}</Text>
+          <Text style={styles.statTitle}>Total Manga</Text>
         </View>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{user.statistics.manga.chaptersRead}</Text>
-          <Text style={style.statTitle}>Chapters Read</Text>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{user.statistics.manga.chaptersRead}</Text>
+          <Text style={styles.statTitle}>Chapters Read</Text>
         </View>
-        <View style={style.statsWrapper}>
-          <Text style={[style.statValue, { color }]}>{(user.statistics.manga.meanScore).toFixed(1)}</Text>
-          <Text style={style.statTitle}>Mean Score</Text>
+        <View style={styles.statsWrapper}>
+          <Text style={[styles.statValue, { color }]}>{(user.statistics.manga.meanScore).toFixed(1)}</Text>
+          <Text style={styles.statTitle}>Mean Score</Text>
         </View>
       </View>
     </>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",

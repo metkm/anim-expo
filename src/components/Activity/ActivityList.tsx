@@ -26,16 +26,16 @@ const ActivityList = ({ activity }: ListActivityProps) => {
   };
 
   return (
-    <View style={style.container}>
-      <Pressable style={[style.coverContainer, { backgroundColor: colors.card }]} onPress={toMedia}>
-        <Image style={style.cover} source={{ uri: activity.media.coverImage.large }} />
+    <View style={styles.container}>
+      <Pressable style={[styles.coverContainer, { backgroundColor: colors.card }]} onPress={toMedia}>
+        <Image style={styles.cover} source={{ uri: activity.media.coverImage.large }} />
       </Pressable>
 
-      <View style={[style.content, { backgroundColor: colors.card }]}>
-        <Text style={[style.progress, { color }]}>
+      <View style={[styles.content, { backgroundColor: colors.card }]}>
+        <Text style={[styles.progress, { color }]}>
           {capitalizeFirstLetter(activity.status)} {activity.progress && `${activity.progress} of `}
         </Text>
-        <Text style={style.title} numberOfLines={2}>
+        <Text style={styles.title} numberOfLines={2}>
           {activity.media.title.userPreferred}
         </Text>
 
@@ -48,7 +48,7 @@ const ActivityList = ({ activity }: ListActivityProps) => {
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     marginHorizontal: 4,

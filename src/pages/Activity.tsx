@@ -48,7 +48,7 @@ const Activity = ({ repliesReader, activityId }: ActivityProps) => {
           name="delete"
           color="white"
           size={60}
-          style={style.icon}
+          style={styles.icon}
         />
       );
     };
@@ -61,7 +61,7 @@ const Activity = ({ repliesReader, activityId }: ActivityProps) => {
   };
 
   return (
-    <View style={style.container}>
+    <View style={styles.container}>
       <FlatList
         data={replies}
         renderItem={renderItem}
@@ -88,7 +88,7 @@ const ActivitySuspense = ({
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "space-between",

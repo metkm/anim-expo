@@ -18,13 +18,13 @@ const Settings = () => {
   };
 
   return (
-    <View style={style.container}>
+    <View style={styles.container}>
       { isLogged && <Button icon="logout" onPress={logoutHandler}>Logout</Button> }
     </View>
   )
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,

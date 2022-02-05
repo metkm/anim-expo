@@ -12,8 +12,8 @@ interface BrowseRowProps {
 
 const BrowseRow = ({ title, mediaList }: BrowseRowProps) => {
   return (
-    <View style={style.container}>
-      <Text style={style.title}>{title}</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>{title}</Text>
       <FlatList
         data={mediaList}
         renderItem={({ item }) => <MediaCard item={item} style={{ minWidth: 160, maxWidth: 160 }} />}
@@ -25,7 +25,7 @@ const BrowseRow = ({ title, mediaList }: BrowseRowProps) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
     marginTop: 6,

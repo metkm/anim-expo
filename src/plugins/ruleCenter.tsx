@@ -25,7 +25,7 @@ const ruleCenter: DefaultInOutRule = {
   react: (node, nestedOutput, state) => {
     return (
       <FillWidthView key={state.key}>
-        <Text style={style.container}>
+        <Text style={styles.container}>
           {nestedOutput(node.content, state)}
         </Text>
       </FillWidthView>
@@ -34,7 +34,7 @@ const ruleCenter: DefaultInOutRule = {
   html: () => "",
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     textAlign: "center",
     justifyContent: "center",

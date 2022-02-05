@@ -44,23 +44,23 @@ const Media = ({ mediaReader }: MediaProps) => {
   return (
     <PortalProvider>
       <MediaBanner uri={media.bannerImage} y={scrollY}>
-        <Icon style={style.icon} onPress={toggleVisible} name="pencil" color="white" size={22} />
+        <Icon style={styles.icon} onPress={toggleVisible} name="pencil" color="white" size={22} />
       </MediaBanner>
       <MediaEdit media={media} isVisible={isVisible} editCallback={toggleVisible} />
 
-      <Animated.ScrollView style={[style.containerPadding, { marginTop: headerHeight }]} overScrollMode="never" onScroll={scrollHandler}>
+      <Animated.ScrollView style={[styles.containerPadding, { marginTop: headerHeight }]} overScrollMode="never" onScroll={scrollHandler}>
         <MediaHeader media={media} />
         <MediaInfo media={media} />
 
         {media.relations.nodes.length > 0 && (
           <>
-            <Text style={style.title}>Relations</Text>
+            <Text style={styles.title}>Relations</Text>
             <MediaRelations mediaList={media.relations.nodes} />
           </>
         )}
 
         <>
-          <Text style={style.title}>Characters</Text>
+          <Text style={styles.title}>Characters</Text>
           <MediaCharacters characterList={media.characters.edges} />
         </>
       </Animated.ScrollView>
@@ -78,7 +78,7 @@ const MediaSuspense = ({ route: { params: { mediaId } } }: AppScreenProps<"Media
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   containerPadding: {
     paddingHorizontal: 6,
   },

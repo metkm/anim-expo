@@ -16,7 +16,7 @@ const ActivityMessage = ({ activity }: MessageActivityProps) => {
   const { colors } = useColors();
 
   return (
-    <View style={[style.container, { backgroundColor: colors.card }]}>
+    <View style={[styles.container, { backgroundColor: colors.card }]}>
       <ActivityUser user={activity.messenger} createdAt={activity.createdAt} />
       <Markdown>
         {activity.message}
@@ -30,7 +30,7 @@ const ActivityMessage = ({ activity }: MessageActivityProps) => {
   )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     padding: 10,
     elevation: 1,

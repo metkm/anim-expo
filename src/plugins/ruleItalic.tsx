@@ -18,12 +18,12 @@ const ruleItalic: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text key={state.key} style={style.italic}>{nestedOutput(node.text, state)}</Text>
+      <Text key={state.key} style={styles.italic}>{nestedOutput(node.text, state)}</Text>
     )
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   italic: {
     fontStyle: "italic",
   }

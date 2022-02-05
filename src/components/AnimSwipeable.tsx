@@ -50,12 +50,12 @@ const AnimSwipeable = ({ children, options, ...rest }: AnimSwipeableProps) => {
         <Animated.View style={animatedStyle}>{children}</Animated.View>
       </PanGestureHandler>
 
-      <Animated.View style={[style.options, { width: width / 3.5 - 8 }]}>{options()}</Animated.View>
+      <Animated.View style={[styles.options, { width: width / 3.5 - 8 }]}>{options()}</Animated.View>
     </View>
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   options: {
     position: "absolute",
     right: 5,

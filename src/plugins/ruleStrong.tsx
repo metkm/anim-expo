@@ -16,7 +16,7 @@ const ruleStrong: DefaultInOutRule = {
   },
   react: (node, nestedOutput, state) => {
     return (
-      <Text key={state.key} style={style.bold}>
+      <Text key={state.key} style={styles.bold}>
         {nestedOutput(node.content, state)}
       </Text>
     )
@@ -24,7 +24,7 @@ const ruleStrong: DefaultInOutRule = {
   html: () => "",
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
     alignSelf: "flex-start",

@@ -24,14 +24,14 @@ const ruleImg: DefaultInOutRule = {
   react: (node, nestedOutput, state) => {
     return (
       <FillWidth key={state.key}>
-        <Image style={style.img} source={{ uri: node.link }} />
+        <Image style={styles.img} source={{ uri: node.link }} />
       </FillWidth>
     )
   },
   html: () => ""
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   img: {
     width: "100%",
     height: 250,

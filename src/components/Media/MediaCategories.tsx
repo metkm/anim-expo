@@ -69,7 +69,7 @@ const MediaCategory = ({ category, index, positions, callback }: MediaCategory) 
   };
 
   return (
-    <AnimatedPressable style={[style.category, animatedStyle]} onPress={pressHandler}>
+    <AnimatedPressable style={[styles.category, animatedStyle]} onPress={pressHandler}>
       <Text>{category}</Text>
     </AnimatedPressable>
   );
@@ -82,7 +82,7 @@ const MediaCategories = ({ onCategories, categories }: MediaCategoriesProps) => 
   return (
     <ScrollView
       horizontal
-      style={style.container}
+      style={styles.container}
       contentContainerStyle={{ width: innerWidth, height: 52 }}
       showsHorizontalScrollIndicator={false}
       overScrollMode="never"
@@ -94,7 +94,7 @@ const MediaCategories = ({ onCategories, categories }: MediaCategoriesProps) => 
   );
 };
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     height: 52,
     maxHeight: 52,

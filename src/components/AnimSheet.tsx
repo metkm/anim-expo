@@ -33,7 +33,7 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
   }
 
   const padd = showTop ? 26 : 0;
-  const COLLAPSED = (height - bottomHeight - padd) + headerHeight;
+  const COLLAPSED = showTop ? (height - bottomHeight - padd) + headerHeight : height
   const EXPANDED = height / 3;
   const top = useSharedValue(COLLAPSED);
 
@@ -68,8 +68,8 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
 
   return (
     <PanGestureHandler onGestureEvent={onGesture}>
-      <Animated.View style={[animatedStyle, style.container]}>
-        <View style={[style.line, { backgroundColor: color }]} />
+      <Animated.View style={[animatedStyle, styles.container]}>
+        <View style={[styles.line, { backgroundColor: color }]} />
 
         {children}
       </Animated.View>
@@ -77,7 +77,7 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
   );
 });
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     position: "absolute",
     left: 0,
