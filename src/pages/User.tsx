@@ -9,6 +9,7 @@ import UserHeader from "../components/User/UserHeader";
 import UserActivities from "../components/User/UserActivities";
 import Library from "./Library/Library";
 
+import { useTabBarStyle } from "../hooks/useTabBarStyle";
 import { usePromise } from "../hooks/usePromise";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 
@@ -26,7 +27,6 @@ import Animated, {
 } from "react-native-reanimated";
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { springConfig } from "../constants/reanimated";
-import { useTabBarStyle } from "../hooks/useTabBarStyle";
 
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
