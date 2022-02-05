@@ -15,6 +15,7 @@ const Browse = () => {
       screenOptions={{
         tabBarStyle,
         tabBarIndicatorStyle,
+        lazy: true
       }}
     >
       <Tab.Screen name="Anime" component={BrowsePage} initialParams={{ type: "ANIME" }} />

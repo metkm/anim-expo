@@ -24,6 +24,7 @@ const Library = ({
       screenOptions={{
         tabBarStyle: tabBarStyle,
         tabBarIndicatorStyle: tabBarIndicatorStyle,
+        lazy: true
       }}
     >
       <Tab.Screen name="Anime" component={LibraryPage} initialParams={{ userId: userId || user?.id, type: "ANIME" }} />
