@@ -20,7 +20,7 @@ const MediaBanner = ({ uri, y, children }: MediaBannerProps) => {
     height: interpolate(
       y.value,
       [0, headerHeight],
-      [190, headerHeight],
+      [160 + top, headerHeight],
       Extrapolate.CLAMP,
     )
   }));

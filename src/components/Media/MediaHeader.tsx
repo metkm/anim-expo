@@ -12,7 +12,7 @@ const MediaHeader = ({ media }: MediaHeaderProps) => {
   return (
     <View style={style.coverWrapper}>
       <Image source={{ uri: media.coverImage.large }} style={style.cover} />
-      <Text numberOfLines={3} style={style.title}>
+      <Text numberOfLines={2} style={style.title}>
         {media.title.userPreferred}
       </Text>
     </View>
@@ -22,8 +22,8 @@ const MediaHeader = ({ media }: MediaHeaderProps) => {
 const style = StyleSheet.create({
   title: {
     flex: 1,
-    height: "45%",
-    padding: 8,
+    height: 76,
+    padding: 6,
     fontSize: 20,
     fontWeight: "bold",
     lineHeight: 22,
