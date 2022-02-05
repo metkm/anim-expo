@@ -41,10 +41,10 @@ const Home = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           const icons: Icons = {
-            User: "account",
-            Library: "book",
-            Browse: "compass",
-            Login: "login",
+            User: "account-outline",
+            Library: "book-outline",
+            Browse: "compass-outline",
+            Login: "login-outline",
           };
 
           return <Icon name={icons[route.name]} size={size} color={color} />;
