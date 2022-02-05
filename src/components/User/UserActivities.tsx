@@ -46,13 +46,13 @@ const UserActivities = ({ activitiesReader, userId, Header }: UserActivitiesProp
     ]);
   };
 
-  const refreshHandler = useCallback(async () => {
+  const refreshHandler = async () => {
     setIsRefreshing(true);
     const activities = await getActivities(userId, 1);
     setActivities(activities);
     page.current = 2;
     setIsRefreshing(false);
-  }, []);
+  }
 
   const onEndHandler = async () => {
     page.current++;
