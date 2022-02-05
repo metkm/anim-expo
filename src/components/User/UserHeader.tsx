@@ -50,13 +50,13 @@ const UserHeader = ({ user }: UserHeaderProps) => {
 
 const styles = StyleSheet.create({
   content: {
+    marginHorizontal: 4,
     marginBottom: 10,
     height: 380,
   },
   banner: {
     height: 180,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    marginHorizontal: -6,
   },
   container: {
     marginTop: -20,
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   name: {
     flex: 1,
     paddingLeft: 6,
-    fontSize: 20,
+    fontSize: 22,
     fontFamily: "Overpass_700Bold",
   },
   inner: {

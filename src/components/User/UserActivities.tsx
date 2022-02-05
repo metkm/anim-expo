@@ -97,6 +97,7 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
         contentContainerStyle={{ paddingBottom: 26 }}
         overScrollMode="never"
         scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
       />
 
       <ActivityCreate activityCallback={addActivity} recipientId={storeUser?.id !== userId ? userId : undefined} />
