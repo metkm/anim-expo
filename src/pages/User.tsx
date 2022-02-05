@@ -88,7 +88,7 @@ const User = ({ userReader }: UserProps) => {
 
   if (storeUser?.id == user.id) {
     return (
-      <UserActivities userId={user.id} header={<UserHeader user={user} />} />
+      <UserActivities userId={user.id} Header={<UserHeader user={user} />} />
     );
   }
 

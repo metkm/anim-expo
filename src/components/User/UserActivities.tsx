@@ -23,11 +23,11 @@ const AnimatedFlatList = Animated.createAnimatedComponent<FlatListProps<Activity
 
 interface UserActivitiesProps {
   activitiesReader: () => ActivityUnion[];
-  header?: JSX.Element,
+  Header?: JSX.Element,
   userId: number;
 }
 
-const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProps) => {
+const UserActivities = ({ activitiesReader, userId, Header }: UserActivitiesProps) => {
   const storeUser = useSelector((state: RootState) => state.user.user);
   const [activities, setActivities] = useState(() => activitiesReader());
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -89,7 +89,7 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
         renderItem={renderItem}
         keyExtractor={item => `${item.id}`}
         ItemSeparatorComponent={AnimItemSeparator}
-        ListHeaderComponent={header || <></>}
+        ListHeaderComponent={Header || <></>}
         refreshing={isRefreshing}
         onRefresh={refreshHandler}
         onEndReached={onEndHandler}
@@ -106,12 +106,12 @@ const UserActivities = ({ activitiesReader, userId, header }: UserActivitiesProp
 };
 
 
-const UserActivitiesSuspense = ({ userId, header }: { userId: number, header?: JSX.Element }) => {
+const UserActivitiesSuspense = ({ userId, Header }: { userId: number, Header?: JSX.Element }) => {
   const [activitiesReader] = usePromise(getActivities, userId, 1);
 
   return (
     <Suspense fallback={<Loading />}>
-      <UserActivities activitiesReader={activitiesReader} header={header} userId={userId} />
+      <UserActivities activitiesReader={activitiesReader} Header={Header} userId={userId} />
     </Suspense>
   );
 };
