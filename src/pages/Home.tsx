@@ -3,7 +3,6 @@ import axios from "axios";
 
 import { HomeTabParamList } from "./props";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { PortalProvider } from "@gorhom/portal";
 
 import { RootState } from "../store";
 import { asyncLogin } from "../store/userSlice";
@@ -16,11 +15,30 @@ import Browse from "./Browse/Browse";
 import Library from "./Library/Library";
 import Login from "./Login";
 import User from "./User";
+import AnimTabButton from "../components/AnimTabButton";
 
 const Tab = createBottomTabNavigator<HomeTabParamList>();
 
 interface Icons {
   [index: string]: string;
+  User: string;
+  Library: string;
+  Browse: string;
+  Login: string;
+}
+
+const focusedIcons: Icons = {
+  User: "account",
+  Library: "book",
+  Browse: "compass",
+  Login: "login",
+}
+
+const unFocusedIcons: Icons = {
+  User: "account-outline",
+  Library: "book-outline",
+  Browse: "compass-outline",
+  Login: "login-outline",
 }
 
 const Home = () => {
@@ -39,16 +57,11 @@ const Home = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          const icons: Icons = {
-            User: "account-outline",
-            Library: "book-outline",
-            Browse: "compass-outline",
-            Login: "login-outline",
-          };
-
-          return <Icon name={icons[route.name]} size={size} color={color} />;
+        tabBarIcon: ({ color, size, focused }) => {
+          const icon = focused ? focusedIcons[route.name] : unFocusedIcons[route.name];
+          return <Icon name={icon} size={size} color={color} />;
         },
+        tabBarButton: AnimTabButton,
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: color,
