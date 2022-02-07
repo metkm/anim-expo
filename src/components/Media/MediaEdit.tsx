@@ -1,10 +1,10 @@
 import { StyleSheet, View, TextInput, ViewStyle, TextStyle } from "react-native";
-import { useState, useRef, createRef, useEffect } from "react";
-import { Picker } from "@react-native-picker/picker";
+import { useRef, createRef, useEffect } from "react";
 
 import Text from "../Base/Text";
 import Button from "../Base/Button";
 import AnimSheet from "../AnimSheet";
+import AnimPicker from "../AnimPicker";
 
 import { MediaObject } from "../../api/objectTypes";
 import { useColors } from "../../hooks/useColors";
@@ -18,9 +18,9 @@ interface MediaEditProps {
 }
 
 const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
-  const [status, setStatus] = useState(media.mediaListEntry.status ? media.mediaListEntry.status : "Status");
-  const progress = useRef(media.mediaListEntry.progress || 0);
-  const score = useRef(media.mediaListEntry.score || 0);
+  const status = useRef(media.mediaListEntry?.status ? media.mediaListEntry.status : "Status");
+  const progress = useRef(media.mediaListEntry?.progress || 0);
+  const score = useRef(media.mediaListEntry?.score || 0);
 
   const { colors } = useColors();
   const sheet = createRef<AnimSheetHandle>();
@@ -45,7 +45,7 @@ const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
       mediaId: media.id,
       score: score.current,
       progress: progress.current,
-      status,
+      status: status.current.toUpperCase(),
     });
 
     if (editCallback) {
@@ -54,18 +54,20 @@ const MediaEdit = ({ media, isVisible, editCallback }: MediaEditProps) => {
     sheet.current?.toggle();
   };
 
+  const onValue = (item: string) => {
+    status.current = item;
+  }
+
   return (
     <AnimSheet ref={sheet} showTop={false}>
       <View style={styles.row}>
         <Text style={styles.label}>Status</Text>
-        <Picker style={[styles.picker, extraStyle]} selectedValue={status} onValueChange={setStatus}>
-          <Picker.Item label="Current" value="CURRENT" />
-          <Picker.Item label="Planning" value="PLANNING" />
-          <Picker.Item label="Completed" value="COMPLETED" />
-          <Picker.Item label="Repeating" value="REPEATING" />
-          <Picker.Item label="Paused" value="PAUSED" />
-          <Picker.Item label="Dropped" value="DROPPED" />
-        </Picker>
+        <AnimPicker 
+          labels={["Current", "Planning", "Completed", "Repeating", "Paused", "Dropped"]}
+          renderItem={({ item }) => <Text style={styles.pickerItem}>{item}</Text>}
+          onChange={onValue}
+          itemHeight={40}
+        />
       </View>
 
       <View style={styles.row}>
@@ -114,13 +116,17 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     borderRadius: 6,
-    marginLeft: 10,
     paddingVertical: 5,
     paddingHorizontal: 10,
   },
   label: {
     flex: 1,
   },
+  pickerItem: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    height: 40,
+  }
 });
 
 export default MediaEdit;
