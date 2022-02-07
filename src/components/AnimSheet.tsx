@@ -67,13 +67,15 @@ const AnimSheet = forwardRef<AnimSheetHandle, AnimSheetProps>(({ children, showT
   );
 
   return (
-    <PanGestureHandler onGestureEvent={onGesture}>
-      <Animated.View style={[animatedStyle, styles.container]}>
-        <View style={[styles.line, { backgroundColor: color }]} />
+    <Animated.View style={[animatedStyle, styles.container]}>
+      <PanGestureHandler onGestureEvent={onGesture}>
+        <Animated.View style={[styles.lineContainer]}>
+          <View style={[styles.line, { backgroundColor: color }]} />
+        </Animated.View>
+      </PanGestureHandler>
 
-        {children}
-      </Animated.View>
-    </PanGestureHandler>
+       {children}
+    </Animated.View>
   );
 });
 
@@ -88,11 +90,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     zIndex: 10,
   },
+  lineContainer: {
+    width: "100%",
+    padding: 10,
+    alignItems: "center",
+  },
   line: {
     width: "20%",
     height: 6,
-    marginVertical: 10,
-    borderRadius: 1000,
+    borderRadius: 100,
   },
 });
 
